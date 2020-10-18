@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class BasicEnemyDamage : MonoBehaviour ,IEnemy
+public class BasicEnemyFunctions : MonoBehaviour ,IEnemy
 {
 
 

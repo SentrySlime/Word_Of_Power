@@ -51,11 +51,6 @@ public class CharacterStats : MonoBehaviour
         energy_Bar.value = currentEnergy;
         expBar.value = currentExp;
 
-        if(Input.GetKeyDown(KeyCode.U))
-        {
-            IncreaseExp(10f);
-        }
-
         if(currentExp >= expToNextLevel)
         {
             LevelUp();
@@ -103,6 +98,7 @@ public class CharacterStats : MonoBehaviour
 
     #endregion
 
+    #region exp&LevelSettings
     public void IncreaseExp(float expReward)
     {
         currentExp += expReward;
@@ -122,5 +118,6 @@ public class CharacterStats : MonoBehaviour
         ToMaxLife();
         ToMaxEnergy();
     }
+    #endregion
 
 }
