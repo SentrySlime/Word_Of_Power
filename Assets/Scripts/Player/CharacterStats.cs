@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class CharacterStats : MonoBehaviour
 {
-
-
     [Header("Life")]
     public float currentLife;
     public float maxLife;
@@ -23,6 +21,8 @@ public class CharacterStats : MonoBehaviour
     public float expToNextLevel;
     public Slider expBar;
 
+    public float remainderExp;
+
     [Header("Stats")]
     public float power;
     public float defence;
@@ -37,12 +37,12 @@ public class CharacterStats : MonoBehaviour
         ToMaxLife();
         ToMaxEnergy();
 
-        life_Bar.maxValue = maxLife;
-        energy_Bar.maxValue = maxEnergy;
+        SetMaxLife();
+        SetMaxEnergy();
+
         expBar.maxValue = expToNextLevel;
 
     }
-
     
     void Update()
     {
@@ -53,37 +53,74 @@ public class CharacterStats : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.U))
         {
-            IncreaseExp(1f);
+            IncreaseExp(10f);
         }
-    }
 
-
-
-
-    public void IncreaseExp(float  expReward)
-    {
-        currentExp += expReward;
-    }
-
-    public void LevelUp()
-    {
-        ToMaxLife();
-        ToMaxEnergy();
+        if(currentExp >= expToNextLevel)
+        {
+            LevelUp();
+        }
     }
 
     public void TakeDamage(float incomingDamage)
     {
+        incomingDamage -= defence;
+        currentLife -= incomingDamage;
+    }
 
+    #region LifeSettings
+    public void IncreaseMaxLife(float LifeIncrease)
+    {
+        maxLife += LifeIncrease;
+    }
+
+    public void SetMaxLife()
+    {
+        life_Bar.maxValue = maxLife;
     }
 
     public void ToMaxLife()
     {
         currentLife = maxLife;
     }
+    #endregion
+
+    #region EnergySettings
+    public void IncreaseMaxEnergy(float EnergyIncrease)
+    {
+        maxEnergy += EnergyIncrease;
+    }
+
+    public void SetMaxEnergy()
+    {
+        energy_Bar.maxValue = maxEnergy;
+    }
 
     public void ToMaxEnergy()
     {
         currentEnergy = maxEnergy;
+    }
+
+    #endregion
+
+    public void IncreaseExp(float expReward)
+    {
+        currentExp += expReward;
+
+    }
+
+    public void LevelUp()
+    {
+
+        remainderExp = currentExp - expToNextLevel; //Calculates the overkill exp
+        currentExp = 0;                             //sets current exp to next levels 0 exp
+        IncreaseExp(remainderExp);                  //Increases the next levels current exp with the remaining exp from the last level
+        remainderExp = 0;                           //Then sets the remainder exp to 0 again
+
+        currentLevel++;                             //Increases the level
+
+        ToMaxLife();
+        ToMaxEnergy();
     }
 
 }

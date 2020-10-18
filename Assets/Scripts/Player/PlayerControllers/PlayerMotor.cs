@@ -9,7 +9,7 @@ using UnityEngine.AI;
 public class PlayerMotor : MonoBehaviour
 {
 
-	Transform target;
+	public Transform target;
 	NavMeshAgent agent;     // Reference to our NavMeshAgent
 	public CharacterStats characterStats;
 
