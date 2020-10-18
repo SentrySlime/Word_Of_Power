@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
 
     public LayerMask walkable;
+    public LayerMask interactable;
 
     Camera cam;
     public PlayerMotor motor;
@@ -28,15 +29,18 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            //if (EventSystem.current.IsPointerOverGameObject())
-            //{
-            //    return;
-            //}
 
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, walkable))
+            {
+                //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+                //Debug.Log("Did hit" + hit.point);
+                motor.MoveToPoint(hit.point);
+            }
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, interactable))
             {
                 //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
                 //Debug.Log("Did hit" + hit.point);
@@ -53,7 +57,7 @@ public class PlayerController : MonoBehaviour
             //if (Input.GetButton(abilityCooldown.abilityButtonAxisName))
             if(Input.GetMouseButton(0))
             {
-                //Turning();
+                Turning();
             }
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))

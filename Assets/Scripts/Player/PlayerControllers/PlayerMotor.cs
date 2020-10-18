@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-/* This component moves our player.
-		- If we have a focus move towards that.
-		- If we don't move to the desired point.
-*/
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(PlayerController))]
@@ -15,10 +11,19 @@ public class PlayerMotor : MonoBehaviour
 
 	Transform target;
 	NavMeshAgent agent;     // Reference to our NavMeshAgent
+	public CharacterStats characterStats;
+
+	public float speed;
+
 
 	void Start()
 	{
 		agent = GetComponent<NavMeshAgent>();
+		characterStats = GetComponent<CharacterStats>(); 
+
+
+
+		SetCharacterSpeed();
 	}
 
 	public void MoveToPoint(Vector3 point)
@@ -46,6 +51,11 @@ public class PlayerMotor : MonoBehaviour
 	public void ResetPath()
 	{
 		agent.ResetPath();
+	}
+
+	public void SetCharacterSpeed()
+	{
+		agent.speed = characterStats.speed;
 	}
 
 }
