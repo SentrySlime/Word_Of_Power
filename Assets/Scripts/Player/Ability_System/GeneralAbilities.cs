@@ -3,14 +3,13 @@
 //using UnityEngine;
 
 //[CreateAssetMenu(menuName = "Abilities/ProjectileAbilities")]
-//public class GeneralAbilities : AbilityScriptable
+//public class GeneralAbilities : ScriptableObject
 //{
 
 //    public float projectileForce = 500f;
 //    public float damage;
 //    public GameObject projectile;
 
-//    private ProjectileShootTriggerable launcher;
 
 //    public override void Initialize(GameObject obj)
 //    {

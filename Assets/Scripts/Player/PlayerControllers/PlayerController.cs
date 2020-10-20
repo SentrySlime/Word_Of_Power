@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
 
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
