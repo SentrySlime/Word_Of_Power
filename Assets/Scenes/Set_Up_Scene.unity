@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 101332015}
   - component: {fileID: 101332014}
   m_Layer: 5
-  m_Name: Button (5)
+  m_Name: CritChanceButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -749,7 +749,7 @@ GameObject:
   - component: {fileID: 484255651}
   - component: {fileID: 484255650}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: DefenceButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1291,7 +1291,7 @@ MonoBehaviour:
   currentLife: 0
   maxLife: 100
   currentEnergy: 0
-  maxEnergy: 40
+  maxEnergy: 100
   currentLevel: 1
   currentExp: 0
   expToNextLevel: 15
@@ -1301,7 +1301,6 @@ MonoBehaviour:
   spirit: 0
   speed: 6
   criticalChance: 0
-  vitalityButton: {fileID: 0}
 --- !u!1 &597017805
 GameObject:
   m_ObjectHideFlags: 0
@@ -3407,7 +3406,7 @@ GameObject:
   - component: {fileID: 1620414180}
   - component: {fileID: 1620414179}
   m_Layer: 5
-  m_Name: Button (4)
+  m_Name: SpeedButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4144,7 +4143,7 @@ GameObject:
   - component: {fileID: 1862252385}
   - component: {fileID: 1862252384}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: SpiritButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
