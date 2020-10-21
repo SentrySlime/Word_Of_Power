@@ -21,8 +21,6 @@ public class PlayerMotor : MonoBehaviour
 		agent = GetComponent<NavMeshAgent>();
 		characterStats = GetComponent<CharacterStats>(); 
 
-
-
 		SetCharacterSpeed();
 	}
 
@@ -37,7 +35,6 @@ public class PlayerMotor : MonoBehaviour
 		{
 			MoveToPoint(target.position);
 			FaceTarget();
-
 		}
 	}
 
@@ -57,5 +54,4 @@ public class PlayerMotor : MonoBehaviour
 	{
 		agent.speed = characterStats.speed;
 	}
-
 }

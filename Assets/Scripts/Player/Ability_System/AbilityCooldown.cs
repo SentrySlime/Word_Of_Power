@@ -1,7 +1,137 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
-//using UnityEngine.UI;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
+
+public class AbilityCooldown : MonoBehaviour
+{
+    public string abilityButtonAxisName = "Fire1";
+    public Image darkMask;
+
+    [SerializeField] private Ability ability;
+    [SerializeField] private GameObject weaponHolder;
+
+    private PlayerController playerController;
+    private CharacterStats characterStats;
+    private PlayerMotor playerMotor;
+
+    private ProjectileAbility projectileAbility;
+    private RaycastAbility raycastAbility;
+
+    private Image myButtonImage;
+    private AudioSource abilitySource;
+    private float coolDownDuration;
+    private float nextReadyTime;
+    private float coolDowntimeLeft;
+    private float energyCost;
+
+    private void Start()
+    {
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        characterStats = GameObject.Find("Player").GetComponent<CharacterStats>();
+        playerMotor = GameObject.Find("Player").GetComponent<PlayerMotor>();
+        Initialize(ability, weaponHolder);
+    }
+
+    public void Initialize(Ability selectedAbility, GameObject weaponHolder)
+    {
+
+        ability = selectedAbility;
+        myButtonImage = GetComponent<Image>();
+        abilitySource = GetComponent<AudioSource>();
+        myButtonImage.sprite = ability.aSprite;
+        darkMask.sprite = ability.aSprite;
+        coolDownDuration = ability.aBaseCooldown;
+        energyCost = ability.aEnergyCost;
+        ability.Initialize(weaponHolder);
+
+        AbilityReady();
+    }
+
+    private void Update()
+    {
+        bool coolDownComplete = (Time.time > nextReadyTime);
+        if (coolDownComplete)
+        {
+
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
+            AbilityReady();
+            if (Input.GetButtonDown(abilityButtonAxisName) && characterStats.currentEnergy >= energyCost)
+            {
+                Initialize(ability, weaponHolder);
+                playerMotor.ResetPath();
+                playerController.Turning();
+                SubtractEnergy();
+                ButtonTriggered();
+            }
+        }
+        else
+        {
+            CoolDown();
+        }
+    }
+
+
+    private void AbilityReady()
+    {
+        darkMask.enabled = false;
+    }
+
+    private void CoolDown()
+    {
+        coolDowntimeLeft -= Time.deltaTime;
+        float roundedCd = Mathf.Round(coolDowntimeLeft);
+        darkMask.fillAmount = (coolDowntimeLeft / coolDownDuration);
+    }
+
+    private void ButtonTriggered()
+    {
+        nextReadyTime = coolDownDuration + Time.time;
+        coolDowntimeLeft = coolDownDuration;
+        darkMask.enabled = true;
+
+        abilitySource.clip = ability.aSound;
+        abilitySource.Play();
+        ability.TriggerAbility();
+    }
+
+
+
+    private void SubtractEnergy()
+    {
+        characterStats.currentEnergy -= ability.aEnergyCost;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //public class AbilityCooldown : MonoBehaviour
 //{

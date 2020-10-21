@@ -49,7 +49,6 @@ public class PlayerController : MonoBehaviour
                 motor.MoveToPoint(hit.point);
             }
 
-
         }
 
         if (Input.GetKey(KeyCode.LeftShift))
