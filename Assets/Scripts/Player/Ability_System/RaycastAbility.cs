@@ -10,7 +10,7 @@ public class RaycastAbility : Ability
     public float rayRange = 50f;
     public float hitForce = 100f;
 
-    public Color rayColor = Color.white;
+    public Material rayMaterial;
 
     private RaycastShootTriggerable rcShoot;
 
@@ -22,8 +22,8 @@ public class RaycastAbility : Ability
         rcShoot.rayDamage = rayDamage;
         rcShoot.rayRange = rayRange;
         rcShoot.hitForce = hitForce;
-        rcShoot.lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
-        rcShoot.lineRenderer.material.color = rayColor;
+        rcShoot.lineRenderer.material = rayMaterial;
+        //rcShoot.lineRenderer.material.color = rayColor;
 
 
     }

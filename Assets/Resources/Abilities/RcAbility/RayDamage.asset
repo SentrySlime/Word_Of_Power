@@ -18,6 +18,6 @@ MonoBehaviour:
   aBaseCooldown: 1
   aEnergyCost: 4
   rayDamage: 10
-  rayRange: 2
+  rayRange: 20
   hitForce: 100
-  rayColor: {r: 1, g: 0, b: 0, a: 1}
+  rayMaterial: {fileID: 2100000, guid: 0a7018ee1f25d224c96a3a5f3b5147fa, type: 2}
