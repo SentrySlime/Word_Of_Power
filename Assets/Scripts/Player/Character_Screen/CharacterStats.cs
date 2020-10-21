@@ -10,7 +10,6 @@ public class CharacterStats : MonoBehaviour
     public float maxLife;
     Slider life_Bar;
 
-
     [Header("Energy")]
     public float currentEnergy;
     public float maxEnergy;
@@ -24,7 +23,6 @@ public class CharacterStats : MonoBehaviour
 
     float remainderExp;      //The overkill exp transfered between levels
 
-
     //Thses stats where chosen as they are the most prevalent, as in these stats can make up for the player is lacking in terms of gear and skills. In other words, if the player is lacking in something 
     //because RNG wasn't kind to them then they have a chance to make up for that themselvs. It's sort of a safety net, plus it feels really good to allocate the skillpoints "enpowering the player".
     [Header("Stats")]
@@ -34,7 +32,6 @@ public class CharacterStats : MonoBehaviour
     public float spirit;                //Increase the max energy
     public float speed;                 //Increases the players movement speed
     public float criticalChance;        //Increase the critical hit chance of attacks
-
 
     //Text Slots for the stat numbers
     Text powerSlot;
@@ -47,18 +44,24 @@ public class CharacterStats : MonoBehaviour
     //Button slots that increase the stat values
     Button powerButton;
     Button defenceButton;
-    public Button vitalityButton;
+    Button vitalityButton;
+    Button spiritButton;
+    Button speedButton;
+    Button critChanceButton;
 
     void Start()
     {
 
+
+        #region statBars
         //Sets life, energy and exp bar
         life_Bar = GameObject.FindGameObjectWithTag("life_Bar").GetComponent<Slider>();
         energy_Bar = GameObject.FindGameObjectWithTag("energy_Bar").GetComponent<Slider>();
         expBar = GameObject.FindGameObjectWithTag("expBar").GetComponent<Slider>();
-
         expBar.maxValue = expToNextLevel;
+        #endregion
 
+        #region statNumbers
         //Sets the text number for the stats
         powerSlot = GameObject.Find("PowerNumber").GetComponent<Text>();
         defenceSlot = GameObject.Find("DefenceNumber").GetComponent<Text>();
@@ -66,16 +69,24 @@ public class CharacterStats : MonoBehaviour
         spiritSlot = GameObject.Find("EnergyNumber").GetComponent<Text>();
         speedSlot = GameObject.Find("SpeedNumber").GetComponent<Text>();
         criticalChanceSlot = GameObject.Find("CriticalChanceNumber").GetComponent<Text>();
+        #endregion
 
+        #region statButtons
         //Sets the buttons for the stats
         vitalityButton = GameObject.Find("VitalityButton").GetComponent<Button>();
         vitalityButton.onClick.AddListener(() => IncreaseVitality(1));
 
+        spiritButton = GameObject.Find("SpiritButton").GetComponent<Button>();
+        spiritButton.onClick.AddListener(() => IncreaseSpirit(1));
+
+        #endregion
+
+        #region statsStart
         //Initialize the stat values
         IncreasePower(0);
         IncreaseDefence(0);
         IncreaseVitality(15);
-        IncreaseSpirit(0);
+        IncreaseSpirit(15);
         IncreaseSpeed(0);
         IncreaseCriticalChance(0);
 
@@ -85,9 +96,9 @@ public class CharacterStats : MonoBehaviour
 
         SetMaxEnergy();
         ToMaxEnergy();
-
+        #endregion
     }
-    
+
     void Update()
     {
 
@@ -100,27 +111,32 @@ public class CharacterStats : MonoBehaviour
             LevelUp();
         }
 
-
         if(Input.GetKeyDown(KeyCode.I))
         {
             IncreaseExp(7);
         }
 
-
         if (Input.GetKeyDown(KeyCode.O))
         {
             //EquipingAbility1();
         }
-
     }
 
-    public void TakeDamage(float incomingDamage)
+    public void DefenceCalculation(float incomingDamage)    //the incoming damage gets the defence bonus applied to it
     {
         incomingDamage -= defence;
-        currentLife -= incomingDamage;
+
+        TakeDamage(incomingDamage);                         
     }
 
-    #region Stats
+    public void TakeDamage(float handledDamage)             //The calculated value then gets sent to be applied to the health
+    {
+        currentLife -= handledDamage;
+    }
+
+
+    #region Stats 
+    //close region here
     public void IncreasePower(float increaseInPower)
     {
         power += increaseInPower;
@@ -134,7 +150,7 @@ public class CharacterStats : MonoBehaviour
     }
 
     
-
+    
     //Vitality needs to access life settings
     public void IncreaseVitality(float increaseInVitality)          //this method takes a number and divides it by 10 and then adds the percentage to Life (15 = 1.5 = 50%)   (12.5 = 1.25 = 25%)   (10.7 = .07 = 7%) 
     {
@@ -147,12 +163,18 @@ public class CharacterStats : MonoBehaviour
         vitalitySlot.text = vitality.ToString();                    //Sets the value text to the updated value
         IncreaseMaxLife(vitality / 10);                             //Increase life with the updatved vitality value
     }
-
+    
     //Spirit needs to access energy settings
     public void IncreaseSpirit(float increaseInSpirit)
     {
-        spirit += increaseInSpirit;
-        spiritSlot.text = spirit.ToString();
+        if (spirit != 0)                                            //If spirit is zero don't decrease it
+        {
+            DecreaseMaxEnergy(spirit / 10);                         //Removes the previous amount of the spirit bonus
+        }
+
+        spirit += increaseInSpirit;                                 //Sets vitality to it's new value
+        spiritSlot.text = spirit.ToString();                        //Sets the value text to the updated value
+        IncreaseMaxEnergy(spirit / 10);                             //Increase energy with the updatved spirit value
     }
 
     public void IncreaseSpeed(float increaseInSpeed)
@@ -168,8 +190,8 @@ public class CharacterStats : MonoBehaviour
     }
     #endregion
 
-
     #region LifeSettings
+    //These are the life settings
     public void IncreaseMaxLife(float LifeIncrease)                 //Increase life by a percentage
     {
         maxLife *= LifeIncrease;
@@ -194,9 +216,17 @@ public class CharacterStats : MonoBehaviour
     #endregion
 
     #region EnergySettings
-    public void IncreaseMaxEnergy(float EnergyIncrease)
+    //These are the energy settings
+    public void IncreaseMaxEnergy(float energyIncrease)
     {
-        maxEnergy += EnergyIncrease;
+        maxEnergy *= energyIncrease;
+        SetMaxEnergy();
+    }
+
+    public void DecreaseMaxEnergy(float energyDecrease)
+    {
+        maxEnergy /= energyDecrease;
+        SetMaxEnergy();
     }
 
     public void SetMaxEnergy()

@@ -55,7 +55,7 @@ public class BasicEnemyFunctions : MonoBehaviour ,IEnemy
     public void DealDamage()
     {
 
-        characterStats.TakeDamage(damage);
+        characterStats.DefenceCalculation(damage);
     }
 
     public void Die()
