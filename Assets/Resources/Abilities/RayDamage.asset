@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d518f46a78eb94458c37703243e7804, type: 3}
-  m_Name: Laser
+  m_Name: RayDamage
   m_EditorClassIdentifier: 
-  aName: Laser
+  aName: RayDamage
   aSprite: {fileID: 21300000, guid: 904910646ec5eea4b85eac7f77d5ddbf, type: 3}
   aSound: {fileID: 0}
-  aBaseCooldown: 3
-  aEnergyCost: 0
-  rayDamage: 1
-  rayRange: 50
+  aBaseCooldown: 0.01
+  aEnergyCost: 1
+  rayDamage: 10
+  rayRange: 25
   hitForce: 100
-  rayMaterial: {fileID: 0}
+  rayMaterial: {fileID: 2100000, guid: 0a7018ee1f25d224c96a3a5f3b5147fa, type: 2}

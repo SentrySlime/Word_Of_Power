@@ -9,31 +9,57 @@ public class AbilityCooldown : MonoBehaviour
 {
     public string abilityButtonAxisName = "Fire1";
     public Image darkMask;
+    Button abilitySlot;
+    private AbilitySelection abilitySelection;
+    private GameObject ownedAbilities;
 
-    [SerializeField] private Ability ability;
-    [SerializeField] private GameObject weaponHolder;
+    public Ability ability;
+    public GameObject weaponHolder;
 
-    private PlayerController playerController;
-    private CharacterStats characterStats;
-    private PlayerMotor playerMotor;
+    PlayerController playerController;
+    CharacterStats characterStats;
+    PlayerMotor playerMotor;
 
-    private ProjectileAbility projectileAbility;
-    private RaycastAbility raycastAbility;
+    Image myButtonImage;
+    AudioSource abilitySource;
+    float coolDownDuration;
+    float nextReadyTime;
+    float coolDowntimeLeft;
+    float energyCost;
 
-    private Image myButtonImage;
-    private AudioSource abilitySource;
-    private float coolDownDuration;
-    private float nextReadyTime;
-    private float coolDowntimeLeft;
-    private float energyCost;
-
-    private void Start()
+    private void Awake()
     {
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         characterStats = GameObject.Find("Player").GetComponent<CharacterStats>();
         playerMotor = GameObject.Find("Player").GetComponent<PlayerMotor>();
-        Initialize(ability, weaponHolder);
+        abilitySelection = GameObject.Find("AbilitySelection").GetComponent<AbilitySelection>();
+        //abilitySelection = GameObject.Find("").GetComponent<AbilitySelection>();
+
+        abilitySlot = GetComponent<Button>();
+        abilitySlot.onClick.AddListener(SlotButton);
+
+        if (ability != null)
+        {
+            Initialize(ability, weaponHolder);
+        }
     }
+
+    //private void Start()
+    //{
+    //    playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+    //    characterStats = GameObject.Find("Player").GetComponent<CharacterStats>();
+    //    playerMotor = GameObject.Find("Player").GetComponent<PlayerMotor>();
+    //    abilitySelection = GameObject.Find("AbilitySelection").GetComponent<AbilitySelection>();
+    //    //abilitySelection = GameObject.Find("").GetComponent<AbilitySelection>();
+
+    //    abilitySlot = GetComponent<Button>();
+    //    abilitySlot.onClick.AddListener(SlotButton);
+        
+    //    if(ability != null)
+    //    {
+    //        Initialize(ability, weaponHolder);
+    //    }
+    //}
 
     public void Initialize(Ability selectedAbility, GameObject weaponHolder)
     {
@@ -53,15 +79,17 @@ public class AbilityCooldown : MonoBehaviour
     private void Update()
     {
         bool coolDownComplete = (Time.time > nextReadyTime);
-        if (coolDownComplete)
+        if (playerController.isStill && coolDownComplete)
         {
 
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
 
             AbilityReady();
-            if (Input.GetButtonDown(abilityButtonAxisName) && characterStats.currentEnergy >= energyCost)
+            if (Input.GetButton(abilityButtonAxisName) && characterStats.currentEnergy >= energyCost)
             {
+                if (ability == null)
+                    return;
                 Initialize(ability, weaponHolder);
                 playerMotor.ResetPath();
                 playerController.Turning();
@@ -74,7 +102,6 @@ public class AbilityCooldown : MonoBehaviour
             CoolDown();
         }
     }
-
 
     private void AbilityReady()
     {
@@ -92,18 +119,36 @@ public class AbilityCooldown : MonoBehaviour
     {
         nextReadyTime = coolDownDuration + Time.time;
         coolDowntimeLeft = coolDownDuration;
-        darkMask.enabled = true;
+
+        if (coolDownDuration > 1f)
+        {
+            darkMask.enabled = true;
+        }
 
         abilitySource.clip = ability.aSound;
         abilitySource.Play();
         ability.TriggerAbility();
     }
 
-
-
     private void SubtractEnergy()
     {
         characterStats.currentEnergy -= ability.aEnergyCost;
+    }
+
+    public void SlotButton()
+    {
+
+        abilitySelection.SetAbilitySlot(this);
+
+        if (abilitySelection.gameObject.activeSelf == true)
+        {
+            abilitySelection.gameObject.SetActive(false);
+        }
+        else
+        {
+            abilitySelection.gameObject.SetActive(true);
+        }
+
     }
 
 }

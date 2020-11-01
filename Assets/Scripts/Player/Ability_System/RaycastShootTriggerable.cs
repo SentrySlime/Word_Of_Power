@@ -27,8 +27,9 @@ public class RaycastShootTriggerable : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
 
+        //rayStart = GameObject.Find("Player").GetComponent<Transform>();
+        rayStart = rayStartPoint;
 
-        rayStart = GameObject.Find("Player").GetComponent<Transform>();
     }
 
     public void Fire()

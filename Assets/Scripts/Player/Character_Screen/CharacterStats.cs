@@ -17,6 +17,7 @@ public class CharacterStats : MonoBehaviour
 
     [Header("EXP_Level")]
     public float currentLevel;
+    public float skillPoints;
     public float currentExp;
     public float expToNextLevel;
     Slider expBar;
@@ -52,7 +53,6 @@ public class CharacterStats : MonoBehaviour
     void Start()
     {
 
-
         #region statBars
         //Sets life, energy and exp bar
         life_Bar = GameObject.FindGameObjectWithTag("life_Bar").GetComponent<Slider>();
@@ -74,10 +74,10 @@ public class CharacterStats : MonoBehaviour
         #region statButtons
         //Sets the buttons for the stats
         vitalityButton = GameObject.Find("VitalityButton").GetComponent<Button>();
-        vitalityButton.onClick.AddListener(() => IncreaseVitality(1));
+        vitalityButton.onClick.AddListener(() => StatButton(vitalityButton));
 
         spiritButton = GameObject.Find("SpiritButton").GetComponent<Button>();
-        spiritButton.onClick.AddListener(() => IncreaseSpirit(1));
+        spiritButton.onClick.AddListener(() => StatButton(spiritButton));
 
         #endregion
 
@@ -134,6 +134,23 @@ public class CharacterStats : MonoBehaviour
         currentLife -= handledDamage;
     }
 
+    public void StatButton(Button statButton)
+    {
+        if(skillPoints >= 1)
+        {
+            
+            skillPoints--;
+
+            if (statButton == spiritButton)
+            {
+                IncreaseSpirit(1);
+            }
+            else if (statButton == vitalityButton)
+            {
+                IncreaseVitality(1);
+            }       
+        }
+    }
 
     #region Stats 
     //close region here
@@ -149,8 +166,6 @@ public class CharacterStats : MonoBehaviour
         defenceSlot.text = defence.ToString();
     }
 
-    
-    
     //Vitality needs to access life settings
     public void IncreaseVitality(float increaseInVitality)          //this method takes a number and divides it by 10 and then adds the percentage to Life (15 = 1.5 = 50%)   (12.5 = 1.25 = 25%)   (10.7 = .07 = 7%) 
     {
@@ -270,7 +285,9 @@ public class CharacterStats : MonoBehaviour
 
         ToMaxLife();
         ToMaxEnergy();
+
+        skillPoints += 3;
+
     }
     #endregion
-
 }
