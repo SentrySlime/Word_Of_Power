@@ -22,6 +22,7 @@ public class CharacterStats : MonoBehaviour
     public float expToNextLevel;
     Slider expBar;
 
+    public int AAPoint;
     float remainderExp;      //The overkill exp transfered between levels
 
     //Thses stats where chosen as they are the most prevalent, as in these stats can make up for the player is lacking in terms of gear and skills. In other words, if the player is lacking in something 
@@ -49,6 +50,15 @@ public class CharacterStats : MonoBehaviour
     Button spiritButton;
     Button speedButton;
     Button critChanceButton;
+
+    //Other script references
+    ManageRandomAbility manageRandomAbility;
+
+
+    private void Awake()
+    {
+        manageRandomAbility = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomAbility>();
+    }
 
     void Start()
     {
@@ -287,7 +297,18 @@ public class CharacterStats : MonoBehaviour
         ToMaxEnergy();
 
         skillPoints += 3;
+        AAPoint++;
 
+        EnableAARandomizer();
     }
     #endregion
+
+    public void EnableAARandomizer()
+    {
+        if(AAPoint > 0)
+        {
+            manageRandomAbility.randomizeAbilities.gameObject.SetActive(true);
+        }
+
+    }
 }

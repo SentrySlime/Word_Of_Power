@@ -4,38 +4,36 @@ using UnityEngine;
 
 public class AbilitySelection : MonoBehaviour
 {
-    public List<Ability> abilityList;
-    //public List<Button> abilityButtonList;
-    //public AbilityButton abilityButton;
-
-    public List<AbilityButton> abilityButtonList;
-
+    [HideInInspector] public List<Ability> abilityList;
+    [HideInInspector] public List<AbilityButton> abilityButtonList;
     public List<AbilityButton> ownedAbilities = new List<AbilityButton>();
-    public List<AbilityButton> randomizedAbilities = new List<AbilityButton>();
-    public List<AbilityButton> discardedAbilities = new List<AbilityButton>();
+    public List<CardAbility> cardAbility = new List<CardAbility>();
 
     private void Awake()
     {
         abilityList = new List<Ability>(Resources.LoadAll<Ability>("Abilities"));
         abilityButtonList = new List<AbilityButton>(Resources.LoadAll<AbilityButton>("Abilities/Buttons"));
-        
+        cardAbility = new List<CardAbility>(Resources.LoadAll<CardAbility>("Abilities/Cards"));
     }
 
     private void Start()
     {
-
-
         UpdateOwnedAbilities();
-
         SetAllAbilities();
-
+        gameObject.SetActive(false);
     }
+
+    //Instantiate all the buttons under a button holder 
+    //Then when clicking the card we simply parent it to ability selection which requires a layout group Cardability.AddToOwnedAbilities
 
     private void SetAllAbilities()
     {
         for (int i = 0; i < abilityButtonList.Count; i++)
         {
             abilityButtonList[i].ability = abilityList[i];
+            cardAbility[i].abilityButton = abilityButtonList[i];
+            cardAbility[i].ability = abilityButtonList[i].ability;
+            //cardAbility[i].SetCardAbility();
         }
     }
 

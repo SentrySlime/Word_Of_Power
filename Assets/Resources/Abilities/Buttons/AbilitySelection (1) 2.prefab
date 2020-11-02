@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 9168363499228490744}
   - component: {fileID: 5095471916694457201}
   - component: {fileID: 1025210362533124464}
+  - component: {fileID: 7126254563355973761}
   m_Layer: 5
-  m_Name: AbilitySelection (1)
+  m_Name: AbilitySelection (1) 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,3 +136,23 @@ MonoBehaviour:
   ability: {fileID: 11400000, guid: 9b10e4af2d6173a48ab02d7629a91ba2, type: 2}
   abilityCooldown: {fileID: 0}
   buttonImage: {fileID: 0}
+--- !u!114 &7126254563355973761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4576086506501490762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: 30
+  m_MinHeight: 30
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
