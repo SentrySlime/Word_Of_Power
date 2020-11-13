@@ -11,8 +11,8 @@ public class AbilitySelection : MonoBehaviour
 
     private void Awake()
     {
-        abilityList = new List<Ability>(Resources.LoadAll<Ability>("Abilities"));
-        abilityButtonList = new List<AbilityButton>(Resources.LoadAll<AbilityButton>("Abilities/Buttons"));
+        abilityList = new List<Ability>(Resources.LoadAll<Ability>("Abilities"));                               //you can load all abilities into a list
+        abilityButtonList = new List<AbilityButton>(Resources.LoadAll<AbilityButton>("Abilities/Buttons"));     //But you should only have a single button prefab and instantiate several of them
         cardAbility = new List<CardAbility>(Resources.LoadAll<CardAbility>("Abilities/Cards"));
     }
 

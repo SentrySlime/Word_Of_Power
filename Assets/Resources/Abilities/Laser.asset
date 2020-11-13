@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Laser
   m_EditorClassIdentifier: 
   aName: Laser
+  aDescription: Ability description
   aSprite: {fileID: 21300000, guid: 904910646ec5eea4b85eac7f77d5ddbf, type: 3}
   aSound: {fileID: 0}
-  aBaseCooldown: 2
+  aBaseCooldown: 0
   aEnergyCost: 0
   rayDamage: 5
   rayRange: 50

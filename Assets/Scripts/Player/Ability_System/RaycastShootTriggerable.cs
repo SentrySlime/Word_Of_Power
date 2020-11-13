@@ -20,7 +20,7 @@ public class RaycastShootTriggerable : MonoBehaviour
 
     private Transform rayStart;
 
-    private WaitForSeconds shotDuration = new WaitForSeconds(8f);
+    private WaitForSeconds shotDuration = new WaitForSeconds(0.3f);
 
 
     public void Initialize()
@@ -50,14 +50,16 @@ public class RaycastShootTriggerable : MonoBehaviour
 
             lineRenderer.SetPosition(1, hit.point);
 
-            //BasicEnemyFunctions health = hit.collider.GetComponent<BasicEnemyFunctions>();
+            BasicEnemyFunctions health = hit.collider.GetComponent<BasicEnemyFunctions>();
 
-            if (hit.collider.tag == "Enemy")
-            {
-                BasicEnemyFunctions bEF = GameObject.FindGameObjectWithTag("Enemy").GetComponent<BasicEnemyFunctions>();
-                bEF.TakeDamage(rayDamage);
+            health.TakeDamage(rayDamage);
+
+            //if (hit.collider.tag == "Enemy")
+            //{
+            //    BasicEnemyFunctions bEF = GameObject.FindGameObjectWithTag("Enemy").GetComponent<BasicEnemyFunctions>();
+            //    bEF.TakeDamage(rayDamage);
                 
-            }
+            //}
 
             //if(health != null)
             //{

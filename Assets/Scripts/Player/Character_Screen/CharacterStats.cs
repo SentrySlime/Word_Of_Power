@@ -121,15 +121,6 @@ public class CharacterStats : MonoBehaviour
             LevelUp();
         }
 
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            IncreaseExp(7);
-        }
-
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            //EquipingAbility1();
-        }
     }
 
     public void DefenceCalculation(float incomingDamage)    //the incoming damage gets the defence bonus applied to it
