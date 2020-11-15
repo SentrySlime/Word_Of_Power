@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 8294520526265599438}
   - component: {fileID: 8649940299430018724}
   m_Layer: 5
-  m_Name: AbilityCard_1 (1)
+  m_Name: AbilityCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -286,9 +286,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a1cfe43ef3b7b4ea033c1992fa7c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardButton: {fileID: 0}
-  ability: {fileID: 11400000, guid: 9b10e4af2d6173a48ab02d7629a91ba2, type: 2}
   abilityButton: {fileID: 0}
+  ability: {fileID: 11400000, guid: 9b10e4af2d6173a48ab02d7629a91ba2, type: 2}
+  cardButton: {fileID: 0}
+  abilityImage: {fileID: 0}
+  abilityName: {fileID: 0}
+  abilityDescription: {fileID: 0}
 --- !u!1 &7503015026587150742
 GameObject:
   m_ObjectHideFlags: 0

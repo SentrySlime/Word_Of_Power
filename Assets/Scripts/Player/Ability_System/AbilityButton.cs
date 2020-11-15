@@ -24,7 +24,7 @@ public class AbilityButton : MonoBehaviour
         abilityCooldown.ability = ability;
         abilityCooldown.Initialize(abilityCooldown.ability, abilityCooldown.weaponHolder);
         //Remove from the pop up square containing all the abilities teh player currently has
-        GameObject abilitySelection = GameObject.Find("AbilitySelection");
+        GameObject abilitySelection = GameObject.Find("AbilitySelectionPanel");
         abilitySelection.SetActive(false);
     }
 

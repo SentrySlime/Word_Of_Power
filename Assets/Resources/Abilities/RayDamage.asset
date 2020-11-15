@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aName: RayDamage
   aDescription: Ability description
-  aSprite: {fileID: 21300000, guid: 904910646ec5eea4b85eac7f77d5ddbf, type: 3}
+  aSprite: {fileID: 21300000, guid: 6559569359eedd240b667fa314b2f81f, type: 3}
   aSound: {fileID: 0}
   aBaseCooldown: 0.1
   aEnergyCost: 1

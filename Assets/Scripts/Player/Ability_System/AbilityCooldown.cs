@@ -33,7 +33,6 @@ public class AbilityCooldown : MonoBehaviour
         characterStats = GameObject.Find("Player").GetComponent<CharacterStats>();
         playerMotor = GameObject.Find("Player").GetComponent<PlayerMotor>();
         abilitySelection = GameObject.Find("AbilitySelection").GetComponent<AbilitySelection>();
-        //abilitySelection = GameObject.Find("").GetComponent<AbilitySelection>();
 
         abilitySlot = GetComponent<Button>();
         abilitySlot.onClick.AddListener(SlotButton);
@@ -43,23 +42,6 @@ public class AbilityCooldown : MonoBehaviour
             Initialize(ability, weaponHolder);
         }
     }
-
-    //private void Start()
-    //{
-    //    playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-    //    characterStats = GameObject.Find("Player").GetComponent<CharacterStats>();
-    //    playerMotor = GameObject.Find("Player").GetComponent<PlayerMotor>();
-    //    abilitySelection = GameObject.Find("AbilitySelection").GetComponent<AbilitySelection>();
-    //    //abilitySelection = GameObject.Find("").GetComponent<AbilitySelection>();
-
-    //    abilitySlot = GetComponent<Button>();
-    //    abilitySlot.onClick.AddListener(SlotButton);
-        
-    //    if(ability != null)
-    //    {
-    //        Initialize(ability, weaponHolder);
-    //    }
-    //}
 
     public void Initialize(Ability selectedAbility, GameObject weaponHolder)
     {
@@ -140,13 +122,13 @@ public class AbilityCooldown : MonoBehaviour
 
         abilitySelection.SetAbilitySlot(this);
 
-        if (abilitySelection.gameObject.activeSelf == true)
+        if (abilitySelection.abilitySelectionPanel.gameObject.activeSelf == true)
         {
-            abilitySelection.gameObject.SetActive(false);
+            abilitySelection.abilitySelectionPanel.gameObject.SetActive(false);
         }
         else
         {
-            abilitySelection.gameObject.SetActive(true);
+            abilitySelection.abilitySelectionPanel.gameObject.SetActive(true);
         }
 
     }
