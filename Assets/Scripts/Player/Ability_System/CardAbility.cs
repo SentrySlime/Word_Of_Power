@@ -16,11 +16,18 @@ public class CardAbility : MonoBehaviour
     public Text abilityDescription;
 
 
-
+    int bob;
 
 
     private void Awake()
     {
+
+        //abilityImage = GetComponent<Image>();
+
+        //abilityName = GetComponent<Text>();
+
+        //abilityDescription = GetComponent<Text>();
+
         abilitySelection = GameObject.Find("AbilitySelection").GetComponent<AbilitySelection>();
 
         manageRandomAbility = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomAbility>();
@@ -54,10 +61,17 @@ public class CardAbility : MonoBehaviour
         for (int i = 0; i < abilitySelection.abilityButtonList.Count; i++)
         {
 
-            if (GameObject.ReferenceEquals(abilitySelection.abilityButtonList[i], abilityButton))
+            //print(ReferenceEquals(abilitySelection.abilityButtonList[i].ability, ability));
+            
+            print(bob);
+            if (ReferenceEquals(abilitySelection.abilityButtonList[i].ability, ability))
             {
+                
+                print(abilitySelection.abilityButtonList[i].ability);
                 abilitySelection.abilityButtonList[i].transform.SetParent(abilitySelection.abilitySelectionPanel.transform, false);
             }
+
+            bob++;
         }
 
         abilitySelection.UpdateOwnedAbilities();

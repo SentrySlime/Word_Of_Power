@@ -14,7 +14,7 @@ public class AbilityButton : MonoBehaviour
     private void Awake()
     {
         abilityButton = GetComponent<Button>();
-        SetButtonVisuals();
+        buttonImage = GetComponent<Image>();
         abilityButton.onClick.AddListener(EquipAbility);
 
     }
@@ -27,11 +27,4 @@ public class AbilityButton : MonoBehaviour
         GameObject abilitySelection = GameObject.Find("AbilitySelectionPanel");
         abilitySelection.SetActive(false);
     }
-
-    public void SetButtonVisuals()
-    {
-
-        abilityButton.image.sprite = ability.aSprite;
-    }
-
 }

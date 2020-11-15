@@ -49,24 +49,36 @@ public class AbilitySelection : MonoBehaviour
         InstantiateCards();
         for (int i = 0; i < abilityList.Count; i++)
         {
-            abilityButtonList.Add(Instantiate(abilityButtonPrefab, abilityButtonHolder.transform));  //Creates the buttons and add them to the abilitybuttonlist
+            abilityButtonList.Add(Instantiate(abilityButtonPrefab, abilityButtonHolder.transform));                 //Creates the buttons and add them to the abilitybuttonlist
 
-            abilityButtonList[i].ability = abilityList[i];                                  //Take all ability buttons and assign an ability to them
+            abilityButtonList[i].ability = abilityList[i];                                                          //Take all ability buttons and assign an ability to them
 
-            manageRandomAbility.cardHolderList[i].abilityButton = abilityButtonList[i];                            //Take all ability cards and assign an abilitybutton to it
+            manageRandomAbility.cardHolderList[i].abilityButton = abilityButtonList[i];                             //Take all ability cards and assign an abilitybutton to it
 
-            manageRandomAbility.cardHolderList[i].ability = abilityButtonList[i].ability;                          //Then sets the ability of the corresponding button
+            manageRandomAbility.cardHolderList[i].ability = abilityButtonList[i].ability;                           //Then sets the ability of the corresponding button
 
             //abilityButtonList[i].gameObject.SetActive(false);                               //Inactivates them 
+        }
+        AbilityButtonVisual();
+        InitializeCards();
+    }
+
+
+    public void AbilityButtonVisual()
+    {
+        for (int i = 0; i < abilityButtonList.Count; i++)
+        {
+            abilityButtonList[i].buttonImage.sprite = abilityButtonList[i].ability.aSprite;
         }
     }
 
     public void SetAbilitySlot(AbilityCooldown abilitySlot)
     {
-        for (int i = 0; i < ownedAbilities.Count; i++)
+        for (int i = 0; i < abilityButtonList.Count; i++)
         {
-            ownedAbilities[i].abilityCooldown = abilitySlot;
+            abilityButtonList[i].abilityCooldown = abilitySlot;
         }
+
 
     }
 
@@ -75,6 +87,18 @@ public class AbilitySelection : MonoBehaviour
         for (int i = 0; i < abilityList.Count; i++)
         {
             manageRandomAbility.cardHolderList.Add(Instantiate(cardAbilityPrefab,manageRandomAbility.cardHolder.transform));
+            
+        }
+    }
+
+    public void InitializeCards()
+    {
+        for (int i = 0; i < manageRandomAbility.cardHolderList.Count; i++)
+        {
+
+            manageRandomAbility.cardHolderList[i].abilityName.text = manageRandomAbility.cardHolderList[i].ability.aName;
+            manageRandomAbility.cardHolderList[i].abilityDescription.text = manageRandomAbility.cardHolderList[i].ability.aDescription;
+            manageRandomAbility.cardHolderList[i].abilityImage.sprite = manageRandomAbility.cardHolderList[i].ability.aSprite;
         }
     }
 

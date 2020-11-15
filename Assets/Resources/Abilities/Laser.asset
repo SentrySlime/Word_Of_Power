@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Laser
   m_EditorClassIdentifier: 
   aName: Laser
-  aDescription: Ability description
+  aDescription: Shoots a chain to slow down enemies
   aSprite: {fileID: 21300000, guid: b740932467cdea743bb1838c2101798f, type: 3}
   aSound: {fileID: 0}
   aBaseCooldown: 2.64

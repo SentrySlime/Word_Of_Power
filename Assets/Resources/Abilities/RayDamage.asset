@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RayDamage
   m_EditorClassIdentifier: 
   aName: RayDamage
-  aDescription: Ability description
+  aDescription: Channels a ray of fire
   aSprite: {fileID: 21300000, guid: 6559569359eedd240b667fa314b2f81f, type: 3}
   aSound: {fileID: 0}
   aBaseCooldown: 0.1
