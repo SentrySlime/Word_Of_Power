@@ -10,21 +10,21 @@ public class AbilityCooldown : MonoBehaviour
     public string abilityButtonAxisName = "Fire1";
     public Image darkMask;
     Button abilitySlot;
-    private AbilitySelection abilitySelection;
-    private GameObject ownedAbilities;
 
-    public Ability ability;
     public GameObject weaponHolder;
 
+    //Other class references
+    private AbilitySelection abilitySelection;
     PlayerController playerController;
     CharacterStats characterStats;
     PlayerMotor playerMotor;
+    public Ability ability;
 
-    Image myButtonImage;
     AudioSource abilitySource;
+    Image myButtonImage;
     float coolDownDuration;
-    float nextReadyTime;
     float coolDowntimeLeft;
+    float nextReadyTime;
     float energyCost;
 
     private void Awake()

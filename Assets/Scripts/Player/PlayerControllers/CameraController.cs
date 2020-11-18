@@ -9,16 +9,16 @@ public class CameraController : MonoBehaviour
     public Vector3 offset;
     public float zoomSpeed = 4f;
     public float minZoom = 5f;
-    public float maxZoom = 16f;
+    public float maxZoom;
 
     public float pitch = 2f;
 
-    private float currentZoom = 16f;
+    private float currentZoom;
 
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-
+        currentZoom = maxZoom;
     }
 
     private void Update()

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6209953a7be555439032a4be028b6a9, type: 3}
+  m_Name: Fireball 1
+  m_EditorClassIdentifier: 
+  aName: Ice_Cube
+  aDescription: Sends out a icy projectile which frostburns enemies
+  aSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  aSound: {fileID: 0}
+  aBaseCooldown: 0.5
+  aEnergyCost: 5
+  projectileForce: 750
+  projectile: {fileID: 6934493033994207555, guid: 7310b1660e4ef4b4481d455a1e7d3456,
+    type: 3}

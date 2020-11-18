@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class BasicEnemyFunctions : MonoBehaviour ,IEnemy
+public class BasicEnemyFunctions : MonoBehaviour, IEnemy
 {
 
 
@@ -26,11 +26,11 @@ public class BasicEnemyFunctions : MonoBehaviour ,IEnemy
     void Update()
     {
         transform.position += transform.forward * moveSpeed * Time.deltaTime;
-        transform.Rotate(0f, -1f, 0f);
+        transform.Rotate(0f, -.5f, 0f);
 
         if (Input.GetKeyDown(KeyCode.U))
         {
-            DealDamage();
+            TakeDamage(3);
         }
     }
 
@@ -52,11 +52,10 @@ public class BasicEnemyFunctions : MonoBehaviour ,IEnemy
         }
     }
 
-    public void DealDamage()
-    {
-
-        characterStats.DefenceCalculation(damage);
-    }
+    //public void DealDamage()
+    //{
+    //    characterStats.DefenceCalculation(damage);
+    //}
 
     public void Die()
     {

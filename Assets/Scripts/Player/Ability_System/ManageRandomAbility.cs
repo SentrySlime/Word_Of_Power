@@ -5,32 +5,33 @@ using UnityEngine.UI;
 
 public class ManageRandomAbility : MonoBehaviour
 {
-    AbilitySelection abilitySelection;
-
+    //Card ability lists
+    public List<CardAbility> tempCardHolderList = new List<CardAbility>();
+    public List<CardAbility> cardHolderList = new List<CardAbility>();                  //Tempcardholder is instantiated cards which can then be parented under "Randomize abilities" so you can click one and add the ability to your owned abilities
+    
+    //Other class references
+    CharacterStats characterStats;
+    
+    //Gamobjects
     public Button randomizeAbilities;
     public Transform cardHolder;
-    public List<CardAbility> cardHolderList = new List<CardAbility>();                  //Tempcardholder is instantiated cards which can then be parented under "Randomize abilities" so you can click one and add the ability to your owned abilities
-    public List<CardAbility> tempCardHolderList = new List<CardAbility>();
 
-    CharacterStats characterStats;
+
 
     void Start()
     {
         characterStats = GameObject.Find("Player").GetComponent<CharacterStats>();
-        abilitySelection = GameObject.Find("AbilitySelection").GetComponent<AbilitySelection>();
         cardHolder = GameObject.Find("CardHolder").GetComponent<Transform>();
         randomizeAbilities = GameObject.Find("RandomizeAbilityButton").GetComponent<Button>();
         randomizeAbilities.onClick.AddListener(RandomizeAbilities);
 
-        randomizeAbilities.gameObject.SetActive(false);
-
-        //InstantiateCards();
+        randomizeAbilities.gameObject.SetActive(true);
 
     }
 
     public void RandomizeAbilities()
     {
-        
+        randomizeAbilities.interactable = false;
         characterStats.AAPoint--;
         for (int i = 0; i < 3; i++)                                                         //This will give an error if you have less than 3 cards
         {
@@ -54,20 +55,8 @@ public class ManageRandomAbility : MonoBehaviour
         {
             tempCardHolderList[i].transform.SetParent(cardHolder.transform, false);
             cardHolderList.Add(tempCardHolderList[i]);
-
-
-            //RevertParent(i);
-            //tempCardHolderList.RemoveAt(i);
         }
     }
-
-    //public void InstantiateCards()                  
-    //{
-    //    for (int i = 0; i < abilitySelection.cardAbility.Count; i++)
-    //    {
-    //        cardHolderList.Add (Instantiate(abilitySelection.cardAbility[i], cardHolder.transform));
-    //    }
-    //}
 
     public void SetParent(int randomNumberInput)
     {

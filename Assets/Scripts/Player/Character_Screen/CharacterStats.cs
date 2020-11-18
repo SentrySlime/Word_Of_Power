@@ -17,7 +17,6 @@ public class CharacterStats : MonoBehaviour
 
     [Header("EXP_Level")]
     public float currentLevel;
-    public float skillPoints;
     public float currentExp;
     public float expToNextLevel;
     Slider expBar;
@@ -34,6 +33,7 @@ public class CharacterStats : MonoBehaviour
     public float spirit;                //Increase the max energy
     public float speed;                 //Increases the players movement speed
     public float criticalChance;        //Increase the critical hit chance of attacks
+    public float skillPoints;
 
     //Text Slots for the stat numbers
     Text powerSlot;
@@ -42,6 +42,7 @@ public class CharacterStats : MonoBehaviour
     Text spiritSlot;
     Text speedSlot;
     Text criticalChanceSlot;
+    Text skillPointText;
 
     //Button slots that increase the stat values
     Button powerButton;
@@ -53,11 +54,13 @@ public class CharacterStats : MonoBehaviour
 
     //Other script references
     ManageRandomAbility manageRandomAbility;
-
+    PlayerMotor playerMotor;
+    
 
     private void Awake()
     {
         manageRandomAbility = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomAbility>();
+        playerMotor = GameObject.Find("Player").GetComponent<PlayerMotor>();
     }
 
     void Start()
@@ -79,6 +82,7 @@ public class CharacterStats : MonoBehaviour
         spiritSlot = GameObject.Find("EnergyNumber").GetComponent<Text>();
         speedSlot = GameObject.Find("SpeedNumber").GetComponent<Text>();
         criticalChanceSlot = GameObject.Find("CriticalChanceNumber").GetComponent<Text>();
+        skillPointText = GameObject.Find("SkillpointsNumber").GetComponent<Text>();
         #endregion
 
         #region statButtons
@@ -88,6 +92,10 @@ public class CharacterStats : MonoBehaviour
 
         spiritButton = GameObject.Find("SpiritButton").GetComponent<Button>();
         spiritButton.onClick.AddListener(() => StatButton(spiritButton));
+
+
+        speedButton = GameObject.Find("SpeedButton").GetComponent<Button>();
+        speedButton.onClick.AddListener(() => StatButton(speedButton));
 
         #endregion
 
@@ -99,6 +107,7 @@ public class CharacterStats : MonoBehaviour
         IncreaseSpirit(15);
         IncreaseSpeed(0);
         IncreaseCriticalChance(0);
+        UpdateSkillPoints();
 
         //Initializes the life and energy bars
         SetMaxLife();
@@ -107,6 +116,7 @@ public class CharacterStats : MonoBehaviour
         SetMaxEnergy();
         ToMaxEnergy();
         #endregion
+
     }
 
     void Update()
@@ -149,12 +159,17 @@ public class CharacterStats : MonoBehaviour
             else if (statButton == vitalityButton)
             {
                 IncreaseVitality(1);
-            }       
+            }
+            else if(statButton == speedButton)
+            {
+                IncreaseSpeed(1);
+            }
+
+            UpdateSkillPoints();
         }
     }
 
     #region Stats 
-    //close region here
     public void IncreasePower(float increaseInPower)
     {
         power += increaseInPower;
@@ -167,7 +182,6 @@ public class CharacterStats : MonoBehaviour
         defenceSlot.text = defence.ToString();
     }
 
-    //Vitality needs to access life settings
     public void IncreaseVitality(float increaseInVitality)          //this method takes a number and divides it by 10 and then adds the percentage to Life (15 = 1.5 = 50%)   (12.5 = 1.25 = 25%)   (10.7 = .07 = 7%) 
     {
         if (vitality != 0)                                          //If vitality is zero don't decrease it
@@ -179,8 +193,7 @@ public class CharacterStats : MonoBehaviour
         vitalitySlot.text = vitality.ToString();                    //Sets the value text to the updated value
         IncreaseMaxLife(vitality / 10);                             //Increase life with the updatved vitality value
     }
-    
-    //Spirit needs to access energy settings
+
     public void IncreaseSpirit(float increaseInSpirit)
     {
         if (spirit != 0)                                            //If spirit is zero don't decrease it
@@ -197,6 +210,7 @@ public class CharacterStats : MonoBehaviour
     {
         speed += increaseInSpeed;
         speedSlot.text = speed.ToString();
+        playerMotor.SetCharacterSpeed();
     }
 
     public void IncreaseCriticalChance(float increaseInCritChance)
@@ -289,7 +303,7 @@ public class CharacterStats : MonoBehaviour
 
         skillPoints += 3;
         AAPoint++;
-
+        UpdateSkillPoints();
         EnableAARandomizer();
     }
     #endregion
@@ -301,5 +315,10 @@ public class CharacterStats : MonoBehaviour
             manageRandomAbility.randomizeAbilities.gameObject.SetActive(true);
         }
 
+    }
+
+    public void UpdateSkillPoints()
+    {
+        skillPointText.text = skillPoints.ToString();
     }
 }

@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
 
     Camera cam;
     public PlayerMotor motor;
-    //public AbilityCooldown abilityCooldown;
     public bool isStill = false;
     public float rotationalSpeed;
 
@@ -21,7 +20,6 @@ public class PlayerController : MonoBehaviour
     {
         cam = Camera.main;
         motor = GetComponent<PlayerMotor>();
-        //abilityCooldown = GameObject.FindGameObjectWithTag("AbilityCooldown").GetComponent<AbilityCooldown>();
     }
 
     void Update()
@@ -37,15 +35,11 @@ public class PlayerController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, walkable))
             {
-                //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-                //Debug.Log("Did hit" + hit.point);
                 motor.MoveToPoint(hit.point);
             }
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, interactable))
             {
-                //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-                //Debug.Log("Did hit" + hit.point);
                 motor.MoveToPoint(hit.point);
             }
 
@@ -55,11 +49,6 @@ public class PlayerController : MonoBehaviour
         {
             isStill = true;
             motor.ResetPath();
-            //if (Input.GetButton(abilityCooldown.abilityButtonAxisName))
-            if(Input.GetMouseButton(0))
-            {
-                Turning();
-            }
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {

@@ -46,7 +46,7 @@ public class RaycastShootTriggerable : MonoBehaviour
 
         if(Physics.Raycast(rayOrigin, rayStart.transform.forward, out hit, rayRange))
         {
-            print(hit);
+            print(rayDamage);
 
             lineRenderer.SetPosition(1, hit.point);
 
