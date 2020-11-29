@@ -18,7 +18,7 @@ MonoBehaviour:
   aSound: {fileID: 0}
   aBaseCooldown: 2.64
   aEnergyCost: 0
-  rayDamage: 5
+  rayDamage: 15
   rayRange: 50
   hitForce: 100
   rayMaterial: {fileID: 2100000, guid: 20038d8ad973c664baaf82a076202451, type: 2}

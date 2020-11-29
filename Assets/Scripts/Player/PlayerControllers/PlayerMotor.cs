@@ -38,6 +38,7 @@ public class PlayerMotor : MonoBehaviour
 		}
 	}
 
+
 	void FaceTarget()
 	{
 		Vector3 direction = (target.position - transform.position).normalized;
@@ -54,5 +55,6 @@ public class PlayerMotor : MonoBehaviour
 	{
 
 		agent.speed = characterStats.speed/4;
+		speed = agent.speed;
 	}
 }
