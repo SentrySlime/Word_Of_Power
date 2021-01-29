@@ -22,7 +22,7 @@ public class RaycastAbility : Ability
         rcShoot.rayDamage = rayDamage;
         rcShoot.rayRange = rayRange;
         rcShoot.hitForce = hitForce;
-        rcShoot.lineRenderer.material = rayMaterial;
+        //rcShoot.lineRenderer.material = rayMaterial;
         //rcShoot.lineRenderer.material.color = rayColor;
 
 

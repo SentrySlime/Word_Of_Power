@@ -102,7 +102,7 @@ namespace DTInventory
         public void OnPointerClick(PointerEventData eventData)
         {
             //Right click to drop
-            if (eventData.clickCount > 1 && eventData.button == PointerEventData.InputButton.Right)
+            if (eventData.clickCount >= 1 && eventData.button == PointerEventData.InputButton.Right)
             {
                 inventory.DropItem(this);
                 return;

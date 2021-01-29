@@ -7417,7 +7417,7 @@ MonoBehaviour:
   - {fileID: 574632723}
   - {fileID: 314041218}
   dragItemOutsideToDrop: 1
-  player: {fileID: 388673049}
+  player: {fileID: 666047209}
   levelPoint: {fileID: 0}
   distanceAwayFromPlayerToDrop: 1
   autoEquipItems: 1
@@ -13758,7 +13758,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1196125998}
   m_LocalRotation: {x: 0.32512403, y: -0, z: -0, w: 0.9456714}
-  m_LocalPosition: {x: 0, y: 2.17, z: -3.85}
+  m_LocalPosition: {x: 0, y: 7.2, z: -10.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -18514,7 +18514,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1594501153
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18581,7 +18581,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 350.6, y: 0}
+  m_AnchoredPosition: {x: 350.6, y: 145.2}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1594501154
@@ -24486,12 +24486,12 @@ PrefabInstance:
     - target: {fileID: 3808234270395848018, guid: bd8850a3045cbf0488958fb379eacf6d,
         type: 3}
       propertyPath: width
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3808234270395848018, guid: bd8850a3045cbf0488958fb379eacf6d,
         type: 3}
       propertyPath: height
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3808234270395848018, guid: bd8850a3045cbf0488958fb379eacf6d,
         type: 3}

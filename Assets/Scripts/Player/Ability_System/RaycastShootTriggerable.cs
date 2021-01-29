@@ -16,7 +16,7 @@ public class RaycastShootTriggerable : MonoBehaviour
     public Transform rayStartPoint;
 
     [HideInInspector]
-    public LineRenderer lineRenderer;
+    //public LineRenderer lineRenderer;
 
     private Transform rayStart;
 
@@ -25,7 +25,7 @@ public class RaycastShootTriggerable : MonoBehaviour
 
     public void Initialize()
     {
-        lineRenderer = GetComponent<LineRenderer>();
+        //lineRenderer = GetComponent<LineRenderer>();
 
         //rayStart = GameObject.Find("Player").GetComponent<Transform>();
         rayStart = rayStartPoint;
@@ -36,18 +36,18 @@ public class RaycastShootTriggerable : MonoBehaviour
     {
         Vector3 rayOrigin = rayStart.position;
 
-        Debug.DrawRay(rayOrigin, rayStart.transform.forward * rayRange, Color.green);
+        Debug.DrawRay(rayOrigin, rayStart.transform.forward * rayRange, Color.green, 5f);
 
         RaycastHit hit;
 
         StartCoroutine(ShotEffect());
 
-        lineRenderer.SetPosition(0, rayStartPoint.position);
+        //lineRenderer.SetPosition(0, rayStartPoint.position);
 
         if(Physics.Raycast(rayOrigin, rayStart.transform.forward, out hit, rayRange))
         {
 
-            lineRenderer.SetPosition(1, hit.point);
+            //lineRenderer.SetPosition(1, hit.point);
 
             BasicEnemyFunctions health = hit.collider.GetComponent<BasicEnemyFunctions>();
 
@@ -68,18 +68,18 @@ public class RaycastShootTriggerable : MonoBehaviour
         }
         else
         {
-            lineRenderer.SetPosition(1, rayStart.transform.forward * rayRange);
+            //lineRenderer.SetPosition(1, rayStart.transform.forward * rayRange);
         }
 
     }
 
     private IEnumerator ShotEffect()
     {
-        lineRenderer.enabled = true;
+        //lineRenderer.enabled = true;
 
         yield return shotDuration;
 
-        lineRenderer.enabled = false;
+        //lineRenderer.enabled = false;
     }
 
 
