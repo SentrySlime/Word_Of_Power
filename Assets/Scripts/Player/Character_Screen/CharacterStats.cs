@@ -131,6 +131,12 @@ public class CharacterStats : MonoBehaviour
             LevelUp();
         }
 
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            TakeDamage(10);
+
+        }
+
     }
 
     public void DefenceCalculation(float incomingDamage)    //the incoming damage gets the defence bonus applied to it
