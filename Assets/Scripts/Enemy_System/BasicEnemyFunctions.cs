@@ -13,6 +13,9 @@ public class BasicEnemyFunctions : MonoBehaviour, IEnemy
     public int expReward = 10;
     public float damage = 5;
 
+    [Header("Status Effects")]
+    public bool isBleeding = false;
+
     [SerializeField] CharacterStats characterStats;
 
 
@@ -59,7 +62,11 @@ public class BasicEnemyFunctions : MonoBehaviour, IEnemy
 
     public void Die()
     {
-        Destroy(gameObject);
+
         characterStats.IncreaseExp(expReward);
+        if(gameObject != null)
+        {
+            Destroy(gameObject);
+        }
     }
 }

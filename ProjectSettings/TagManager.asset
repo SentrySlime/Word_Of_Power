@@ -21,8 +21,8 @@ TagManager:
   - 
   - Walkable
   - interactable
-  - 
-  - 
+  - FriendlyProjectile
+  - Player
   - 
   - 
   - 

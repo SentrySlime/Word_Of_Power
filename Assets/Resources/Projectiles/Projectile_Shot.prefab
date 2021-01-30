@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6975287950386500764}
   - component: {fileID: 303521215268734132}
   - component: {fileID: 6934493033994207555}
+  - component: {fileID: 4307720488743423062}
   m_Layer: 0
   m_Name: Projectile_Shot
   m_TagString: Untagged
@@ -92,7 +93,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.54
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &6934493033994207555
 Rigidbody:
@@ -110,3 +111,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
+--- !u!114 &4307720488743423062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8171350522320849601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ed1740049b6a64a804ac4d5f5737e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bleedScript: {fileID: 0}

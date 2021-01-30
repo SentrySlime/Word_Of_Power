@@ -28,7 +28,6 @@ public class CardAbility : MonoBehaviour
 
         cardButton.onClick.AddListener(AddToOwnedAbilities);
         
-
     }
 
     public void SetCardAbility()
