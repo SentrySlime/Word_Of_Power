@@ -10,6 +10,12 @@ public class CharacterStats : MonoBehaviour
     public float maxLife;
     Slider life_Bar;
 
+    [Header("Energy Barrier")]
+
+    public float currentEnergyBarrier;
+    public float maxEnergyBarrier;
+    Slider energy_Barrier_Bar;
+
     [Header("Energy")]
     public float currentEnergy;
     public float maxEnergy;
@@ -69,6 +75,7 @@ public class CharacterStats : MonoBehaviour
         #region statBars
         //Sets life, energy and exp bar
         life_Bar = GameObject.FindGameObjectWithTag("life_Bar").GetComponent<Slider>();
+        energy_Barrier_Bar = GameObject.FindGameObjectWithTag("Energy_Barrier_Bar").GetComponent<Slider>();
         energy_Bar = GameObject.FindGameObjectWithTag("energy_Bar").GetComponent<Slider>();
         expBar = GameObject.FindGameObjectWithTag("expBar").GetComponent<Slider>();
         expBar.maxValue = expToNextLevel;
@@ -117,12 +124,16 @@ public class CharacterStats : MonoBehaviour
         ToMaxEnergy();
         #endregion
 
+        energy_Barrier_Bar.maxValue = maxEnergyBarrier;
+        currentEnergyBarrier = maxEnergyBarrier;
+
     }
 
     void Update()
     {
 
         life_Bar.value = currentLife;
+        energy_Barrier_Bar.value = currentEnergyBarrier;
         energy_Bar.value = currentEnergy;
         expBar.value = currentExp;
 
@@ -148,7 +159,19 @@ public class CharacterStats : MonoBehaviour
 
     public void TakeDamage(float handledDamage)             //The calculated value then gets sent to be applied to the health
     {
-        currentLife -= handledDamage;
+        if(currentEnergyBarrier > 0)
+        {
+            currentEnergyBarrier -= handledDamage;
+        }
+        else if(currentEnergyBarrier <= 0)
+        {
+            currentLife -= handledDamage;
+        }
+        
+        if(currentLife < 0)
+        {
+            //Die();
+        }
     }
 
     public void StatButton(Button statButton)

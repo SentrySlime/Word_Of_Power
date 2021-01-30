@@ -8,6 +8,8 @@ TagManager:
   - energy_Bar
   - expBar
   - Enemy
+  - Item
+  - Energy_Barrier_Bar
   layers:
   - Default
   - TransparentFX
