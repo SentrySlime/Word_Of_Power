@@ -34,7 +34,7 @@ public class CharacterStats : MonoBehaviour
     //because RNG wasn't kind to them then they have a chance to make up for that themselvs. It's sort of a safety net, plus it feels really good to allocate the skillpoints "enpowering the player".
     [Header("Stats")]
     public float power;                 //Increases the raw damage output
-    public float defence;               //Increases the flat damage reduction of incoming damage
+    public float baseDefence;               //Increases the flat damage reduction of incoming damage
     public float vitality;              //Increase the max life( this stat is divided by ten then added)
     public float spirit;                //Increase the max energy
     public float speed;                 //Increases the players movement speed
@@ -61,7 +61,14 @@ public class CharacterStats : MonoBehaviour
     //Other script references
     ManageRandomAbility manageRandomAbility;
     PlayerMotor playerMotor;
-    
+
+    #region Calculation Variables
+
+
+    float additiveDefence = 0;
+    float percentDefence = 0;
+    float finalDefence = 0;
+    #endregion
 
     private void Awake()
     {
@@ -150,9 +157,9 @@ public class CharacterStats : MonoBehaviour
 
     }
 
-    public void DefenceCalculation(float incomingDamage)    //the incoming damage gets the defence bonus applied to it
+    public void FinalDefenceReduction(float incomingDamage)    //the incoming damage gets the defence bonus applied to it
     {
-        incomingDamage -= defence;
+        incomingDamage -= finalDefence;
 
         TakeDamage(incomingDamage);                         
     }
@@ -173,6 +180,8 @@ public class CharacterStats : MonoBehaviour
             //Die();
         }
     }
+
+    
 
     public void StatButton(Button statButton)
     {
@@ -207,8 +216,8 @@ public class CharacterStats : MonoBehaviour
 
     public void IncreaseDefence(float increaseInDefence)
     {
-        defence += increaseInDefence;
-        defenceSlot.text = defence.ToString();
+        baseDefence += increaseInDefence;
+        defenceSlot.text = baseDefence.ToString();
     }
 
     public void IncreaseVitality(float increaseInVitality)          //this method takes a number and divides it by 10 and then adds the percentage to Life (15 = 1.5 = 50%)   (12.5 = 1.25 = 25%)   (10.7 = .07 = 7%) 
@@ -350,4 +359,32 @@ public class CharacterStats : MonoBehaviour
     {
         skillPointText.text = skillPoints.ToString();
     }
+
+    #region Calculate Stats
+
+    #region Defence
+    public void AddDefence(float flatIncrease, float percentIncrease)
+    {
+        additiveDefence += flatIncrease;
+        percentDefence += percentIncrease;
+        DefenceCalculation();
+    }
+
+    public void RemoveDefence(float flatDecrease, float percentDecrease)
+    {
+        additiveDefence -= flatDecrease;
+        percentDefence -= percentDecrease;
+        DefenceCalculation();
+    }
+
+    public void DefenceCalculation()
+    {
+        finalDefence = (additiveDefence + baseDefence) * percentDefence;
+    }
+
+    #endregion
+
+
+    #endregion
+
 }

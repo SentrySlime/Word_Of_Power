@@ -10,6 +10,7 @@ public class RaycastAbility : Ability
     public float rayRange = 50f;
     public int piercemax = 1;
     public int chain = 0;
+    public int projectiles = 1;
 
     public float hitForce = 100f;
     public float sphereCastSize = 1f;
@@ -27,6 +28,7 @@ public class RaycastAbility : Ability
         rcShoot.rayRange = rayRange;
         rcShoot.pierceMax = piercemax;
         rcShoot.chainNumbers = chain;
+        rcShoot.Projectiles = projectiles;
 
         rcShoot.sphereRadius = sphereCastSize;
         //rcShoot.hitForce = hitForce;
