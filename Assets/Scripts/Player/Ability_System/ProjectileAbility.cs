@@ -13,12 +13,15 @@ public class ProjectileAbility : Ability
 
     #region Projectile Properties
 
+    public int damage = 20;
     public int piercing = 0;
-    public int fork = 0;
-    public int chain = 0;
+    public int forkMax = 0;
+    public int chainMax = 0;
 
+    public int Projectiles = 1;
     #endregion
 
+    
     public override void Initialize(GameObject obj)
     {
         launcher = obj.GetComponent<ProjectileShootTriggerable>();
@@ -26,9 +29,10 @@ public class ProjectileAbility : Ability
         launcher.projectile = projectile;
 
         launcher.piercing = piercing;
-        launcher.fork = fork;
-        launcher.chain = chain;
-
+        launcher.fork = forkMax;
+        launcher.chain = chainMax;
+        launcher.Projectiles = Projectiles;
+        launcher.damage = damage;
     }
 
     public override void TriggerAbility()

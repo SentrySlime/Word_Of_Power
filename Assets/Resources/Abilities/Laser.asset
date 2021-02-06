@@ -16,9 +16,12 @@ MonoBehaviour:
   aDescription: Shoots a chain to slow down enemies
   aSprite: {fileID: 21300000, guid: b740932467cdea743bb1838c2101798f, type: 3}
   aSound: {fileID: 0}
-  aBaseCooldown: 2.64
+  aBaseCooldown: 0.2
   aEnergyCost: 0
   rayDamage: 15
   rayRange: 50
+  piercemax: 2
+  chain: 0
   hitForce: 100
+  sphereCastSize: 1.5
   rayMaterial: {fileID: 2100000, guid: 20038d8ad973c664baaf82a076202451, type: 2}

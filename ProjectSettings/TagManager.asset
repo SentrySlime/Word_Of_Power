@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Item
   - Energy_Barrier_Bar
+  - Object
   layers:
   - Default
   - TransparentFX
@@ -23,8 +24,8 @@ TagManager:
   - interactable
   - FriendlyProjectile
   - Player
-  - 
-  - 
+  - Enemy
+  - Object
   - 
   - 
   - 

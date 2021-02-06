@@ -8,7 +8,11 @@ public class RaycastAbility : Ability
 {
     public float rayDamage = 1;
     public float rayRange = 50f;
+    public int piercemax = 1;
+    public int chain = 0;
+
     public float hitForce = 100f;
+    public float sphereCastSize = 1f;
 
     public Material rayMaterial;
 
@@ -21,7 +25,11 @@ public class RaycastAbility : Ability
 
         rcShoot.rayDamage = rayDamage;
         rcShoot.rayRange = rayRange;
-        rcShoot.hitForce = hitForce;
+        rcShoot.pierceMax = piercemax;
+        rcShoot.chainNumbers = chain;
+
+        rcShoot.sphereRadius = sphereCastSize;
+        //rcShoot.hitForce = hitForce;
         //rcShoot.lineRenderer.material = rayMaterial;
         //rcShoot.lineRenderer.material.color = rayColor;
 

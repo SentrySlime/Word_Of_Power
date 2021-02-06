@@ -18,9 +18,11 @@ MonoBehaviour:
   aSound: {fileID: 0}
   aBaseCooldown: 0.2
   aEnergyCost: 5
-  projectileForce: 2000
-  projectile: {fileID: 6934493033994207555, guid: 7310b1660e4ef4b4481d455a1e7d3456,
+  projectileForce: 5000
+  projectile: {fileID: 6934493033994207555, guid: a4f2276d89f90414eaee3da25fcdd2ce,
     type: 3}
+  damage: 5
   piercing: 0
-  fork: 0
-  chain: 0
+  forkMax: 0
+  chainMax: 3
+  Projectiles: 1

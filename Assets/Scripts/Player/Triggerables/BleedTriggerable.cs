@@ -12,7 +12,7 @@ public class BleedTriggerable : MonoBehaviour
     public float bleedTimer = 0f;
 
     [HideInInspector]
-    public float bleedPercentage = 10f;
+    public float bleedPercentage = 0.2f;            //  1 = 100%      0.5 = 50%    0.01 = 1%
 
     //[HideInInspector]
     public BasicEnemyFunctions target;
@@ -44,7 +44,7 @@ public class BleedTriggerable : MonoBehaviour
 
     public IEnumerator BleedTimer()
     {
-        percentageDamage = target.maxHealth / bleedPercentage;
+        percentageDamage = target.maxHealth * bleedPercentage;
         print(percentageDamage);
         if(target != null)
         {

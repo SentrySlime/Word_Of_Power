@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6209953a7be555439032a4be028b6a9, type: 3}
-  m_Name: Fireball 1
+  m_Name: Ice-Cube
   m_EditorClassIdentifier: 
   aName: Ice_Cube
   aDescription: Sends out a icy projectile which frostburns enemies
@@ -18,9 +18,11 @@ MonoBehaviour:
   aSound: {fileID: 0}
   aBaseCooldown: 0.2
   aEnergyCost: 5
-  projectileForce: 2000
-  projectile: {fileID: 6934493033994207555, guid: 7310b1660e4ef4b4481d455a1e7d3456,
+  projectileForce: 5000
+  projectile: {fileID: 6934493033994207555, guid: a4f2276d89f90414eaee3da25fcdd2ce,
     type: 3}
+  damage: 2
   piercing: 0
-  fork: 0
-  chain: 0
+  forkMax: 0
+  chainMax: 0
+  Projectiles: 1

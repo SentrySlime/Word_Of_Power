@@ -17,8 +17,11 @@ MonoBehaviour:
   aSprite: {fileID: 21300000, guid: 6559569359eedd240b667fa314b2f81f, type: 3}
   aSound: {fileID: 0}
   aBaseCooldown: 0.1
-  aEnergyCost: 1
+  aEnergyCost: -5
   rayDamage: 2
   rayRange: 25
+  piercemax: 2
+  chain: 0
   hitForce: 100
+  sphereCastSize: 0.5
   rayMaterial: {fileID: 2100000, guid: 0a7018ee1f25d224c96a3a5f3b5147fa, type: 2}
