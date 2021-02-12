@@ -14,6 +14,7 @@ public class AbilityStatChange : MonoBehaviour
     public int piercemax;
     public int chain;
     public int projectile;
+    public float leechAmount;
 
     CharacterStats characterStats;
 
@@ -31,7 +32,8 @@ public class AbilityStatChange : MonoBehaviour
         characterStats.criticalChance += critChance;
         characterStats.pierce += piercemax;
         characterStats.chain += chain;
-        characterStats.projectiles = projectile;
+        characterStats.projectiles += projectile;
+        characterStats.leechAmount += leechAmount;
     }
 
 

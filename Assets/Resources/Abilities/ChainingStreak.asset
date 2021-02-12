@@ -24,8 +24,8 @@ MonoBehaviour:
   damage: 10
   critChance: 50
   rayRange: 25
-  piercemax: 0
-  chain: 0
+  piercemax: 2
+  chain: 2
   projectiles: 3
   bleedPercent: 0
   bleedDuration: 0

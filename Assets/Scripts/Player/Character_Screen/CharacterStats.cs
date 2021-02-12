@@ -210,9 +210,11 @@ public class CharacterStats : MonoBehaviour
     public void Leech(float damage)
     {
         int tempAmount = (int)Mathf.Round(damage * (leechAmount + tempAbilityLeech));
+        print(leechAmount);
+        print(tempAbilityLeech);
         currentLife += tempAmount;
         currentLife = Mathf.Clamp(currentLife, 0, maxLife);
-        tempAbilityLeech = 0;
+        //tempAbilityLeech = 0;
     }
 
     public void StatButton(Button statButton)

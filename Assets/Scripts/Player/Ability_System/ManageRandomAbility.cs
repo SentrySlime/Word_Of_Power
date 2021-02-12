@@ -60,6 +60,8 @@ public class ManageRandomAbility : MonoBehaviour
             tempCardHolderList[i].transform.SetParent(cardHolder.transform, false);
             cardHolderList.Add(tempCardHolderList[i]);
         }
+
+        tempCardHolderList.Clear();
     }
 
     public void SetParent(int randomNumberInput)

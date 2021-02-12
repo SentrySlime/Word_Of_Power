@@ -87,7 +87,7 @@ public class RaycastShootTriggerable : MonoBehaviour
     BleedTriggerable bleedTriggerable;
 
     public GameObject projectileStart;
-    Vector3 currentHitPosition;
+    public Vector3 currentHitPosition;
     Transform chainTarget;
     Collider nearest;
 
@@ -111,7 +111,7 @@ public class RaycastShootTriggerable : MonoBehaviour
 
     public void Fire()
     {
-        
+        currentHitDistance = rayRange;
         fullAngle = endAngle - startingAngle;
         fullAngle /= (1 + Projectiles);
         currentAngle = startingAngle;
@@ -121,6 +121,7 @@ public class RaycastShootTriggerable : MonoBehaviour
 
         for (int a = 0; a < Projectiles; a++)
         {
+            
             currentAngle = currentAngle + fullAngle;
             projectileStart.transform.localRotation = Quaternion.Euler(0, currentAngle, 0);
             pierce = pierceMax;
@@ -131,19 +132,20 @@ public class RaycastShootTriggerable : MonoBehaviour
             
             foreach (RaycastHit hit in hits.OrderBy(x => x.distance))
             {
-                currentHitDistance = rayRange;
+                //currentHitDistance = rayRange;
                 if (hit.transform.CompareTag("Object"))
                 {
                     currentHitPosition = hit.collider.transform.position;
+                    currentHitDistance = Vector3.Distance(currentHitPosition, projectileStart.transform.position);
                     pierce = 0;
                     chain = 0;
                 }
 
-                if(pierce == 0 && chain == 0)
-                {
-                    PierceMethod(hit);
-                }
-                else if (pierce >= 1)
+                //if(pierce == 0 && chain == 0)
+                //{
+                //    PierceMethod(hit);
+                //}
+                if (pierce >= 1)
                 {
                     PierceMethod(hit);
                 }
@@ -162,7 +164,7 @@ public class RaycastShootTriggerable : MonoBehaviour
             }
             else
             {
-                currentHitDistance = Vector3.Distance(currentHitPosition, projectileStart.transform.position);
+                //currentHitDistance = Vector3.Distance(currentHitPosition, projectileStart.transform.position);s
                 Debug.DrawRay(projectileStart.transform.position, projectileStart.transform.forward * currentHitDistance, Color.red, .1f);
                 //Implement SFX here
             }
@@ -180,11 +182,13 @@ public class RaycastShootTriggerable : MonoBehaviour
         if (hit.transform.CompareTag("Enemy"))
         {
             currentHitPosition = hit.collider.transform.position;
-
+            if(pierce == 1 && chain >= 1)
+            {
+                ChainMethod(hit);
+            }
             DealDamage(hit.transform.gameObject);
             //hit.transform.gameObject.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
 
-            print("Piercing damage");
             //play sound here
             pierce--;
         }
@@ -245,6 +249,7 @@ public class RaycastShootTriggerable : MonoBehaviour
                 chainTarget = nearest.transform;
                 alreadyChained.Add(nearest.gameObject);
                 currentHitPosition = hit.collider.transform.position;
+                currentHitDistance = Vector3.Distance(currentHitPosition, projectileStart.transform.position);
                 if (nearest.transform.CompareTag("Enemy"))
                 {
                     DealDamage(nearest.gameObject);
