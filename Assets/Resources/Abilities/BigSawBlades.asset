@@ -10,19 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6209953a7be555439032a4be028b6a9, type: 3}
-  m_Name: Fireball
+  m_Name: BigSawBlades
   m_EditorClassIdentifier: 
-  aName: Fireball
-  aDescription: Sends out a fiery projectile which burns enemies
+  aName: BigSawBlades
+  aDescription: Sends out a icy projectile which frostburns enemies
   aSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   aSound: {fileID: 0}
-  aBaseCooldown: 0.2
+  aBaseCooldown: 0.5
   aEnergyCost: 5
-  damage: 25
-  critChance: 10
-  piercing: 0
-  chainMax: 1
-  Projectiles: 1
-  projectileForce: 5000
   projectile: {fileID: 6934493033994207555, guid: a4f2276d89f90414eaee3da25fcdd2ce,
     type: 3}
+  damage: 25
+  critChance: 50
+  piercing: 5
+  chainMax: 0
+  Projectiles: 2
+  bleedPercentage: 0.1
+  bleedDuration: 10
+  leechAmount: 0
+  projectileForce: 5000

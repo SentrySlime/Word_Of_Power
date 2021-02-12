@@ -20,7 +20,7 @@ public class AbilitySelection : MonoBehaviour
 
     private void Awake()
     {
-        abilityList = new List<Ability>(Resources.LoadAll<Ability>("Abilities"));                               //you can load all abilities into a list
+        abilityList = new List<Ability>(Resources.LoadAll<Ability>("Abilities"));                                //you can load all abilities into a list
         manageRandomAbility = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomAbility>();
         abilityButtonPrefab = Resources.Load<AbilityButton>("Abilities/Buttons/AbilitySelection");
 
@@ -48,9 +48,12 @@ public class AbilitySelection : MonoBehaviour
 
             manageRandomAbility.cardHolderList[i].ability = abilityButtonList[i].ability;                           //Then sets the ability of the corresponding button
 
+            
+
         }
         AbilityButtonVisual();
         InitializeCards();
+        AbilityButtonCard();
     }
 
     public void AbilityButtonVisual()
@@ -76,7 +79,15 @@ public class AbilitySelection : MonoBehaviour
         for (int i = 0; i < abilityList.Count; i++)
         {
             manageRandomAbility.cardHolderList.Add(Instantiate(cardAbilityPrefab,manageRandomAbility.cardHolder.transform));
-            
+        }
+    }
+
+    public void AbilityButtonCard()
+    {
+        for (int i = 0; i < manageRandomAbility.cardHolderList.Count; i++)
+        {
+            abilityButtonList[i].abilityCard = manageRandomAbility.cardHolderList[i].gameObject;
+
         }
     }
 

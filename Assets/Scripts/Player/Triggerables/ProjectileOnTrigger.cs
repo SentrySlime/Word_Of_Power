@@ -42,14 +42,6 @@ public class ProjectileOnTrigger : MonoBehaviour
             {
                 piercing--;
             }
-            else if (fork >= 1)
-            {
-
-            }
-            else if (chain >= 1)
-            {
-
-            }
             else
             {
                 Destroy(gameObject);

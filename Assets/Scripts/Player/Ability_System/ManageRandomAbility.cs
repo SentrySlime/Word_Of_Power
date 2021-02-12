@@ -11,6 +11,7 @@ public class ManageRandomAbility : MonoBehaviour
     
     //Other class references
     CharacterStats characterStats;
+    ManageRandomTrait manageRandomTrait;
     
     //Gamobjects
     public Button randomizeAbilities;
@@ -21,10 +22,11 @@ public class ManageRandomAbility : MonoBehaviour
     void Start()
     {
         characterStats = GameObject.Find("Player").GetComponent<CharacterStats>();
-        cardHolder = GameObject.Find("CardHolder").GetComponent<Transform>();
+        cardHolder = GameObject.Find("AbilityCardHolder").GetComponent<Transform>();
         randomizeAbilities = GameObject.Find("RandomizeAbilityButton").GetComponent<Button>();
+        manageRandomTrait = GetComponent<ManageRandomTrait>();
+        
         randomizeAbilities.onClick.AddListener(RandomizeAbilities);
-
         randomizeAbilities.gameObject.SetActive(true);
 
     }
@@ -32,6 +34,7 @@ public class ManageRandomAbility : MonoBehaviour
     public void RandomizeAbilities()
     {
         randomizeAbilities.interactable = false;
+        manageRandomTrait.randomizeTrait.interactable = false;
         characterStats.AAPoint--;
         for (int i = 0; i < 3; i++)                                                         //This will give an error if you have less than 3 cards
         {
@@ -46,9 +49,10 @@ public class ManageRandomAbility : MonoBehaviour
         if(characterStats.AAPoint < 1)
         {
             randomizeAbilities.gameObject.SetActive(false);
+            manageRandomTrait.randomizeTrait.gameObject.SetActive(false);
         }
     }
-
+    
     public void RevertRandomCards()
     {
         for (int i = 0; i < tempCardHolderList.Count; i++)

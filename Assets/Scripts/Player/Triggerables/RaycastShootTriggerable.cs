@@ -34,52 +34,72 @@ public class RaycastShootTriggerable : MonoBehaviour
 
     #region new stuff
 
+    [HideInInspector]
     public List<GameObject> currenHitObjects = new List<GameObject>();
-    //public GameObject currenHitObject;
-
+    
+    [HideInInspector]
+    public List<GameObject> alreadyChained = new List<GameObject>();
+    
+    [HideInInspector]
+    public List<Collider> tempColliders = new List<Collider>();
     public float sphereRadius;
+
+    #region Basic stats
+
+    public float damage = 5;
+    public int criticalChance = 1;
+    public int Projectiles = 1;
+    public int pierceMax;
+    public int chainNumbers;
     public float rayRange;
-    public float rayDamage = 5;
+    public float chainRange = 20f;
+    #endregion
+
+    #region Extra stats
+
+    public float bleedPercentage = 0;
+    public float bleedDuration = 0;
+
+    #endregion
+
+    #region Hide stats
     [HideInInspector]
     public int pierce;
-    public int pierceMax;
     [HideInInspector]
     public int chain;
     [Header("ChainingStuff")]
     public int chainMax;                //Chain max displays if you have chain or not, 0 = no chain, 1 = have chain so chainmax should never go above 1
-    public int chainNumbers;            //ChainNumbers always needs to be 1 less than chainnumbers
     public LayerMask layerMask;
-
+    public LayerMask layerMask2;
     public bool block = false;
 
-    [Header("When shooting more than one projectiles")]
-    public int Projectiles = 1;
+    #endregion
+
+    #region Multiple Projectile Angles
+
     public float endAngle = 45f;
     public float startingAngle = -45f;
     float fullAngle;
     float currentAngle;
 
-    public GameObject projectileStart;
+    #endregion
 
+    BleedTriggerable bleedTriggerable;
+
+    public GameObject projectileStart;
+    Vector3 currentHitPosition;
     Transform chainTarget;
     Collider nearest;
 
-    public float sphereCastRange = 20f;
-    [HideInInspector]
-    public List<GameObject> alreadyChained = new List<GameObject>();
-    //[HideInInspector]
-    public List<Collider> tempColliders = new List<Collider>();
-
     int bob = 0;
 
-    Vector3 currentHitPosition;
     #endregion
 
 
     public void Initialize()
     {
         //lineRenderer = GetComponent<LineRenderer>();
-
+        bleedTriggerable = GameObject.FindGameObjectWithTag("Player").GetComponent<BleedTriggerable>();
         //rayStart = GameObject.Find("Player").GetComponent<Transform>();
         //rayStart = rayStartPoint;
         if(chainNumbers > 1)
@@ -112,15 +132,18 @@ public class RaycastShootTriggerable : MonoBehaviour
             foreach (RaycastHit hit in hits.OrderBy(x => x.distance))
             {
                 currentHitDistance = rayRange;
-                print(hit.collider.gameObject.transform);
-                if(hit.transform.CompareTag("Object"))
+                if (hit.transform.CompareTag("Object"))
                 {
                     currentHitPosition = hit.collider.transform.position;
                     pierce = 0;
                     chain = 0;
                 }
 
-                if (pierce >= 1)
+                if(pierce == 0 && chain == 0)
+                {
+                    PierceMethod(hit);
+                }
+                else if (pierce >= 1)
                 {
                     PierceMethod(hit);
                 }
@@ -157,7 +180,10 @@ public class RaycastShootTriggerable : MonoBehaviour
         if (hit.transform.CompareTag("Enemy"))
         {
             currentHitPosition = hit.collider.transform.position;
-            hit.transform.gameObject.GetComponent<BasicEnemyFunctions>().TakeDamage(rayDamage);
+
+            DealDamage(hit.transform.gameObject);
+            //hit.transform.gameObject.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
+
             print("Piercing damage");
             //play sound here
             pierce--;
@@ -180,7 +206,7 @@ public class RaycastShootTriggerable : MonoBehaviour
             {
                 alreadyChained.Add(chainTarget.gameObject);
             }
-            Collider[] hitColliders = Physics.OverlapSphere(chainTarget.position, sphereCastRange, layerMask);
+            Collider[] hitColliders = Physics.OverlapSphere(chainTarget.position, chainRange, layerMask2);
             tempColliders.AddRange(hitColliders);
             for (int i = 0; i < tempColliders.Count; i++)
             {
@@ -221,7 +247,8 @@ public class RaycastShootTriggerable : MonoBehaviour
                 currentHitPosition = hit.collider.transform.position;
                 if (nearest.transform.CompareTag("Enemy"))
                 {
-                    nearest.gameObject.GetComponent<BasicEnemyFunctions>().TakeDamage(rayDamage);
+                    DealDamage(nearest.gameObject);
+                    //nearest.gameObject.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
                 }
                 //and play sound here
 
@@ -234,22 +261,17 @@ public class RaycastShootTriggerable : MonoBehaviour
     }
 
 
-    //private void OnDrawGizmosSelected()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawLine(projectileStart.transform.position, projectileStart.transform.position + projectileStart.transform.forward * currentHitDistance);
-    //    Gizmos.DrawWireSphere(projectileStart.transform.position + projectileStart.transform.transform.forward * currentHitDistance, sphereRadius);
+    public void DealDamage(GameObject target)
+    {
+        target.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
 
-    //}
+        if(bleedPercentage > 0)
+        {
 
-    //private IEnumerator ShotEffect()
-    //{
-    //    //lineRenderer.enabled = true;
+            target.GetComponent<EnemyBleed>().SetBleed(bleedDuration, bleedPercentage);
+        }
+    }
 
-    //    yield return shotDuration;
-
-    //    //lineRenderer.enabled = false;
-    //}
 
 
 }

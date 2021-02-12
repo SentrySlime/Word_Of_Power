@@ -9,25 +9,34 @@ public class ProjectileScript : MonoBehaviour
     float moveSpeed = 5000f;
     private Vector2 movedirection;
 
+    [HideInInspector]
     public Rigidbody rb;
+    [HideInInspector]
     public Transform chainTarget;
+    [HideInInspector]
     public Collider nearest;
 
-    public LayerMask layerMask;
+    [HideInInspector]
     public Vector3 nextenemyDirection;
 
     public List<GameObject> alreadyChained = new List<GameObject>();
     public List<Collider> tempColliders = new List<Collider>();
 
-    public int damage;
-
+    public LayerMask layerMask;
+    
+    [Header("Primary stats")]
+    public float damage;
+    public int criticalChance = 1;
     int bob = 0;
-
+    [HideInInspector]
     public int pierce = 0;
     public int pierceMax = 0;
-
     int chain = 0;
-    public int chainNumbers = 2;
+    public int chainNumbers = 0;
+
+    [Header("Extra stats")]
+    public float bleedPercentage = 0;
+    public float bleedDuration = 0;
 
     private void Start()
     {
@@ -35,7 +44,6 @@ public class ProjectileScript : MonoBehaviour
         pierce = pierceMax;
         chain = chainNumbers;
     }
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -45,7 +53,7 @@ public class ProjectileScript : MonoBehaviour
 
         if (pierce >= 1)
         {
-            other.GetComponent<BasicEnemyFunctions>().TakeDamage(damage);
+            DealDamage(other.gameObject);
             pierce--;
         }
         else if (chain >= 1)
@@ -55,7 +63,7 @@ public class ProjectileScript : MonoBehaviour
         }
         else
         {
-            other.GetComponent<BasicEnemyFunctions>().TakeDamage(damage);
+            DealDamage(other.gameObject);
             Destroy();
         }
 
@@ -67,7 +75,8 @@ public class ProjectileScript : MonoBehaviour
     {
         if (chainNumbers >= 1 && chainTarget.CompareTag("Enemy"))
         {
-            chainTarget.GetComponent<BasicEnemyFunctions>().TakeDamage(damage);
+            DealDamage(chainTarget.gameObject);
+            //chainTarget.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
             if (alreadyChained.Count == 0)
             {
                 alreadyChained.Add(chainTarget.gameObject);
@@ -109,6 +118,16 @@ public class ProjectileScript : MonoBehaviour
         else
         {
             Destroy();
+        }
+    }
+
+
+    public void DealDamage(GameObject target)
+    {
+        chainTarget.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
+        if(bleedPercentage > 0)
+        {
+            target.GetComponent<EnemyBleed>().SetBleed(bleedDuration, bleedPercentage);
         }
     }
 

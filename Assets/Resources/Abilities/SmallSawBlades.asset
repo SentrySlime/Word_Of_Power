@@ -10,19 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6209953a7be555439032a4be028b6a9, type: 3}
-  m_Name: Ice-Cube
+  m_Name: SmallSawBlades
   m_EditorClassIdentifier: 
-  aName: Ice_Cube
-  aDescription: Sends out a icy projectile which frostburns enemies
-  aSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  aName: RazorBlades
+  aDescription: Shoots out several small saw blades providing energy
+  aSprite: {fileID: 21300000, guid: 3b4f6d4833dc36d4890805f927e34399, type: 3}
   aSound: {fileID: 0}
-  aBaseCooldown: 0.2
-  aEnergyCost: 5
-  projectileForce: 5000
+  aBaseCooldown: 0.8
+  aEnergyCost: -5
   projectile: {fileID: 6934493033994207555, guid: a4f2276d89f90414eaee3da25fcdd2ce,
     type: 3}
-  damage: 2
-  piercing: 0
-  forkMax: 0
+  damage: 20
+  critChance: 1
+  piercing: 20
   chainMax: 0
-  Projectiles: 1
+  Projectiles: 2
+  bleedPercentage: 0.1
+  bleedDuration: 10
+  leechAmount: 0
+  projectileForce: 500

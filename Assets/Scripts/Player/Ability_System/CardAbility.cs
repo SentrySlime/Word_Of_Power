@@ -7,6 +7,7 @@ public class CardAbility : MonoBehaviour
 {
 
     ManageRandomAbility manageRandomAbility;
+    ManageRandomTrait manageRandomTrait;
     public AbilityButton abilityButton;
     AbilitySelection abilitySelection;
     public Ability ability;
@@ -23,6 +24,7 @@ public class CardAbility : MonoBehaviour
         abilitySelection = GameObject.Find("AbilitySelection").GetComponent<AbilitySelection>();
 
         manageRandomAbility = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomAbility>();
+        manageRandomTrait = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomTrait>();
 
         cardButton = GetComponent<Button>();
 
@@ -41,6 +43,7 @@ public class CardAbility : MonoBehaviour
     {
 
         manageRandomAbility.randomizeAbilities.interactable = true;
+        manageRandomTrait.randomizeTrait.interactable = true;
 
         for (int i = 0; i < abilitySelection.abilityButtonList.Count; i++)
         {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour
 {
@@ -23,8 +24,15 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        currentZoom -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
-        currentZoom = Mathf.Clamp(currentZoom, minZoom, maxZoom);
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+        else
+        {
+            currentZoom -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
+            currentZoom = Mathf.Clamp(currentZoom, minZoom, maxZoom);
+        }
     }
 
     void LateUpdate()

@@ -13,11 +13,10 @@ public class BasicEnemyFunctions : MonoBehaviour, IEnemy
     public int expReward = 10;
     public float damage = 5;
 
-    [Header("Status Effects")]
-    public bool isBleeding = false;
 
-    [SerializeField] CharacterStats characterStats;
-
+    CharacterStats characterStats;
+    int critMax = 1;
+    int critMax2 = 101;
 
 
     void Start()
@@ -31,10 +30,6 @@ public class BasicEnemyFunctions : MonoBehaviour, IEnemy
         transform.position += transform.forward * moveSpeed * Time.deltaTime;
         transform.Rotate(0f, -.5f, 0f);
 
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            TakeDamage(3);
-        }
     }
 
     public event Action<float> OnHealthChanged = delegate { };
@@ -44,11 +39,56 @@ public class BasicEnemyFunctions : MonoBehaviour, IEnemy
         throw new System.NotImplementedException();
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, int critChance) 
+    {
+
+        if(critChance <= 100)
+        {
+            critMax = UnityEngine.Random.Range(1, 101);
+            if (critChance >= critMax)
+            {
+                CriticalHitDamage2x(amount);
+            }
+            else
+            {
+                CauseDamage(amount);
+            }
+        }
+        else if(critChance > 100)
+        {
+            critMax2 = UnityEngine.Random.Range(101, 200);
+            if (critChance >= critMax2)
+            {
+               CriticalHitDamage3x(amount);
+            }
+            else
+            {
+               CriticalHitDamage2x(amount);
+            }
+        }
+    }
+
+    public void CriticalHitDamage2x(float damage)
+    {
+        
+        damage *= 2;
+        CauseDamage(damage);
+    }
+
+    public void CriticalHitDamage3x(float damage)
+    {
+        damage *= 3;
+
+    }
+
+    public void CauseDamage(float amount)
     {
         currentHealth -= amount;
         float currentHealthPercent = (float)currentHealth / (float)maxHealth;
         OnHealthChanged(currentHealthPercent);
+
+        characterStats.Leech(amount);
+
         if (currentHealth <= 0)
         {
             Die();

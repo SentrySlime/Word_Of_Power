@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 303521215268734132}
   - component: {fileID: 6934493033994207555}
   - component: {fileID: 4307720488743423062}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Projectile_Shot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,3 +124,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bleedScript: {fileID: 0}
+  piercing: 0
+  fork: 0
+  chain: 0

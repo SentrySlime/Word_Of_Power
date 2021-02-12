@@ -11,7 +11,6 @@ public class CharacterStats : MonoBehaviour
     Slider life_Bar;
 
     [Header("Energy Barrier")]
-
     public float currentEnergyBarrier;
     public float maxEnergyBarrier;
     Slider energy_Barrier_Bar;
@@ -21,15 +20,21 @@ public class CharacterStats : MonoBehaviour
     public float maxEnergy;
     Slider energy_Bar;
 
+    [Header("Leeching")]
+    public float leechAmount = 0.01f;
+    public float tempAbilityLeech = 0;
+
     [Header("EXP_Level")]
     public float currentLevel;
     public float currentExp;
     public float expToNextLevel;
     Slider expBar;
 
+
     public int AAPoint;
     float remainderExp;      //The overkill exp transfered between levels
 
+    #region stats numbers
     //Thses stats where chosen as they are the most prevalent, as in these stats can make up for the player is lacking in terms of gear and skills. In other words, if the player is lacking in something 
     //because RNG wasn't kind to them then they have a chance to make up for that themselvs. It's sort of a safety net, plus it feels really good to allocate the skillpoints "enpowering the player".
     [Header("Stats")]
@@ -38,9 +43,19 @@ public class CharacterStats : MonoBehaviour
     public float vitality;              //Increase the max life( this stat is divided by ten then added)
     public float spirit;                //Increase the max energy
     public float speed;                 //Increases the players movement speed
-    public float criticalChance;        //Increase the critical hit chance of attacks
+    public int criticalChance;        //Increase the critical hit chance of attacks
     public float skillPoints;
 
+    [Header("Extra sts")]
+    public int projectiles = 0;
+    public float range = 0;
+    public int pierce = 0;
+    public int chain = 0;
+    public float bleedPercentage = 0;
+    public float bleedDuration = 0;
+    #endregion
+
+    #region stat Texts
     //Text Slots for the stat numbers
     Text powerSlot;
     Text defenceSlot;
@@ -49,7 +64,9 @@ public class CharacterStats : MonoBehaviour
     Text speedSlot;
     Text criticalChanceSlot;
     Text skillPointText;
+    #endregion
 
+    #region statButtons
     //Button slots that increase the stat values
     Button powerButton;
     Button defenceButton;
@@ -58,24 +75,27 @@ public class CharacterStats : MonoBehaviour
     Button speedButton;
     Button critChanceButton;
 
+    #endregion
     //Other script references
     ManageRandomAbility manageRandomAbility;
+    ManageRandomTrait manageRandomTrait;
     PlayerMotor playerMotor;
 
     #region Calculation Variables
 
-
     float additiveDefence = 0;
-    float percentDefence = 0;
+    float percentDefence = 1;
     float finalDefence = 0;
     #endregion
 
     private void Awake()
     {
         manageRandomAbility = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomAbility>();
+        manageRandomTrait = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomTrait>();
         playerMotor = GameObject.Find("Player").GetComponent<PlayerMotor>();
     }
 
+    //Start
     void Start()
     {
 
@@ -95,6 +115,7 @@ public class CharacterStats : MonoBehaviour
         vitalitySlot = GameObject.Find("LifeNumber").GetComponent<Text>();
         spiritSlot = GameObject.Find("EnergyNumber").GetComponent<Text>();
         speedSlot = GameObject.Find("SpeedNumber").GetComponent<Text>();
+        defenceSlot = GameObject.Find("DefenceNumber").GetComponent<Text>();
         criticalChanceSlot = GameObject.Find("CriticalChanceNumber").GetComponent<Text>();
         skillPointText = GameObject.Find("SkillpointsNumber").GetComponent<Text>();
         #endregion
@@ -110,6 +131,9 @@ public class CharacterStats : MonoBehaviour
 
         speedButton = GameObject.Find("SpeedButton").GetComponent<Button>();
         speedButton.onClick.AddListener(() => StatButton(speedButton));
+
+        defenceButton = GameObject.Find("DefenceButton").GetComponent<Button>();
+        defenceButton.onClick.AddListener(() => StatButton(defenceButton));
 
         #endregion
 
@@ -136,9 +160,10 @@ public class CharacterStats : MonoBehaviour
 
     }
 
+    //Update
     void Update()
     {
-
+        
         life_Bar.value = currentLife;
         energy_Barrier_Bar.value = currentEnergyBarrier;
         energy_Bar.value = currentEnergy;
@@ -181,7 +206,14 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
-    
+
+    public void Leech(float damage)
+    {
+        int tempAmount = (int)Mathf.Round(damage * (leechAmount + tempAbilityLeech));
+        currentLife += tempAmount;
+        currentLife = Mathf.Clamp(currentLife, 0, maxLife);
+        tempAbilityLeech = 0;
+    }
 
     public void StatButton(Button statButton)
     {
@@ -202,6 +234,10 @@ public class CharacterStats : MonoBehaviour
             {
                 IncreaseSpeed(1);
             }
+            else if(statButton == defenceButton)
+            {
+                IncreaseDefence(1);
+            }
 
             UpdateSkillPoints();
         }
@@ -218,6 +254,7 @@ public class CharacterStats : MonoBehaviour
     {
         baseDefence += increaseInDefence;
         defenceSlot.text = baseDefence.ToString();
+        DefenceCalculation();
     }
 
     public void IncreaseVitality(float increaseInVitality)          //this method takes a number and divides it by 10 and then adds the percentage to Life (15 = 1.5 = 50%)   (12.5 = 1.25 = 25%)   (10.7 = .07 = 7%) 
@@ -226,7 +263,6 @@ public class CharacterStats : MonoBehaviour
         {
             DecreaseMaxLife(vitality/ 10);                          //Removes the previous amount of the vitality bonus
         }
-
         vitality += increaseInVitality;                             //Sets vitality to it's new value
         vitalitySlot.text = vitality.ToString();                    //Sets the value text to the updated value
         IncreaseMaxLife(vitality / 10);                             //Increase life with the updatved vitality value
@@ -251,7 +287,7 @@ public class CharacterStats : MonoBehaviour
         playerMotor.SetCharacterSpeed();
     }
 
-    public void IncreaseCriticalChance(float increaseInCritChance)
+    public void IncreaseCriticalChance(int increaseInCritChance)
     {
         criticalChance += increaseInCritChance;
         criticalChanceSlot.text = criticalChance.ToString();
@@ -351,6 +387,7 @@ public class CharacterStats : MonoBehaviour
         if(AAPoint > 0)
         {
             manageRandomAbility.randomizeAbilities.gameObject.SetActive(true);
+            manageRandomTrait.randomizeTrait.gameObject.SetActive(true);
         }
 
     }
@@ -380,6 +417,7 @@ public class CharacterStats : MonoBehaviour
     public void DefenceCalculation()
     {
         finalDefence = (additiveDefence + baseDefence) * percentDefence;
+        //print(finalDefence);
     }
 
     #endregion
