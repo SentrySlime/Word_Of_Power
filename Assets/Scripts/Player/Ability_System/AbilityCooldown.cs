@@ -23,8 +23,10 @@ public class AbilityCooldown : MonoBehaviour
     AudioSource abilitySource;
     Image myButtonImage;
     float coolDownDuration;
-    float coolDowntimeLeft;
+    static float coolDowntimeLeft;
     float nextReadyTime;
+    float damageRequirement;
+    public float currentDamage;
     float energyCost;
 
     private void Awake()
@@ -52,32 +54,90 @@ public class AbilityCooldown : MonoBehaviour
         myButtonImage.sprite = ability.aSprite;
         darkMask.sprite = ability.aSprite;
         coolDownDuration = ability.aBaseCooldown;
+        damageRequirement = ability.aDamageRequirement;
         energyCost = ability.aEnergyCost;
         ability.Initialize(weaponHolder);
-
+        //characterStats.CooldownModifier(coolDownDuration);
+        coolDownDuration = characterStats.CooldownModifier(coolDownDuration);
         AbilityReady();
     }
 
     private void Update()
     {
+
         bool coolDownComplete = (Time.time > nextReadyTime);
         if (playerController.isStill && coolDownComplete)
         {
 
-            if (EventSystem.current.IsPointerOverGameObject())
-                return;
-
-            AbilityReady();
-            if (Input.GetButton(abilityButtonAxisName) && characterStats.currentEnergy >= energyCost)
+            if (currentDamage >= damageRequirement)
             {
-                if (ability == null)
+                if (EventSystem.current.IsPointerOverGameObject())
                     return;
-                Initialize(ability, weaponHolder);
-                playerMotor.ResetPath();
-                playerController.Turning();
-                SubtractEnergy();
-                ButtonTriggered();
+
+                AbilityReady();
+
+                if (abilitySelection.abilityCooldown == null)
+                {
+
+                }
+                else if (abilitySelection.abilityCooldown != this)
+                {
+                    return;
+                }
+
+                if (Input.GetButton(abilityButtonAxisName) && characterStats.currentEnergy >= energyCost)
+                {
+                    if (ability == null)
+                        return;
+
+                    currentDamage = 0;
+
+                    abilitySelection.CurrentlyUsedCooldown(this);
+                    Initialize(ability, weaponHolder);
+                    playerMotor.ResetPath();
+                    playerController.Turning();
+                    SubtractEnergy();
+                    ButtonTriggered();
+                }
+                else /*if(Input.GetButtonUp(abilityButtonAxisName))*/
+                {
+                    abilitySelection.CooldownToNull();
+                }
             }
+
+
+            //if (EventSystem.current.IsPointerOverGameObject())
+            //    return;
+
+            //AbilityReady();
+
+            //if (abilitySelection.abilityCooldown == null)
+            //{
+
+            //}
+            //else if (abilitySelection.abilityCooldown != this)
+            //{
+            //    return;
+            //}
+
+            //if (Input.GetButton(abilityButtonAxisName) && characterStats.currentEnergy >= energyCost)
+            //{
+            //    if (ability == null)
+            //        return;
+
+
+
+            //    abilitySelection.CurrentlyUsedCooldown(this);
+            //    Initialize(ability, weaponHolder);
+            //    playerMotor.ResetPath();
+            //    playerController.Turning();
+            //    SubtractEnergy();
+            //    ButtonTriggered();
+            //}
+            //else /*if(Input.GetButtonUp(abilityButtonAxisName))*/
+            //{
+            //    abilitySelection.CooldownToNull();
+            //}
         }
         else
         {

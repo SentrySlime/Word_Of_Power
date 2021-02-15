@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CardAbility : MonoBehaviour
 {
 
-    ManageRandomAbility manageRandomAbility;
+    public ManageRandomAbility manageRandomAbility;
     ManageRandomTrait manageRandomTrait;
     public AbilityButton abilityButton;
     AbilitySelection abilitySelection;

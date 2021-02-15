@@ -45,6 +45,15 @@ public class PlayerController : MonoBehaviour
 
         }
 
+        //if(motor.agent.velocity == Vector3.zero)
+        //{
+        //    isStill = true;
+        //}
+        //else
+        //{
+        //    isStill = false;
+        //}
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             isStill = true;

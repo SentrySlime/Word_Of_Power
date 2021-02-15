@@ -16,7 +16,8 @@ MonoBehaviour:
   aDescription: Shoots a chain to slow down enemies
   aSprite: {fileID: 21300000, guid: b740932467cdea743bb1838c2101798f, type: 3}
   aSound: {fileID: 0}
-  aBaseCooldown: 0.2
+  aBaseCooldown: 1
+  aDamageRequirement: 0
   aEnergyCost: 0
   hitForce: 100
   sphereCastSize: 1.5
@@ -30,3 +31,6 @@ MonoBehaviour:
   bleedPercent: 0
   bleedDuration: 0
   leechAmount: 0
+  energyOnHit: 0
+  endAngle: 45
+  startAngle: -45

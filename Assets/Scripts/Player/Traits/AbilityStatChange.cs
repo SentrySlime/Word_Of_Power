@@ -34,6 +34,7 @@ public class AbilityStatChange : MonoBehaviour
         characterStats.chain += chain;
         characterStats.projectiles += projectile;
         characterStats.leechAmount += leechAmount;
+        Cooldown(cooldown);
     }
 
 
@@ -64,6 +65,6 @@ public class AbilityStatChange : MonoBehaviour
     }
     public void Cooldown(float cooldown)
     {
-
+        characterStats.cooldownModifier += cooldown;
     }
 }

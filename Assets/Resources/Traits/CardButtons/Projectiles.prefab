@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 12.9, y: 30.8}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 58, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &112143679240706966
 CanvasRenderer:
@@ -231,6 +231,7 @@ MonoBehaviour:
   piercemax: 0
   chain: 0
   projectile: 3
+  leechAmount: 0
 --- !u!114 &-323635204464725799
 MonoBehaviour:
   m_ObjectHideFlags: 0

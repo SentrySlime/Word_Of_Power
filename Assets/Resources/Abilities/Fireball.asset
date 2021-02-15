@@ -17,12 +17,19 @@ MonoBehaviour:
   aSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   aSound: {fileID: 0}
   aBaseCooldown: 0.2
+  aDamageRequirement: 0
   aEnergyCost: 5
+  projectile: {fileID: 6934493033994207555, guid: a4f2276d89f90414eaee3da25fcdd2ce,
+    type: 3}
   damage: 25
   critChance: 10
   piercing: 0
   chainMax: 1
   Projectiles: 1
+  bleedPercentage: 0
+  bleedDuration: 0
+  leechAmount: 0
+  energyOnHit: 0
   projectileForce: 5000
-  projectile: {fileID: 6934493033994207555, guid: a4f2276d89f90414eaee3da25fcdd2ce,
-    type: 3}
+  endAngle: 45
+  startAngle: -45

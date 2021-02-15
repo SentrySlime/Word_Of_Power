@@ -31,9 +31,15 @@ public class RaycastAbility : Ability
     public float bleedDuration = 0;
     public float leechAmount = 0;
 
+    public float energyOnHit = 0;
     #endregion
 
-    
+    #region Angles
+    [Header("Angles")]
+    public float endAngle = 45;
+    public float startAngle = -45;
+    #endregion
+
 
     private void Awake()
     {
@@ -56,10 +62,13 @@ public class RaycastAbility : Ability
 
         rcShoot.bleedPercentage = bleedPercent + characterStats.bleedPercentage;
         rcShoot.bleedDuration = bleedDuration + characterStats.bleedDuration;
+        characterStats.tempAbilityLeech = leechAmount;
 
         rcShoot.sphereRadius = sphereCastSize;
 
-        characterStats.tempAbilityLeech = leechAmount;
+        rcShoot.startingAngle = startAngle;
+        rcShoot.endAngle = endAngle;
+
         //rcShoot.hitForce = hitForce;
         //rcShoot.lineRenderer.material = rayMaterial;
         //rcShoot.lineRenderer.material.color = rayColor;

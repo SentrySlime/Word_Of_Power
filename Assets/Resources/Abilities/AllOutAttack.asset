@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6209953a7be555439032a4be028b6a9, type: 3}
-  m_Name: SmallSawBlades
+  m_Name: AllOutAttack
   m_EditorClassIdentifier: 
-  aName: RazorBlades
-  aDescription: Shoots out several small saw blades providing energy
-  aSprite: {fileID: 21300000, guid: 3b4f6d4833dc36d4890805f927e34399, type: 3}
+  aName: All Out Attack
+  aDescription: Send out projectiles all around you
+  aSprite: {fileID: 21300000, guid: 1f300391aa6e8704faf2c60e3c686df1, type: 3}
   aSound: {fileID: 0}
   aBaseCooldown: 1
   aDamageRequirement: 0
-  aEnergyCost: -5
+  aEnergyCost: 0
   projectile: {fileID: 6934493033994207555, guid: a4f2276d89f90414eaee3da25fcdd2ce,
     type: 3}
-  damage: 20
+  damage: 150
   critChance: 1
-  piercing: 20
-  chainMax: 0
-  Projectiles: 2
-  bleedPercentage: 0.1
-  bleedDuration: 10
+  piercing: 0
+  chainMax: 35
+  Projectiles: 26
+  bleedPercentage: 0
+  bleedDuration: 0
   leechAmount: 0
-  energyOnHit: 0
-  projectileForce: 500
-  endAngle: 45
-  startAngle: -45
+  energyOnHit: 1
+  projectileForce: 2500
+  endAngle: 210
+  startAngle: -180

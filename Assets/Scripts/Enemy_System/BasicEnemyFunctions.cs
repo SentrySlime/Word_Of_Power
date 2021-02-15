@@ -13,6 +13,7 @@ public class BasicEnemyFunctions : MonoBehaviour, IEnemy
     public int expReward = 10;
     public float damage = 5;
 
+    public GameObject[] abilityCooldownArray;
 
     CharacterStats characterStats;
     int critMax = 1;
@@ -23,6 +24,7 @@ public class BasicEnemyFunctions : MonoBehaviour, IEnemy
     {
         currentHealth = maxHealth;
         characterStats = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>();
+        abilityCooldownArray = GameObject.FindGameObjectsWithTag("AbilityCooldown");
     }
 
     void Update()
@@ -86,8 +88,13 @@ public class BasicEnemyFunctions : MonoBehaviour, IEnemy
         currentHealth -= amount;
         float currentHealthPercent = (float)currentHealth / (float)maxHealth;
         OnHealthChanged(currentHealthPercent);
-
+        
         characterStats.Leech(amount);
+
+        for (int i = 0; i < abilityCooldownArray.Length; i++)
+        {
+            abilityCooldownArray[i].GetComponent<AbilityCooldown>().currentDamage += amount;
+        }
 
         if (currentHealth <= 0)
         {

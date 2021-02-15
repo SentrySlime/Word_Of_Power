@@ -13,6 +13,8 @@ public class AbilitySelection : MonoBehaviour
     ManageRandomAbility manageRandomAbility;
     CardAbility cardAbilityPrefab;
 
+    public AbilityCooldown abilityCooldown;
+
     //Gameobjects
     GameObject abilityButtonHolder;
     [HideInInspector] public GameObject abilitySelectionPanel;
@@ -100,6 +102,16 @@ public class AbilitySelection : MonoBehaviour
             manageRandomAbility.cardHolderList[i].abilityDescription.text = manageRandomAbility.cardHolderList[i].ability.aDescription;
             manageRandomAbility.cardHolderList[i].abilityImage.sprite = manageRandomAbility.cardHolderList[i].ability.aSprite;
         }
+    }
+
+    public void CurrentlyUsedCooldown(AbilityCooldown currentlyBeingUsed)
+    {
+        abilityCooldown = currentlyBeingUsed;
+    }
+
+    public void CooldownToNull()
+    {
+        abilityCooldown = null;
     }
 
 }

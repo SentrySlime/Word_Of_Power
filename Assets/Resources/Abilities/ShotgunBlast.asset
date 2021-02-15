@@ -16,8 +16,9 @@ MonoBehaviour:
   aDescription: 'Fire chains in a cone '
   aSprite: {fileID: 21300000, guid: e16491828330dca46bab8908c5f612ef, type: 3}
   aSound: {fileID: 0}
-  aBaseCooldown: 0.2
-  aEnergyCost: -2
+  aBaseCooldown: 1
+  aDamageRequirement: 0
+  aEnergyCost: 20
   hitForce: 100
   sphereCastSize: 1
   rayMaterial: {fileID: 0}
@@ -30,3 +31,6 @@ MonoBehaviour:
   bleedPercent: 0
   bleedDuration: 0
   leechAmount: 0.01
+  energyOnHit: 0
+  endAngle: 45
+  startAngle: -45

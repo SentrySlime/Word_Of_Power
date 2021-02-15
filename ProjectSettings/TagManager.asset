@@ -11,6 +11,7 @@ TagManager:
   - Item
   - Energy_Barrier_Bar
   - Object
+  - AbilityCooldown
   layers:
   - Default
   - TransparentFX

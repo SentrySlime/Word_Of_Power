@@ -60,6 +60,8 @@ public class RaycastShootTriggerable : MonoBehaviour
     public float bleedPercentage = 0;
     public float bleedDuration = 0;
 
+    public float energyOnHit = 0;
+
     #endregion
 
     #region Hide stats
@@ -85,6 +87,7 @@ public class RaycastShootTriggerable : MonoBehaviour
     #endregion
 
     BleedTriggerable bleedTriggerable;
+    CharacterStats characterStats;
 
     public GameObject projectileStart;
     public Vector3 currentHitPosition;
@@ -100,6 +103,7 @@ public class RaycastShootTriggerable : MonoBehaviour
     {
         //lineRenderer = GetComponent<LineRenderer>();
         bleedTriggerable = GameObject.FindGameObjectWithTag("Player").GetComponent<BleedTriggerable>();
+        characterStats = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>();
         //rayStart = GameObject.Find("Player").GetComponent<Transform>();
         //rayStart = rayStartPoint;
         if(chainNumbers > 1)
@@ -270,6 +274,8 @@ public class RaycastShootTriggerable : MonoBehaviour
     {
         target.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
 
+        EnergyOnHit();
+
         if(bleedPercentage > 0)
         {
 
@@ -278,5 +284,8 @@ public class RaycastShootTriggerable : MonoBehaviour
     }
 
 
-
+    public void EnergyOnHit()
+    {
+        characterStats.currentEnergy += energyOnHit;
+    }
 }

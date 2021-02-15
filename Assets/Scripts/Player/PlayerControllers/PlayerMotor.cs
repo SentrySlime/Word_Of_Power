@@ -10,7 +10,7 @@ public class PlayerMotor : MonoBehaviour
 {
 
 	public Transform target;
-	NavMeshAgent agent;     // Reference to our NavMeshAgent
+	public NavMeshAgent agent;     // Reference to our NavMeshAgent
 	public CharacterStats characterStats;
 
 	public float speed;

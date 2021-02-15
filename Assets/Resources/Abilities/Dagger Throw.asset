@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6209953a7be555439032a4be028b6a9, type: 3}
-  m_Name: SmallSawBlades
+  m_Name: Dagger Throw
   m_EditorClassIdentifier: 
-  aName: RazorBlades
-  aDescription: Shoots out several small saw blades providing energy
-  aSprite: {fileID: 21300000, guid: 3b4f6d4833dc36d4890805f927e34399, type: 3}
+  aName: Dagger Throw
+  aDescription: Throw out 5 daggers which all give you energy on hits
+  aSprite: {fileID: 21300000, guid: 068d162fe4471cb4390c3c7f5329538f, type: 3}
   aSound: {fileID: 0}
-  aBaseCooldown: 1
+  aBaseCooldown: 0.5
   aDamageRequirement: 0
-  aEnergyCost: -5
+  aEnergyCost: 0
   projectile: {fileID: 6934493033994207555, guid: a4f2276d89f90414eaee3da25fcdd2ce,
     type: 3}
-  damage: 20
-  critChance: 1
-  piercing: 20
+  damage: 50
+  critChance: 5
+  piercing: 0
   chainMax: 0
-  Projectiles: 2
-  bleedPercentage: 0.1
-  bleedDuration: 10
+  Projectiles: 5
+  bleedPercentage: 0
+  bleedDuration: 0
   leechAmount: 0
-  energyOnHit: 0
-  projectileForce: 500
+  energyOnHit: 5
+  projectileForce: 5000
   endAngle: 45
   startAngle: -45

@@ -53,6 +53,8 @@ public class CharacterStats : MonoBehaviour
     public int chain = 0;
     public float bleedPercentage = 0;
     public float bleedDuration = 0;
+
+    public float cooldownModifier = 0;
     #endregion
 
     #region stat Texts
@@ -210,11 +212,24 @@ public class CharacterStats : MonoBehaviour
     public void Leech(float damage)
     {
         int tempAmount = (int)Mathf.Round(damage * (leechAmount + tempAbilityLeech));
-        print(leechAmount);
-        print(tempAbilityLeech);
         currentLife += tempAmount;
         currentLife = Mathf.Clamp(currentLife, 0, maxLife);
         //tempAbilityLeech = 0;
+    }
+
+    public float CooldownModifier(float cooldown)
+    {
+        print(cooldown);
+        print("Cooldown Modifier" + cooldownModifier);
+        float tempNumber = cooldown * cooldownModifier;
+        
+        print(tempNumber);
+        
+        cooldown = cooldown - tempNumber;
+        
+        print(cooldown);
+
+        return cooldown;
     }
 
     public void StatButton(Button statButton)

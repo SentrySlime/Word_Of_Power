@@ -23,7 +23,13 @@ public class ProjectileAbility : Ability
     public float bleedPercentage = 0;
     public float bleedDuration = 0;
     public float leechAmount = 0;
-    public float projectileForce = 500f;
+    public float energyOnHit = 0;
+
+    public float projectileForce = 5000f;
+
+    [Header("Angles")]
+    public float endAngle = 45;
+    public float startAngle = -45;
 
     private void Awake()
     {
@@ -43,6 +49,12 @@ public class ProjectileAbility : Ability
         launcher.bleedPercentage = bleedPercentage + characterStats.bleedPercentage;
         launcher.bleedDuration = bleedDuration + characterStats.bleedDuration;
         characterStats.tempAbilityLeech = leechAmount;
+
+        launcher.energyOnHit = energyOnHit;
+
+
+        launcher.endAngle = endAngle;
+        launcher.startingAngle = startAngle;
 
         launcher.projectileForce = projectileForce;
     }

@@ -77,7 +77,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Crit & Damage
 --- !u!1 &112143679270474415
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 2188889056949402092}
   - component: {fileID: -323635204464725799}
   m_Layer: 5
-  m_Name: chain
+  m_Name: Crit&Damage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -224,12 +224,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7539e1b22f1d34aa05890466044ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
+  damage: 5
   rayRange: 0
   cooldown: 0
-  critChance: 0
+  critChance: 5
   piercemax: 0
-  chain: 7
+  chain: 0
   projectile: 0
   leechAmount: 0
 --- !u!114 &-323635204464725799
@@ -325,7 +325,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Adds chain to your character.
+  m_Text: Increases your critical chance and your damage
 --- !u!1 &112143680899237058
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +390,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1a7ba3df89ac3664c876e2d9d927c45f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 29459432cbdac5949bc23c6aeb30ae7f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

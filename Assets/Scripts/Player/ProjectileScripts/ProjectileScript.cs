@@ -22,6 +22,8 @@ public class ProjectileScript : MonoBehaviour
     public List<GameObject> alreadyChained = new List<GameObject>();
     public List<Collider> tempColliders = new List<Collider>();
 
+    CharacterStats characterStats;
+
     public LayerMask layerMask;
     
     [Header("Primary stats")]
@@ -38,9 +40,12 @@ public class ProjectileScript : MonoBehaviour
     public float bleedPercentage = 0;
     public float bleedDuration = 0;
 
+    public float energyOnHit = 0;
+
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        characterStats = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>();
         pierce = pierceMax;
         chain = chainNumbers;
     }
@@ -115,7 +120,7 @@ public class ProjectileScript : MonoBehaviour
             }
             tempColliders.Clear();
         }
-        else
+        else if(chainTarget.CompareTag("Object"))
         {
             Destroy();
         }
@@ -125,10 +130,16 @@ public class ProjectileScript : MonoBehaviour
     public void DealDamage(GameObject target)
     {
         chainTarget.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
+        EnergyOnHit();
         if(bleedPercentage > 0)
         {
             target.GetComponent<EnemyBleed>().SetBleed(bleedDuration, bleedPercentage);
         }
+    }
+
+    public void EnergyOnHit()
+    {
+        characterStats.currentEnergy += energyOnHit;
     }
 
     public void SetMoveDirection(Vector2 dir)
@@ -145,4 +156,5 @@ public class ProjectileScript : MonoBehaviour
     {
         CancelInvoke();
     }
+
 }

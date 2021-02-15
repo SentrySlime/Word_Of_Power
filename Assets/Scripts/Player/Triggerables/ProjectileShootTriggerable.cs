@@ -22,12 +22,14 @@ public class ProjectileShootTriggerable : MonoBehaviour
 
     public float bleedPercentage = 0;
     public float bleedDuration = 0;
+
+    public float energyOnHit = 0;
     #endregion
 
     #region Multiple projectile angles
 
-    float endAngle = 45f;
-    float startingAngle = -45f;
+    public float endAngle = 45f;
+    public float startingAngle = -45f;
     float fullAngle;
     float currentAngle;
 
@@ -55,15 +57,20 @@ public class ProjectileShootTriggerable : MonoBehaviour
 
             bulletSpawn.transform.localRotation = Quaternion.Euler(0, currentAngle, 0);
 
-            var bob = Instantiate(projectile, bulletSpawn.transform.position, Quaternion.identity);
+            ProjectileScript bob = Instantiate(projectile, bulletSpawn.transform.position, Quaternion.identity).GetComponent<ProjectileScript>();
 
-            bob.GetComponent<ProjectileScript>().damage = damage;
-            bob.GetComponent<ProjectileScript>().criticalChance = criticalChance;
-            bob.GetComponent<ProjectileScript>().pierceMax = piercing;
-            bob.GetComponent<ProjectileScript>().chainNumbers = chain;
 
-            bob.GetComponent<ProjectileScript>().bleedPercentage = bleedPercentage;
-            bob.GetComponent<ProjectileScript>().bleedDuration = bleedDuration;
+
+            bob.damage = damage;
+            bob.criticalChance = criticalChance;
+            bob.pierceMax = piercing;
+            bob.chainNumbers = chain;
+
+            bob.bleedPercentage = bleedPercentage;
+            bob.bleedDuration = bleedDuration;
+
+            bob.energyOnHit = energyOnHit;
+
             bob.GetComponent<Rigidbody>().AddForce(bulletSpawn.transform.forward * projectileForce, ForceMode.Force);
         }
 
