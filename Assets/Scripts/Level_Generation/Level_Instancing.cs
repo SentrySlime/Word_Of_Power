@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Level_Instancing : MonoBehaviour
 {
@@ -12,10 +13,16 @@ public class Level_Instancing : MonoBehaviour
 
     public Vector3 gridOrigin = Vector3.zero;
 
-   
-    private void Start()
+    public List<NavMeshSurface> surfaces = new List<NavMeshSurface>();
+
+    private void Awake()
     {
         SpawnGrid();
+        surfaces[0].BuildNavMesh();
+    }
+
+    private void Start()
+    {
 
     }
 
@@ -33,6 +40,10 @@ public class Level_Instancing : MonoBehaviour
                 
             }
         }
+
+        
+        
+
     }
 
 
@@ -41,6 +52,7 @@ public class Level_Instancing : MonoBehaviour
         int randomIndex = Random.Range(0, itemsToPickFrom.Length);
         GameObject clone = Instantiate(itemsToPickFrom[randomIndex], positionToSpawn, rotationToSpawn);
 
+        surfaces.Add(Instantiate(itemsToPickFrom[randomIndex], positionToSpawn, rotationToSpawn).GetComponent<NavMeshSurface>());
     }
 
 }

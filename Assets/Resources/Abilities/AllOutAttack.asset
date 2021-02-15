@@ -24,8 +24,8 @@ MonoBehaviour:
   damage: 150
   critChance: 1
   piercing: 0
-  chainMax: 35
-  Projectiles: 26
+  chainMax: 0
+  Projectiles: 12
   bleedPercentage: 0
   bleedDuration: 0
   leechAmount: 0
