@@ -3442,7 +3442,7 @@ MonoBehaviour:
   mainSlot: {fileID: 0}
   width: 2
   height: 3
-  allowedItemType: 
+  allowedItemType: Sword
   allowedIds: 
 --- !u!114 &314041219
 MonoBehaviour:
@@ -7420,7 +7420,7 @@ MonoBehaviour:
   player: {fileID: 666047209}
   levelPoint: {fileID: 0}
   distanceAwayFromPlayerToDrop: 1
-  autoEquipItems: 1
+  autoEquipItems: 0
   cell: {fileID: 1902148784}
   cellSize: 30
   padding: 0
@@ -7600,7 +7600,7 @@ MonoBehaviour:
   mainSlot: {fileID: 0}
   width: 1
   height: 1
-  allowedItemType: 
+  allowedItemType: Sword
   allowedIds: 
 --- !u!114 &574632724
 MonoBehaviour:
@@ -12480,7 +12480,7 @@ MonoBehaviour:
   mainSlot: {fileID: 0}
   width: 8
   height: 1
-  allowedItemType: 
+  allowedItemType: Sword
   allowedIds: 
 --- !u!114 &1064260106
 MonoBehaviour:
@@ -21595,7 +21595,7 @@ MonoBehaviour:
   mainSlot: {fileID: 0}
   width: 5
   height: 3
-  allowedItemType: 
+  allowedItemType: Sword
   allowedIds: 
 --- !u!114 &1896580839
 MonoBehaviour:
@@ -24486,12 +24486,12 @@ PrefabInstance:
     - target: {fileID: 3808234270395848018, guid: bd8850a3045cbf0488958fb379eacf6d,
         type: 3}
       propertyPath: width
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3808234270395848018, guid: bd8850a3045cbf0488958fb379eacf6d,
         type: 3}
       propertyPath: height
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3808234270395848018, guid: bd8850a3045cbf0488958fb379eacf6d,
         type: 3}
