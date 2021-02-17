@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: SmallSawBlades
   m_EditorClassIdentifier: 
   aName: RazorBlades
-  aDescription: Shoots out several small saw blades providing energy
+  aDescription: Shoots out 2 small saw blades dealing 20 damage & providing energy
+    5
+  damageNumbers: 
   aSprite: {fileID: 21300000, guid: 3b4f6d4833dc36d4890805f927e34399, type: 3}
   aSound: {fileID: 0}
   aBaseCooldown: 1
@@ -30,6 +32,6 @@ MonoBehaviour:
   bleedDuration: 10
   leechAmount: 0
   energyOnHit: 0
-  projectileForce: 500
+  projectileForce: 5000
   endAngle: 45
   startAngle: -45

@@ -7,7 +7,7 @@ public class ProjectileShootTriggerable : MonoBehaviour
     [HideInInspector]
     public Rigidbody projectile;
     public Transform bulletSpawn;
-
+    public CharacterStats characterStats;
     [HideInInspector]
 
     #region Projectile properties
@@ -59,7 +59,7 @@ public class ProjectileShootTriggerable : MonoBehaviour
 
             ProjectileScript bob = Instantiate(projectile, bulletSpawn.transform.position, Quaternion.identity).GetComponent<ProjectileScript>();
 
-
+            bob.characterStats = characterStats;
 
             bob.damage = damage;
             bob.criticalChance = criticalChance;
@@ -74,7 +74,7 @@ public class ProjectileShootTriggerable : MonoBehaviour
             bob.GetComponent<Rigidbody>().AddForce(bulletSpawn.transform.forward * projectileForce, ForceMode.Force);
         }
 
-        bulletSpawn.transform.rotation = Quaternion.Euler(0, 0, 0);
+        bulletSpawn.transform.localRotation= Quaternion.Euler(0, 0, 0);
 
 
     }

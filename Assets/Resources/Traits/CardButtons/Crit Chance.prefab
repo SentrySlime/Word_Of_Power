@@ -227,7 +227,7 @@ MonoBehaviour:
   damage: 0
   rayRange: 0
   cooldown: 0
-  critChance: 2
+  critChance: 10
   piercemax: 0
   chain: 0
   projectile: 0

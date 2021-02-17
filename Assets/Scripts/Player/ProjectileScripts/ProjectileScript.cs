@@ -22,14 +22,13 @@ public class ProjectileScript : MonoBehaviour
     public List<GameObject> alreadyChained = new List<GameObject>();
     public List<Collider> tempColliders = new List<Collider>();
 
-    CharacterStats characterStats;
+    public CharacterStats characterStats;
 
     public LayerMask layerMask;
     
     [Header("Primary stats")]
     public float damage;
     public int criticalChance = 1;
-    int bob = 0;
     [HideInInspector]
     public int pierce = 0;
     public int pierceMax = 0;
@@ -143,7 +142,8 @@ public class ProjectileScript : MonoBehaviour
 
     public void EnergyOnHit()
     {
-        characterStats.currentEnergy += energyOnHit;
+        characterStats.EnergyOnHit(energyOnHit);
+        //characterStats.currentEnergy += energyOnHit;
     }
 
     public void SetMoveDirection(Vector2 dir)

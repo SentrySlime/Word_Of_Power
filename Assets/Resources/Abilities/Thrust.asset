@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f71b86f959d3234aaf6527cd45ba969, type: 3}
+  m_Name: Thrust
+  m_EditorClassIdentifier: 
+  aName: Thrust
+  aDescription: A thrust piercing all targets in line dealing 200 damage
+  damageNumbers: 
+  aSprite: {fileID: 21300000, guid: 33544913078cab24693e2641e2b575d7, type: 3}
+  aSound: {fileID: 0}
+  aBaseCooldown: 0.8
+  aDamageRequirement: 0
+  aEnergyCost: 0
+  attackCollider: {fileID: 8620918256384855354, guid: 3e03e26c0b1ea664d8e6fd020c93cb95,
+    type: 3}
+  attackPos: {fileID: 0}
+  meleeTrigger: {fileID: 0}
+  damage: 200
+  critChance: 1
+  range: 0
+  bleedPercentage: 0
+  bleedDuration: 0
+  leechAmount: 0
+  energyOnHit: 0

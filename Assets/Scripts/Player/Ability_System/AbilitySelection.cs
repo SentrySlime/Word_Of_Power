@@ -50,8 +50,6 @@ public class AbilitySelection : MonoBehaviour
 
             manageRandomAbility.cardHolderList[i].ability = abilityButtonList[i].ability;                           //Then sets the ability of the corresponding button
 
-            
-
         }
         AbilityButtonVisual();
         InitializeCards();
@@ -101,6 +99,7 @@ public class AbilitySelection : MonoBehaviour
             manageRandomAbility.cardHolderList[i].abilityName.text = manageRandomAbility.cardHolderList[i].ability.aName;
             manageRandomAbility.cardHolderList[i].abilityDescription.text = manageRandomAbility.cardHolderList[i].ability.aDescription;
             manageRandomAbility.cardHolderList[i].abilityImage.sprite = manageRandomAbility.cardHolderList[i].ability.aSprite;
+            manageRandomAbility.cardHolderList[i].abilityCooldownText.text = "AtkSpeed:  " + manageRandomAbility.cardHolderList[i].ability.aBaseCooldown.ToString();
         }
     }
 

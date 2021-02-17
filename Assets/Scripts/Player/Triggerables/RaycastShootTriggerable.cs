@@ -175,7 +175,7 @@ public class RaycastShootTriggerable : MonoBehaviour
 
         }
         
-        projectileStart.transform.rotation = Quaternion.Euler(0, 0, 0);
+        projectileStart.transform.localRotation = Quaternion.Euler(0, 0, 0);
 
     }
 
@@ -191,7 +191,6 @@ public class RaycastShootTriggerable : MonoBehaviour
                 ChainMethod(hit);
             }
             DealDamage(hit.transform.gameObject);
-            //hit.transform.gameObject.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
 
             //play sound here
             pierce--;
@@ -257,7 +256,6 @@ public class RaycastShootTriggerable : MonoBehaviour
                 if (nearest.transform.CompareTag("Enemy"))
                 {
                     DealDamage(nearest.gameObject);
-                    //nearest.gameObject.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
                 }
                 //and play sound here
 
@@ -286,6 +284,6 @@ public class RaycastShootTriggerable : MonoBehaviour
 
     public void EnergyOnHit()
     {
-        characterStats.currentEnergy += energyOnHit;
+        characterStats.EnergyOnHit(energyOnHit);
     }
 }

@@ -12,7 +12,6 @@ public class AddTRaits : MonoBehaviour
 
     public GameObject traitTemplet;
     public GameObject traitContainer;
-
     public Image traitImage;
 
     public AbilityStatChange abilityStatChange;
@@ -22,7 +21,13 @@ public class AddTRaits : MonoBehaviour
 
         GetComponent<Button>().onClick.AddListener(AddToOwnedTraits);
 
-        abilityStatChange = GetComponent<AbilityStatChange>();
+        if(gameObject.GetComponent<AbilityStatChange>() != null)
+        {
+            abilityStatChange = GetComponent<AbilityStatChange>();
+        }
+
+
+        
         manageRandomTrait = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomTrait>();
         manageRandomAbility = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomAbility>(); 
         traitTemplet = Resources.Load<GameObject>("Traits/TraitImages/TraitTemplet");

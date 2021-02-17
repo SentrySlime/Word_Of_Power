@@ -15,29 +15,28 @@ public class CardAbility : MonoBehaviour
     [HideInInspector] public Text abilityDescription;
     [HideInInspector] public Image abilityImage;
     [HideInInspector] public Text abilityName;
+     public Text abilityCooldownText;
     Button cardButton;
 
+    public CharacterStats characterStats;
 
     private void Awake()
     {
-
+        characterStats = GameObject.Find("Player").GetComponent<CharacterStats>();
         abilitySelection = GameObject.Find("AbilitySelection").GetComponent<AbilitySelection>();
-
         manageRandomAbility = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomAbility>();
         manageRandomTrait = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomTrait>();
-
         cardButton = GetComponent<Button>();
-
         cardButton.onClick.AddListener(AddToOwnedAbilities);
-        
     }
 
-    public void SetCardAbility()
-    {
-        abilityImage.sprite = ability.aSprite;
-        abilityName.text = ability.aName;
-        abilityDescription.text = ability.aDescription;
-    }
+    //public void SetCardAbility()
+    //{
+    //    abilityImage.sprite = ability.aSprite;
+    //    abilityName.text = ability.aName;
+    //    abilityDescription.text = ability.aDescription;
+
+    //}
 
     public void AddToOwnedAbilities()
     {

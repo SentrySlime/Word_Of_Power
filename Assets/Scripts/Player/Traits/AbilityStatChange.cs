@@ -5,12 +5,19 @@ using UnityEngine;
 public class AbilityStatChange : MonoBehaviour
 {
 
+    [Header("Character_Stats")]
+    public float HP;
+    public float MP;
+    public float EB;
+    public float defence;
 
-
+    [Header("Primary Stats")]
     public float damage;
     public float rayRange;
     public float cooldown;
     public int critChance;
+
+    [Header("Extra Stats")]
     public int piercemax;
     public int chain;
     public int projectile;
@@ -27,6 +34,10 @@ public class AbilityStatChange : MonoBehaviour
 
     public void ChangeNumbers()
     {
+        HPIncrease();
+        MPIncrease();
+        EBIncrease();
+        IncreaseDefence();
         characterStats.power += damage;
         characterStats.range += rayRange;
         characterStats.criticalChance += critChance;
@@ -38,23 +49,29 @@ public class AbilityStatChange : MonoBehaviour
     }
 
 
-    public void ChangeDamage(float damage)
+    public void HPIncrease()
     {
-        
+        characterStats.maxLife += HP;
+        characterStats.SetMaxLife();
     }
 
-    public void ChangeCritChance(int critChance)
+    public void MPIncrease()
     {
-
+        characterStats.maxEnergy += MP;
+        characterStats.SetMaxEnergy(); ;
     }
-    public void ChangeRange(float range)
+
+    public void EBIncrease()
     {
-
+        characterStats.maxEnergyBarrier += EB;
+        characterStats.SetMaxEnergyBarrier();
     }
-    public void ChangePierce(int pierce)
+    
+    public void IncreaseDefence()
     {
-
+        characterStats.AddDefence(defence, 0);
     }
+
     public void ChangeChain(int chain)
     {
 

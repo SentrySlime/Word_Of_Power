@@ -1010,7 +1010,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &92840800
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3450,6 +3450,7 @@ GameObject:
   - component: {fileID: 586242234}
   - component: {fileID: 586242244}
   - component: {fileID: 586242245}
+  - component: {fileID: 586242246}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3571,7 +3572,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586242233}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -22.985, z: -60.92}
+  m_LocalPosition: {x: 0, y: -22.79, z: -60.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1360198534}
@@ -3602,12 +3603,12 @@ MonoBehaviour:
   currentLevel: 1
   currentExp: 0
   expToNextLevel: 100
-  AAPoint: 12
+  AAPoint: 20
   power: 0
   baseDefence: 0
   vitality: 0
   spirit: 0
-  speed: 24
+  speed: 25
   criticalChance: 0
   skillPoints: 0
   projectiles: 0
@@ -3617,6 +3618,8 @@ MonoBehaviour:
   bleedPercentage: 0
   bleedDuration: 0
   cooldownModifier: 0
+  energyLeech: 0
+  finalDefence: 0
 --- !u!114 &586242242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3769,6 +3772,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 0}
   bulletSpawn: {fileID: 1526452411}
+  characterStats: {fileID: 0}
   damage: 0
   criticalChance: 1
   Projectiles: 1
@@ -3793,6 +3797,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7539e1b22f1d34aa05890466044ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HP: 0
+  MP: 0
+  EB: 0
+  defence: 0
   damage: 0
   rayRange: 0
   cooldown: 0
@@ -3801,6 +3809,27 @@ MonoBehaviour:
   chain: 0
   projectile: 0
   leechAmount: 0
+--- !u!114 &586242246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586242233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a4db92fdab5df944b1784a57ab25b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackCollider: {fileID: 0}
+  attackPos: {fileID: 1526452411}
+  damage: 0
+  critChance: 0
+  range: 0
+  bleedPercentage: 0
+  bleedDuration: 0
+  leechAmount: 0
+  energyOnHit: 0
 --- !u!1 &596497017
 GameObject:
   m_ObjectHideFlags: 0
@@ -4307,7 +4336,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &689869458
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4530,7 +4559,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 44c9dbef811a23f488fcd5754bb9e8aa, type: 2}
+  - {fileID: 2100000, guid: 468f550430675ff49b4def924d67bafe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8235,7 +8264,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ff2a91cc97232924ab21c09aa1b7c479, type: 2}
+  - {fileID: 2100000, guid: 468f550430675ff49b4def924d67bafe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8295,11 +8324,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemsToPickFrom:
   - {fileID: 4058375969452233947, guid: dde01ec0b87b57d4ca24156f7c78e2bf, type: 3}
-  gridX: 4
-  gridZ: 4
-  gridSpacingOffset: 20
-  gridOrigin: {x: 0, y: -22.985, z: -77.36}
+  gridX: 3
+  gridZ: 3
+  gridSpacingOffset: 60
+  gridOrigin: {x: -21.54, y: -22.985, z: -71.39}
   surfaces: []
+  forestSuroudning: {fileID: 0}
 --- !u!4 &1369068159
 Transform:
   m_ObjectHideFlags: 0
@@ -8584,7 +8614,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1526452410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.89, z: 1.59}
+  m_LocalPosition: {x: 0, y: 0.89, z: 1.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 586242240}
@@ -11876,6 +11906,8 @@ MonoBehaviour:
   abilityDescription: {fileID: 0}
   abilityImage: {fileID: 0}
   abilityName: {fileID: 0}
+  abilityCooldownText: {fileID: 0}
+  characterStats: {fileID: 0}
 --- !u!1 &2124910322
 GameObject:
   m_ObjectHideFlags: 0
@@ -12342,16 +12374,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4058375969452233951, guid: dde01ec0b87b57d4ca24156f7c78e2bf,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4058375969452233951, guid: dde01ec0b87b57d4ca24156f7c78e2bf,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dde01ec0b87b57d4ca24156f7c78e2bf, type: 3}

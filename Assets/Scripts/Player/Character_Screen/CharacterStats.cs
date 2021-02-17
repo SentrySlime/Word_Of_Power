@@ -57,6 +57,12 @@ public class CharacterStats : MonoBehaviour
     public float cooldownModifier = 0;
     #endregion
 
+    #region Bools
+
+    public bool energyLeech;
+
+    #endregion
+
     #region stat Texts
     //Text Slots for the stat numbers
     Text powerSlot;
@@ -87,7 +93,7 @@ public class CharacterStats : MonoBehaviour
 
     float additiveDefence = 0;
     float percentDefence = 1;
-    float finalDefence = 0;
+    public float finalDefence = 0;
     #endregion
 
     private void Awake()
@@ -215,19 +221,29 @@ public class CharacterStats : MonoBehaviour
         currentLife += tempAmount;
         currentLife = Mathf.Clamp(currentLife, 0, maxLife);
         //tempAbilityLeech = 0;
+
+        if(energyLeech == true)
+        {
+            currentEnergy += tempAmount;
+            currentEnergy = Mathf.Clamp(currentEnergy, 0, maxEnergy);
+        }
+
+    }
+
+
+    public void EnergyOnHit(float energy)
+    {
+
+        currentEnergy += energy;
+        currentEnergy = Mathf.Clamp(currentEnergy, 0, maxEnergy);
+
     }
 
     public float CooldownModifier(float cooldown)
     {
-        print(cooldown);
-        print("Cooldown Modifier" + cooldownModifier);
         float tempNumber = cooldown * cooldownModifier;
         
-        print(tempNumber);
-        
         cooldown = cooldown - tempNumber;
-        
-        print(cooldown);
 
         return cooldown;
     }
@@ -334,6 +350,28 @@ public class CharacterStats : MonoBehaviour
     {
         currentLife = maxLife;
     }
+    #endregion
+
+    #region Energy Barrier
+    public void IncreaseMaxEB(float ebIncrease)
+    {
+        maxEnergyBarrier *= ebIncrease;
+
+        SetMaxEnergyBarrier();
+    }
+
+    public void SetMaxEnergyBarrier()
+    {
+        energy_Barrier_Bar.maxValue = maxEnergyBarrier;
+    }
+
+    public void ToMaxEnergyBarrier()
+    {
+        currentEnergyBarrier = maxEnergyBarrier;
+    }
+    
+
+
     #endregion
 
     #region EnergySettings
