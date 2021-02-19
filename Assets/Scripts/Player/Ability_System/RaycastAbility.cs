@@ -53,7 +53,7 @@ public class RaycastAbility : Ability
         rcShoot = obj.GetComponent<RaycastShootTriggerable>();
         rcShoot.Initialize();
 
-        rcShoot.damage = damage + characterStats.power;
+        rcShoot.damage = damage + characterStats.finalPower;
         rcShoot.criticalChance = critChance + characterStats.criticalChance;
         rcShoot.rayRange = rayRange + characterStats.range;
         rcShoot.pierceMax = piercemax + characterStats.pierce;

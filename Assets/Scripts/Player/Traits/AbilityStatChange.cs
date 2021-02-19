@@ -5,11 +5,21 @@ using UnityEngine;
 public class AbilityStatChange : MonoBehaviour
 {
 
-    [Header("Character_Stats")]
-    public float HP;
-    public float MP;
-    public float EB;
-    public float defence;
+    [Header("HP")]
+    public int HPflat;
+    public float HPpercent;
+
+    [Header("MP")]
+    public int MPflat;
+    public float MPpercent;
+
+    [Header("EB")]
+    public int EBflat;
+    public float EBpercent;
+
+    [Header("Defence")]
+    public int defenceFlat;
+    public float defencePercent;
 
     [Header("Primary Stats")]
     public float damage;
@@ -38,7 +48,7 @@ public class AbilityStatChange : MonoBehaviour
         MPIncrease();
         EBIncrease();
         IncreaseDefence();
-        characterStats.power += damage;
+        characterStats.finalPower += damage;
         characterStats.range += rayRange;
         characterStats.criticalChance += critChance;
         characterStats.pierce += piercemax;
@@ -51,25 +61,25 @@ public class AbilityStatChange : MonoBehaviour
 
     public void HPIncrease()
     {
-        characterStats.maxLife += HP;
+        characterStats.AddLife(HPflat, HPpercent);
         characterStats.SetMaxLife();
     }
 
     public void MPIncrease()
     {
-        characterStats.maxEnergy += MP;
-        characterStats.SetMaxEnergy(); ;
+        characterStats.AddEnergy(MPflat, MPpercent);
+        characterStats.SetMaxEnergy();
     }
 
     public void EBIncrease()
     {
-        characterStats.maxEnergyBarrier += EB;
+        characterStats.AddEnergyBarrier(EBflat, EBpercent);
         characterStats.SetMaxEnergyBarrier();
     }
     
     public void IncreaseDefence()
     {
-        characterStats.AddDefence(defence, 0);
+        characterStats.AddDefence(defenceFlat, defencePercent);
     }
 
     public void ChangeChain(int chain)

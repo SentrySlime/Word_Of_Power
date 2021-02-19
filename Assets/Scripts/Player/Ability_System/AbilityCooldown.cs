@@ -59,6 +59,7 @@ public class AbilityCooldown : MonoBehaviour
         ability.Initialize(weaponHolder);
         //characterStats.CooldownModifier(coolDownDuration);
         coolDownDuration = characterStats.CooldownModifier(coolDownDuration);
+        print(coolDownDuration);
         AbilityReady();
     }
 

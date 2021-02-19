@@ -5,19 +5,25 @@ using UnityEngine.UI;
 
 public class CharacterStats : MonoBehaviour
 {
-    [Header("Life")]
+    [Header("Life")] 
     public float currentLife;
     public float maxLife;
+    float percentBasedLife = 1;
+    int addativeLife;
     Slider life_Bar;
 
     [Header("Energy Barrier")]
     public float currentEnergyBarrier;
     public float maxEnergyBarrier;
+    int addativeEnergyBarrier;
+    float percentBasedEnergyBarrier = 1;
     Slider energy_Barrier_Bar;
 
     [Header("Energy")]
-    public float currentEnergy;
     public float maxEnergy;
+    public float currentEnergy;
+    int addaTiveEnergy;
+    float percentBasedEnergy = 1;
     Slider energy_Bar;
 
     [Header("Leeching")]
@@ -32,27 +38,31 @@ public class CharacterStats : MonoBehaviour
 
 
     public int AAPoint;
+    public float skillPoints;
     float remainderExp;      //The overkill exp transfered between levels
 
     #region stats numbers
     //Thses stats where chosen as they are the most prevalent, as in these stats can make up for the player is lacking in terms of gear and skills. In other words, if the player is lacking in something 
     //because RNG wasn't kind to them then they have a chance to make up for that themselvs. It's sort of a safety net, plus it feels really good to allocate the skillpoints "enpowering the player".
     [Header("Stats")]
-    public float power;                 //Increases the raw damage output
+    public float basePower;
     public float baseDefence;               //Increases the flat damage reduction of incoming damage
-    public float vitality;              //Increase the max life( this stat is divided by ten then added)
+    public int vitality;              //Increase the max life( this stat is divided by ten then added)
     public float spirit;                //Increase the max energy
     public float speed;                 //Increases the players movement speed
     public int criticalChance;        //Increase the critical hit chance of attacks
-    public float skillPoints;
+
+    [Header("Final Stats")]
+    public float finalArmour = 0;
+    public float finalPower = 0;                 //Increases the raw damage output
 
     [Header("Extra sts")]
-    public int projectiles = 0;
-    public float range = 0;
-    public int pierce = 0;
-    public int chain = 0;
-    public float bleedPercentage = 0;
-    public float bleedDuration = 0;
+    [HideInInspector] public int projectiles = 0;
+    [HideInInspector] public float range = 0;
+    [HideInInspector] public int pierce = 0;
+    [HideInInspector] public int chain = 0;
+    [HideInInspector] public float bleedPercentage = 0;
+    [HideInInspector] public float bleedDuration = 0;
 
     public float cooldownModifier = 0;
     #endregion
@@ -91,11 +101,16 @@ public class CharacterStats : MonoBehaviour
 
     #region Calculation Variables
 
-    float additiveDefence = 0;
-    float percentDefence = 1;
-    public float finalDefence = 0;
+    int addativePower = 0;
+    float percentPower = 1;
+
+    int additiveArmour = 0;
+    float percentArmour = 1;
+    
     #endregion
 
+    public float totArmorReduction;
+    public float lifeTaken;
     private void Awake()
     {
         manageRandomAbility = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomAbility>();
@@ -143,14 +158,17 @@ public class CharacterStats : MonoBehaviour
         defenceButton = GameObject.Find("DefenceButton").GetComponent<Button>();
         defenceButton.onClick.AddListener(() => StatButton(defenceButton));
 
+        powerButton = GameObject.Find("PowerButton").GetComponent<Button>();
+        powerButton.onClick.AddListener(() => StatButton(powerButton));
+
         #endregion
 
         #region statsStart
         //Initialize the stat values
         IncreasePower(0);
         IncreaseDefence(0);
-        IncreaseVitality(15);
-        IncreaseSpirit(15);
+        IncreaseVitality(0);
+        IncreaseSpirit(0);
         IncreaseSpeed(0);
         IncreaseCriticalChance(0);
         UpdateSkillPoints();
@@ -171,29 +189,30 @@ public class CharacterStats : MonoBehaviour
     //Update
     void Update()
     {
-        
         life_Bar.value = currentLife;
         energy_Barrier_Bar.value = currentEnergyBarrier;
         energy_Bar.value = currentEnergy;
         expBar.value = currentExp;
-
         if(currentExp >= expToNextLevel)
         {
             LevelUp();
         }
 
-        if(Input.GetKeyDown(KeyCode.H))
+        if(Input.GetKeyDown(KeyCode.G))
         {
-            TakeDamage(10);
-
+            AddDefence(100, 0);
         }
 
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            FinalDefenceReduction(100);
+        }
     }
 
     public void FinalDefenceReduction(float incomingDamage)    //the incoming damage gets the defence bonus applied to it
     {
-        incomingDamage -= finalDefence;
-
+        totArmorReduction = finalArmour / (finalArmour + 10 * incomingDamage);
+        incomingDamage -= (lifeTaken = incomingDamage * totArmorReduction);
         TakeDamage(incomingDamage);                         
     }
 
@@ -202,6 +221,7 @@ public class CharacterStats : MonoBehaviour
         if(currentEnergyBarrier > 0)
         {
             currentEnergyBarrier -= handledDamage;
+            currentEnergyBarrier = Mathf.Clamp(currentEnergyBarrier, 0, maxEnergyBarrier);
         }
         else if(currentEnergyBarrier <= 0)
         {
@@ -229,7 +249,6 @@ public class CharacterStats : MonoBehaviour
         }
 
     }
-
 
     public void EnergyOnHit(float energy)
     {
@@ -271,16 +290,21 @@ public class CharacterStats : MonoBehaviour
             {
                 IncreaseDefence(1);
             }
-
+            else if(statButton == powerButton)
+            {
+                IncreasePower(1);
+            }
             UpdateSkillPoints();
         }
     }
 
+
     #region Stats 
     public void IncreasePower(float increaseInPower)
     {
-        power += increaseInPower;
-        powerSlot.text = power.ToString();
+        basePower += increaseInPower;
+        powerSlot.text = basePower.ToString();
+        PowerCalculation();
     }
 
     public void IncreaseDefence(float increaseInDefence)
@@ -290,27 +314,19 @@ public class CharacterStats : MonoBehaviour
         DefenceCalculation();
     }
 
-    public void IncreaseVitality(float increaseInVitality)          //this method takes a number and divides it by 10 and then adds the percentage to Life (15 = 1.5 = 50%)   (12.5 = 1.25 = 25%)   (10.7 = .07 = 7%) 
+    public void IncreaseVitality(int increaseInVitality)          //this method takes a number and divides it by 10 and then adds the percentage to Life (15 = 1.5 = 50%)   (12.5 = 1.25 = 25%)   (10.7 = .07 = 7%) 
     {
-        if (vitality != 0)                                          //If vitality is zero don't decrease it
-        {
-            DecreaseMaxLife(vitality/ 10);                          //Removes the previous amount of the vitality bonus
-        }
         vitality += increaseInVitality;                             //Sets vitality to it's new value
         vitalitySlot.text = vitality.ToString();                    //Sets the value text to the updated value
-        IncreaseMaxLife(vitality / 10);                             //Increase life with the updatved vitality value
+        IncreaseMaxLife();
     }
 
     public void IncreaseSpirit(float increaseInSpirit)
     {
-        if (spirit != 0)                                            //If spirit is zero don't decrease it
-        {
-            DecreaseMaxEnergy(spirit / 10);                         //Removes the previous amount of the spirit bonus
-        }
-
         spirit += increaseInSpirit;                                 //Sets vitality to it's new value
         spiritSlot.text = spirit.ToString();                        //Sets the value text to the updated value
-        IncreaseMaxEnergy(spirit / 10);                             //Increase energy with the updatved spirit value
+        IncreaseMaxEnergy();                             //Increase energy with the updatved spirit value
+        IncreaseMaxEB();
     }
 
     public void IncreaseSpeed(float increaseInSpeed)
@@ -327,11 +343,22 @@ public class CharacterStats : MonoBehaviour
     }
     #endregion
 
+
+
+
     #region LifeSettings
+    
     //These are the life settings
-    public void IncreaseMaxLife(float LifeIncrease)                 //Increase life by a percentage
+    public void AddLife(int plusLife, float percentLife)
     {
-        maxLife *= LifeIncrease;
+        addativeLife += plusLife;
+        percentBasedLife += percentLife;
+        IncreaseMaxLife();
+    }
+
+    public void IncreaseMaxLife()                 //Increase life by a percentage
+    {
+        maxLife = ((vitality * 5) + addativeLife) * percentBasedLife;
         SetMaxLife();
     }
 
@@ -352,11 +379,17 @@ public class CharacterStats : MonoBehaviour
     }
     #endregion
 
-    #region Energy Barrier
-    public void IncreaseMaxEB(float ebIncrease)
-    {
-        maxEnergyBarrier *= ebIncrease;
+    #region Energy Barrier Settings
 
+    public void AddEnergyBarrier(int plusEB, float percentEB)
+    {
+        addativeEnergyBarrier += plusEB;
+        percentBasedEnergyBarrier += percentEB;
+    }
+
+    public void IncreaseMaxEB()
+    {
+        maxEnergyBarrier = ((spirit *5)+ addativeEnergyBarrier) * percentBasedEnergyBarrier;
         SetMaxEnergyBarrier();
     }
 
@@ -376,9 +409,17 @@ public class CharacterStats : MonoBehaviour
 
     #region EnergySettings
     //These are the energy settings
-    public void IncreaseMaxEnergy(float energyIncrease)
+
+    public void AddEnergy(int plusEnergy, float percentEnergy)
     {
-        maxEnergy *= energyIncrease;
+        addaTiveEnergy += plusEnergy;
+        percentBasedEnergy += percentEnergy;
+        IncreaseMaxEnergy();
+    }
+
+    public void IncreaseMaxEnergy()
+    {
+        maxEnergy = ((spirit *5)+ addaTiveEnergy) * percentBasedEnergy;
         SetMaxEnergy();
     }
 
@@ -404,7 +445,6 @@ public class CharacterStats : MonoBehaviour
     public void IncreaseExp(float expReward)
     {
         currentExp += expReward;
-
     }
 
     public void SetExpToNextLevel()             //This increases the exp needed for the next level
@@ -429,6 +469,7 @@ public class CharacterStats : MonoBehaviour
 
         ToMaxLife();
         ToMaxEnergy();
+        ToMaxEnergyBarrier();
 
         skillPoints += 3;
         AAPoint++;
@@ -455,28 +496,54 @@ public class CharacterStats : MonoBehaviour
     #region Calculate Stats
 
     #region Defence
-    public void AddDefence(float flatIncrease, float percentIncrease)
+    public void AddDefence(int flatIncrease, float percentIncrease)
     {
-        additiveDefence += flatIncrease;
-        percentDefence += percentIncrease;
+        additiveArmour += flatIncrease;
+        percentArmour += percentIncrease;
         DefenceCalculation();
     }
 
-    public void RemoveDefence(float flatDecrease, float percentDecrease)
+    public void RemoveDefence(int flatDecrease, float percentDecrease)
     {
-        additiveDefence -= flatDecrease;
-        percentDefence -= percentDecrease;
+        additiveArmour -= flatDecrease;
+        percentArmour -= percentDecrease;
         DefenceCalculation();
     }
 
     public void DefenceCalculation()
     {
-        finalDefence = (additiveDefence + baseDefence) * percentDefence;
-        //print(finalDefence);
+        finalArmour = ((baseDefence * 40) + additiveArmour) * percentArmour;
+        PowerCalculation();
+
     }
 
     #endregion
 
+
+    #region Power
+
+
+    public void AddPower(int flatIncrease, float percentIncrease)
+    {
+        addativePower += flatIncrease;
+        percentPower += percentIncrease;
+        PowerCalculation();
+    }
+
+    public void PowerCalculation()
+    {
+        finalPower = ((basePower * 5) + addativePower) * percentPower;
+        //finalPower = ((basePower * 5) + (finalArmour / 10) + addativePower) * percentPower;
+
+        //if(defenceBasedPower == true)
+        //{
+
+
+        //}
+
+    }
+
+    #endregion
 
     #endregion
 

@@ -43,7 +43,7 @@ public class ProjectileAbility : Ability
         launcher.piercing = piercing + characterStats.pierce;
         launcher.chain = chainMax + characterStats.chain;
         launcher.Projectiles = Projectiles + characterStats.projectiles;
-        launcher.damage = damage + characterStats.power;
+        launcher.damage = damage + characterStats.finalPower;
         launcher.criticalChance = critChance + characterStats.criticalChance;
 
         launcher.bleedPercentage = bleedPercentage + characterStats.bleedPercentage;

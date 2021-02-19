@@ -224,7 +224,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7539e1b22f1d34aa05890466044ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  HPflat: 0
+  HPpercent: -0.5
+  MPflat: 0
+  MPpercent: 0
+  EBflat: 0
+  EBpercent: 0
+  defenceFlat: 0
+  defencePercent: 0
+  damage: 100
   rayRange: 0
   cooldown: 0
   critChance: 0
@@ -325,7 +333,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Adds power to your character
+  m_Text: Increases your damage by +50% but reduces life by -50%
 --- !u!1 &112143680899237058
 GameObject:
   m_ObjectHideFlags: 0
