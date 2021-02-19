@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aName: Fireball
   aDescription: Sends out a fiery projectile which burns enemies
+  damageNumbers: 
   aSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   aSound: {fileID: 0}
-  aBaseCooldown: 0.2
+  aBaseCooldown: 0.35
   aDamageRequirement: 0
   aEnergyCost: 5
   projectile: {fileID: 6934493033994207555, guid: a4f2276d89f90414eaee3da25fcdd2ce,

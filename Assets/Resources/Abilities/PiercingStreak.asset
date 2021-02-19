@@ -15,7 +15,7 @@ MonoBehaviour:
   aName: PiercingStreak
   aDescription: An attack which pierces 2 & deals 100
   damageNumbers: 
-  aSprite: {fileID: 21300000, guid: b740932467cdea743bb1838c2101798f, type: 3}
+  aSprite: {fileID: 21300000, guid: c623269308e8b25438297e6ad21624b6, type: 3}
   aSound: {fileID: 0}
   aBaseCooldown: 1
   aDamageRequirement: 0

@@ -15,7 +15,7 @@ public class ProjectileAbility : Ability
     public float damage = 20;
     public int critChance = 1;
     public int piercing = 0;
-    public int chainMax = 0;
+    public int chainMax = 1;
     public int Projectiles = 1;
     #endregion
 

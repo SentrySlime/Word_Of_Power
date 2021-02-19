@@ -32,7 +32,8 @@ public class ProjectileScript : MonoBehaviour
     [HideInInspector]
     public int pierce = 0;
     public int pierceMax = 0;
-    int chain = 0;
+    [Header("Chaining Bullshit")]
+    public int chain = 0;
     public int chainNumbers = 0;
 
     [Header("Extra stats")]
@@ -63,7 +64,7 @@ public class ProjectileScript : MonoBehaviour
         else if (chain >= 1)
         {
             ChainMethod();
-            chain--;
+            
         }
         else
         {
@@ -116,6 +117,7 @@ public class ProjectileScript : MonoBehaviour
                 rb.AddForce(nextenemyDirection * moveSpeed, ForceMode.Force);
                 alreadyChained.Add(nearest.gameObject);
                 chainNumbers--;
+                chain--;
             }
             tempColliders.Clear();
         }

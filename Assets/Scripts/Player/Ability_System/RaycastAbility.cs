@@ -21,7 +21,7 @@ public class RaycastAbility : Ability
     public int critChance = 1;
     public float rayRange = 50f;
     public int piercemax = 1;
-    public int chain = 0;
+    public int chain = 1;
     public int projectiles = 1;
     #endregion
 

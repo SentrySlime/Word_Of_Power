@@ -28,8 +28,8 @@ MonoBehaviour:
   piercing: 20
   chainMax: 0
   Projectiles: 2
-  bleedPercentage: 0.1
-  bleedDuration: 10
+  bleedPercentage: 0.01
+  bleedDuration: 6
   leechAmount: 0
   energyOnHit: 0
   projectileForce: 5000

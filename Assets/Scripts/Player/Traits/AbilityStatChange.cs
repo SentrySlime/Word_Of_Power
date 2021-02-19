@@ -21,8 +21,12 @@ public class AbilityStatChange : MonoBehaviour
     public int defenceFlat;
     public float defencePercent;
 
+    [Header("Power")]
+    public int flatPower;
+    public float percentPower;
+
+
     [Header("Primary Stats")]
-    public float damage;
     public float rayRange;
     public float cooldown;
     public int critChance;
@@ -48,7 +52,7 @@ public class AbilityStatChange : MonoBehaviour
         MPIncrease();
         EBIncrease();
         IncreaseDefence();
-        characterStats.finalPower += damage;
+        IncreasePower();
         characterStats.range += rayRange;
         characterStats.criticalChance += critChance;
         characterStats.pierce += piercemax;
@@ -80,6 +84,12 @@ public class AbilityStatChange : MonoBehaviour
     public void IncreaseDefence()
     {
         characterStats.AddDefence(defenceFlat, defencePercent);
+    }
+
+    public void IncreasePower()
+    {
+        characterStats.AddPower(flatPower, percentPower);
+
     }
 
     public void ChangeChain(int chain)

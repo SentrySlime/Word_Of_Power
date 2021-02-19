@@ -232,7 +232,8 @@ MonoBehaviour:
   EBpercent: 0
   defenceFlat: 0
   defencePercent: 0
-  damage: 0
+  flatPower: 0
+  percentPower: 0
   rayRange: 0
   cooldown: 0.2
   critChance: 0
@@ -322,7 +323,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 10
+    m_FontSize: 8
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -333,7 +334,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Reduces the cooldown of attacks
+  m_Text: Reduces the cooldown of attacks by -20%
 --- !u!1 &112143680899237058
 GameObject:
   m_ObjectHideFlags: 0

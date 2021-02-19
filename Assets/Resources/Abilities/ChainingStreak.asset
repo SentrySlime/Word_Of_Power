@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aName: ChainingStreak
   aDescription: Channels a ray of fire
+  damageNumbers: 
   aSprite: {fileID: 21300000, guid: 6559569359eedd240b667fa314b2f81f, type: 3}
   aSound: {fileID: 0}
-  aBaseCooldown: 0.1
+  aBaseCooldown: 0.4
   aDamageRequirement: 0
   aEnergyCost: -5
   hitForce: 100

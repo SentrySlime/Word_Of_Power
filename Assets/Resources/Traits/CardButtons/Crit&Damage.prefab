@@ -224,7 +224,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7539e1b22f1d34aa05890466044ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  HPflat: 0
+  HPpercent: 0
+  MPflat: 0
+  MPpercent: 0
+  EBflat: 0
+  EBpercent: 0
+  defenceFlat: 0
+  defencePercent: 0
+  flatPower: 50
+  percentPower: 0
   rayRange: 0
   cooldown: 0
   critChance: 5
@@ -314,7 +323,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 10
+    m_FontSize: 8
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -325,7 +334,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Increases your critical chance and your damage
+  m_Text: Increases your critical chance by +5% and your damage by +50
 --- !u!1 &112143680899237058
 GameObject:
   m_ObjectHideFlags: 0
