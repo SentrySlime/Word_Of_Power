@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 505375c524846c44bada3588cefcbdb2
+guid: 74f43c2ea8ecd084a9ba51ffa539f764
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -7,13 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.002
-    second: {fileID: 2100000, guid: 95160b981d30d034ca01fd21ec542439, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Wood_Handle
-    second: {fileID: 2100000, guid: 5460d8cfc33311c4980cc5e895a85293, type: 2}
+      name: Wood
+    second: {fileID: 2100000, guid: 8bb55ac47e102c148bcd3e55be4e8ead, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -44,7 +39,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.4
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -91,7 +86,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.4
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

@@ -269,6 +269,9 @@ public class CharacterStats : MonoBehaviour
 
     public void StatButton(Button statButton)
     {
+
+
+
         if(skillPoints >= 1)
         {
             
@@ -359,6 +362,7 @@ public class CharacterStats : MonoBehaviour
     public void IncreaseMaxLife()                 //Increase life by a percentage
     {
         maxLife = ((vitality * 5) + addativeLife) * percentBasedLife;
+        currentLife = Mathf.Clamp(currentLife, 0, maxLife);
         SetMaxLife();
     }
 
@@ -390,6 +394,7 @@ public class CharacterStats : MonoBehaviour
     public void IncreaseMaxEB()
     {
         maxEnergyBarrier = ((spirit *5)+ addativeEnergyBarrier) * percentBasedEnergyBarrier;
+        currentEnergyBarrier = Mathf.Clamp(currentEnergyBarrier, 0, maxLife);
         SetMaxEnergyBarrier();
     }
 
@@ -420,6 +425,7 @@ public class CharacterStats : MonoBehaviour
     public void IncreaseMaxEnergy()
     {
         maxEnergy = ((spirit *5)+ addaTiveEnergy) * percentBasedEnergy;
+        currentEnergy = Mathf.Clamp(currentEnergy, 0, maxLife);
         SetMaxEnergy();
     }
 

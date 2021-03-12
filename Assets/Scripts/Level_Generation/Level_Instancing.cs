@@ -14,37 +14,39 @@ public class Level_Instancing : MonoBehaviour
     public int gridZ;
     public float gridSpacingOffset = 1f;
 
-    public float points = -1;
+    public float points = 0;
     public int randomNumber;
+    public int randomDirection;
+
+    public int randomIndex;
+
+    int[] intArray = {0, 1, 2, 3, 5, 6, 7, 8};
+    int[] randomDirections = { 0, 90, 180, 270, 360 };
 
     public Vector3 gridOrigin = Vector3.zero;
     public List<NavMeshSurface> surfaces = new List<NavMeshSurface>();
     public GameObject forestSuroudning;
 
+
     private void Awake()
     {
-        while(points == 4 || points == -1)
-        {
-            pickRanomdNuyer();
-        }
+        pickRanomdNuyer();
 
         SpawnGrid();
 
         surfaces[0].BuildNavMesh();
-
-        
-
     }
 
 
     private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.C))
+    {  
+
+        if(Input.GetKeyDown(KeyCode.T))
         {
 
-            pickRanomdNuyer();
-
+            PickRandomDirection();
         }
+
     }
 
     void SpawnGrid()
@@ -53,9 +55,11 @@ public class Level_Instancing : MonoBehaviour
         {
             for (int z = 0; z < gridZ; z++)
             {
+                PickRandomDirection();
                 Vector3 spawnPosition = new Vector3(x * gridSpacingOffset, 0, z * gridSpacingOffset) + gridOrigin;
-                PickandSpawn(spawnPosition, Quaternion.identity);
-                
+                PickandSpawn(spawnPosition, Quaternion.Euler(new Vector3(0, randomDirection, 0)));
+                //PickandSpawn(spawnPosition, Quaternion.identity);
+
             }
         }
     }
@@ -64,34 +68,38 @@ public class Level_Instancing : MonoBehaviour
     void PickandSpawn(Vector3 positionToSpawn, Quaternion rotationToSpawn)
     {
 
-        if(points == randomNumber)
+
+        if (points == randomNumber)
         {
             surfaces.Add(Instantiate(teleporter, positionToSpawn, rotationToSpawn, gameObject.transform).GetComponent<NavMeshSurface>());
         }
         else
         {
-
-            int randomIndex = Random.Range(0, itemsToPickFrom.Count);
+            randomIndex = Random.Range(0, itemsToPickFrom.Count);
             surfaces.Add(Instantiate(itemsToPickFrom[randomIndex], positionToSpawn, rotationToSpawn, gameObject.transform).GetComponent<NavMeshSurface>());
+
         }
 
         points++;
+
 
         //itemsToPickFrom.RemoveAt(randomIndex);
     }
 
 
+    public void PickRandomDirection()
+    {
+        int val = Random.Range(0, 5);
+
+        randomDirection = randomDirections[val];
+
+    }
 
     public void pickRanomdNuyer()
-    { 
-        int val = Random.Range(0, 10);
-       
-        if (val == 4)
-        {
-            print(4);
-            pickRanomdNuyer();
-        }
-        else
-            randomNumber = val;
+    {
+        
+        int val = Random.Range(0, 8);
+
+        randomNumber = intArray[val];
     }
 }
