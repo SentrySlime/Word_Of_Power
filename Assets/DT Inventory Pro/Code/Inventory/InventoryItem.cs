@@ -80,7 +80,7 @@ namespace DTInventory
             if (drag)
             {
                 m_rect.pivot =  new Vector2(Mathf.Lerp(m_rect.pivot.x, 0.5f, Time.deltaTime * 999), Mathf.Lerp(m_rect.pivot.y, 0.5f, Time.deltaTime * 999));
-                m_rect.position = Vector2.Lerp(m_rect.position, dragEventData.position, Time.deltaTime * 999);
+                m_rect.position = Vector2.Lerp(m_rect.position, dragEventData.position, Time.deltaTime * 99999);
             }
             else
             {
@@ -146,7 +146,7 @@ namespace DTInventory
             transform.SetAsLastSibling();
 
             //Make item image semi-transparent
-            image.color = new Color(1, 1, 1, 0.5f);
+            image.color = new Color(1, 1, 1, 0.3f);
         }
         
         // Here is the event callback of an item drag
