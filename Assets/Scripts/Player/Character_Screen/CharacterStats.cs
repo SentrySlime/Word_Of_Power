@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CharacterStats : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class CharacterStats : MonoBehaviour
     [Header("Leeching")]
     public float leechAmount = 0.01f;
     public float tempAbilityLeech = 0;
+    float addativeLeech;
+    float percentLeech = 1;
 
     [Header("EXP_Level")]
     public float currentLevel;
@@ -49,12 +52,13 @@ public class CharacterStats : MonoBehaviour
     public float baseDefence;               //Increases the flat damage reduction of incoming damage
     public int vitality;              //Increase the max life( this stat is divided by ten then added)
     public float spirit;                //Increase the max energy
-    public float speed;                 //Increases the players movement speed
+    public float baseSpeed;                 //Increases the players movement speed
     public int criticalChance;        //Increase the critical hit chance of attacks
 
     [Header("Final Stats")]
     public float finalArmour = 0;
     public float finalPower = 0;                 //Increases the raw damage output
+    public float finalSpeed = 0;
 
     [Header("Extra sts")]
     [HideInInspector] public int projectiles = 0;
@@ -67,24 +71,41 @@ public class CharacterStats : MonoBehaviour
     public float cooldownModifier = 0;
     #endregion
 
+    #region statText
+
+    public TextMeshProUGUI lifeStat;
+    public TextMeshProUGUI eBStat;
+    public TextMeshProUGUI energyStat;
+    public TextMeshProUGUI damageStat;
+    public TextMeshProUGUI armourStat;
+    public TextMeshProUGUI speedStat;
+    public TextMeshProUGUI critChanceStat;
+    public TextMeshProUGUI projectileStat;
+    public TextMeshProUGUI rangeStat;
+    public TextMeshProUGUI pierceStat;
+    public TextMeshProUGUI chainStat;
+    public TextMeshProUGUI leechStat;
+
+    #endregion
+
     #region Bools
 
     public bool energyLeech;
 
     #endregion
 
-    #region stat Texts
+    #region Attribute Texts
     //Text Slots for the stat numbers
-    Text powerSlot;
-    Text defenceSlot;
-    Text vitalitySlot;
-    Text spiritSlot;
-    Text speedSlot;
-    Text criticalChanceSlot;
-    Text skillPointText;
+    TextMeshProUGUI powerSlot;
+    TextMeshProUGUI defenceSlot;
+    TextMeshProUGUI vitalitySlot;
+    TextMeshProUGUI spiritSlot;
+    TextMeshProUGUI speedSlot;
+    TextMeshProUGUI criticalChanceSlot;
+    TextMeshProUGUI skillPointText;
     #endregion
 
-    #region statButtons
+    #region Attribute Buttons
     //Button slots that increase the stat values
     Button powerButton;
     Button defenceButton;
@@ -106,7 +127,10 @@ public class CharacterStats : MonoBehaviour
 
     int additiveArmour = 0;
     float percentArmour = 1;
-    
+
+    int addativeSpeed = 0;
+    float percentSpeed = 1;
+
     #endregion
 
     public float totArmorReduction;
@@ -131,16 +155,16 @@ public class CharacterStats : MonoBehaviour
         expBar.maxValue = expToNextLevel;
         #endregion
 
-        #region statNumbers
+        #region Attribute Numbers
         //Sets the text number for the stats
-        powerSlot = GameObject.Find("PowerNumber").GetComponent<Text>();
-        defenceSlot = GameObject.Find("DefenceNumber").GetComponent<Text>();
-        vitalitySlot = GameObject.Find("LifeNumber").GetComponent<Text>();
-        spiritSlot = GameObject.Find("EnergyNumber").GetComponent<Text>();
-        speedSlot = GameObject.Find("SpeedNumber").GetComponent<Text>();
-        defenceSlot = GameObject.Find("DefenceNumber").GetComponent<Text>();
-        criticalChanceSlot = GameObject.Find("CriticalChanceNumber").GetComponent<Text>();
-        skillPointText = GameObject.Find("SkillpointsNumber").GetComponent<Text>();
+        powerSlot = GameObject.Find("PowerNumber").GetComponent<TextMeshProUGUI>();
+        defenceSlot = GameObject.Find("DefenceNumber").GetComponent<TextMeshProUGUI>();
+        vitalitySlot = GameObject.Find("LifeNumber").GetComponent<TextMeshProUGUI>();
+        spiritSlot = GameObject.Find("EnergyNumber").GetComponent<TextMeshProUGUI>();
+        speedSlot = GameObject.Find("SpeedNumber").GetComponent<TextMeshProUGUI>();
+        defenceSlot = GameObject.Find("DefenceNumber").GetComponent<TextMeshProUGUI>();
+        criticalChanceSlot = GameObject.Find("CriticalChanceNumber").GetComponent<TextMeshProUGUI>();
+        skillPointText = GameObject.Find("SkillpointsNumber").GetComponent<TextMeshProUGUI>();
         #endregion
 
         #region statButtons
@@ -166,13 +190,18 @@ public class CharacterStats : MonoBehaviour
         #region statsStart
         //Initialize the stat values
         IncreasePower(0);
-        IncreaseDefence(0);
+        IncreaseBaseDefence(0);
         IncreaseVitality(0);
         IncreaseSpirit(0);
         IncreaseSpeed(0);
         IncreaseCriticalChance(0);
         UpdateSkillPoints();
-
+        AddProjectiles(0);
+        AddRange(0);
+        AddPierce(0);
+        AddChain(0);
+        AddCritChance(0);
+        AddLeech(0, 0);
         //Initializes the life and energy bars
         SetMaxLife();
         ToMaxLife();
@@ -291,7 +320,7 @@ public class CharacterStats : MonoBehaviour
             }
             else if(statButton == defenceButton)
             {
-                IncreaseDefence(1);
+                IncreaseBaseDefence(1);
             }
             else if(statButton == powerButton)
             {
@@ -302,7 +331,7 @@ public class CharacterStats : MonoBehaviour
     }
 
 
-    #region Stats 
+    #region Attributes 
     public void IncreasePower(float increaseInPower)
     {
         basePower += increaseInPower;
@@ -310,33 +339,33 @@ public class CharacterStats : MonoBehaviour
         PowerCalculation();
     }
 
-    public void IncreaseDefence(float increaseInDefence)
+    public void IncreaseBaseDefence(float increaseInDefence)
     {
         baseDefence += increaseInDefence;
         defenceSlot.text = baseDefence.ToString();
         DefenceCalculation();
     }
 
-    public void IncreaseVitality(int increaseInVitality)          //this method takes a number and divides it by 10 and then adds the percentage to Life (15 = 1.5 = 50%)   (12.5 = 1.25 = 25%)   (10.7 = .07 = 7%) 
+    public void IncreaseVitality(int increaseInVitality)          
     {
-        vitality += increaseInVitality;                             //Sets vitality to it's new value
-        vitalitySlot.text = vitality.ToString();                    //Sets the value text to the updated value
-        IncreaseMaxLife();
+        vitality += increaseInVitality;                           
+        vitalitySlot.text = vitality.ToString();                  
+        CalculateMaxLife();
     }
 
     public void IncreaseSpirit(float increaseInSpirit)
     {
         spirit += increaseInSpirit;                                 //Sets vitality to it's new value
         spiritSlot.text = spirit.ToString();                        //Sets the value text to the updated value
-        IncreaseMaxEnergy();                             //Increase energy with the updatved spirit value
-        IncreaseMaxEB();
+        CalculateMaxEnergy();                             //Increase energy with the updatved spirit value
+        CalculateMaxEB();
     }
 
     public void IncreaseSpeed(float increaseInSpeed)
     {
-        speed += increaseInSpeed;
-        speedSlot.text = speed.ToString();
-        playerMotor.SetCharacterSpeed();
+        baseSpeed += increaseInSpeed;
+        speedSlot.text = baseSpeed.ToString();
+        CalculateSpeed();
     }
 
     public void IncreaseCriticalChance(int increaseInCritChance)
@@ -344,107 +373,6 @@ public class CharacterStats : MonoBehaviour
         criticalChance += increaseInCritChance;
         criticalChanceSlot.text = criticalChance.ToString();
     }
-    #endregion
-
-
-
-
-    #region LifeSettings
-    
-    //These are the life settings
-    public void AddLife(int plusLife, float percentLife)
-    {
-        addativeLife += plusLife;
-        percentBasedLife += percentLife;
-        IncreaseMaxLife();
-    }
-
-    public void IncreaseMaxLife()                 //Increase life by a percentage
-    {
-        maxLife = ((vitality * 5) + addativeLife) * percentBasedLife;
-        currentLife = Mathf.Clamp(currentLife, 0, maxLife);
-        SetMaxLife();
-    }
-
-    public void DecreaseMaxLife(float LifeDecrease)                 //Decreases life by a percentage   (30 = 3 = 300%)    (12 = 1.2 = 20%)    (1.7 = .07 = 7%)  
-    {
-        maxLife /= LifeDecrease;
-        SetMaxLife();
-    }
-
-    public void SetMaxLife()
-    {
-        life_Bar.maxValue = maxLife;
-    }
-
-    public void ToMaxLife()
-    {
-        currentLife = maxLife;
-    }
-    #endregion
-
-    #region Energy Barrier Settings
-
-    public void AddEnergyBarrier(int plusEB, float percentEB)
-    {
-        addativeEnergyBarrier += plusEB;
-        percentBasedEnergyBarrier += percentEB;
-    }
-
-    public void IncreaseMaxEB()
-    {
-        maxEnergyBarrier = ((spirit *5)+ addativeEnergyBarrier) * percentBasedEnergyBarrier;
-        currentEnergyBarrier = Mathf.Clamp(currentEnergyBarrier, 0, maxLife);
-        SetMaxEnergyBarrier();
-    }
-
-    public void SetMaxEnergyBarrier()
-    {
-        energy_Barrier_Bar.maxValue = maxEnergyBarrier;
-    }
-
-    public void ToMaxEnergyBarrier()
-    {
-        currentEnergyBarrier = maxEnergyBarrier;
-    }
-    
-
-
-    #endregion
-
-    #region EnergySettings
-    //These are the energy settings
-
-    public void AddEnergy(int plusEnergy, float percentEnergy)
-    {
-        addaTiveEnergy += plusEnergy;
-        percentBasedEnergy += percentEnergy;
-        IncreaseMaxEnergy();
-    }
-
-    public void IncreaseMaxEnergy()
-    {
-        maxEnergy = ((spirit *5)+ addaTiveEnergy) * percentBasedEnergy;
-        currentEnergy = Mathf.Clamp(currentEnergy, 0, maxLife);
-        SetMaxEnergy();
-    }
-
-    public void DecreaseMaxEnergy(float energyDecrease)
-    {
-        maxEnergy /= energyDecrease;
-        SetMaxEnergy();
-    }
-
-    public void SetMaxEnergy()
-    {
-        energy_Bar.maxValue = maxEnergy;
-    }
-
-    public void ToMaxEnergy()
-    {
-        currentEnergy = maxEnergy;
-    }
-
     #endregion
 
     #region exp&LevelSettings
@@ -482,7 +410,6 @@ public class CharacterStats : MonoBehaviour
         UpdateSkillPoints();
         EnableAARandomizer();
     }
-    #endregion
 
     public void EnableAARandomizer()
     {
@@ -498,8 +425,120 @@ public class CharacterStats : MonoBehaviour
     {
         skillPointText.text = skillPoints.ToString();
     }
+    #endregion
 
-    #region Calculate Stats
+    #region LifeSettings
+
+    //These are the life settings
+    public void AddLife(int plusLife, float percentLife)
+    {
+        addativeLife += plusLife;
+        percentBasedLife += percentLife;
+        CalculateMaxLife();
+    }
+
+    public void RemoveMaxLife(int plusLife, float percentLife)                 //Decreases life by a percentage   (30 = 3 = 300%)    (12 = 1.2 = 20%)    (1.7 = .07 = 7%)  
+    {
+
+        addativeLife -= plusLife;
+        percentBasedLife -= percentLife;
+        CalculateMaxLife();
+        //SetMaxLife();
+    }
+
+    public void CalculateMaxLife()                 //Increase life by a percentage
+    {
+        maxLife = ((vitality * 5) + addativeLife) * percentBasedLife;
+        currentLife = Mathf.Clamp(currentLife, 0, maxLife);
+        SetMaxLife();
+        lifeStat.text = maxLife.ToString();
+    }
+
+    public void SetMaxLife()
+    {
+        life_Bar.maxValue = maxLife;
+    }
+
+    public void ToMaxLife()
+    {
+        currentLife = maxLife;
+    }
+    #endregion
+
+    #region EnergySettings
+    //These are the energy settings
+
+    public void AddEnergy(int plusEnergy, float percentEnergy)
+    {
+        addaTiveEnergy += plusEnergy;
+        percentBasedEnergy += percentEnergy;
+        CalculateMaxEnergy();
+    }
+    public void RemoveMaxEnergy(int addativeEnergy, float percentEnergy)
+    {
+        addaTiveEnergy -= addativeEnergy;
+        percentBasedEnergy -= percentEnergy;
+        CalculateMaxEnergy();
+    }
+
+    public void CalculateMaxEnergy()
+    {
+        maxEnergy = ((spirit *5)+ addaTiveEnergy) * percentBasedEnergy;
+        currentEnergy = Mathf.Clamp(currentEnergy, 0, maxLife);
+        SetMaxEnergy();
+        energyStat.text = maxEnergy.ToString();
+    }
+
+
+    public void SetMaxEnergy()
+    {
+        energy_Bar.maxValue = maxEnergy;
+    }
+
+    public void ToMaxEnergy()
+    {
+        currentEnergy = maxEnergy;
+    }
+
+    #endregion
+
+    #region Energy Barrier Settings
+
+    public void AddEnergyBarrier(int plusEB, float percentEB)
+    {
+        addativeEnergyBarrier += plusEB;
+        percentBasedEnergyBarrier += percentEB;
+        CalculateMaxEB();
+    }
+
+    public void RemoveEnergyBarrier(int plusEB, float percentEB)
+    {
+        addativeEnergyBarrier -= plusEB;
+        percentBasedEnergyBarrier -= percentEB;
+        CalculateMaxEB();
+    }
+
+    public void CalculateMaxEB()
+    {
+        maxEnergyBarrier = ((spirit * 5) + addativeEnergyBarrier) * percentBasedEnergyBarrier;
+        currentEnergyBarrier = Mathf.Clamp(currentEnergyBarrier, 0, maxLife);
+        SetMaxEnergyBarrier();
+        eBStat.text = maxEnergyBarrier.ToString();
+    }
+
+    public void SetMaxEnergyBarrier()
+    {
+        energy_Barrier_Bar.maxValue = maxEnergyBarrier;
+    }
+
+    public void ToMaxEnergyBarrier()
+    {
+        currentEnergyBarrier = maxEnergyBarrier;
+    }
+
+
+
+    #endregion
 
     #region Defence
     public void AddDefence(int flatIncrease, float percentIncrease)
@@ -520,11 +559,10 @@ public class CharacterStats : MonoBehaviour
     {
         finalArmour = ((baseDefence * 40) + additiveArmour) * percentArmour;
         PowerCalculation();
-
+        armourStat.text = finalArmour.ToString();
     }
 
     #endregion
-
 
     #region Power
 
@@ -533,6 +571,13 @@ public class CharacterStats : MonoBehaviour
     {
         addativePower += flatIncrease;
         percentPower += percentIncrease;
+        PowerCalculation();
+    }
+
+    public void RemovePower(int flatIncrease, float percentIncrease)
+    {
+        addativePower -= flatIncrease;
+        percentPower -= percentIncrease;
         PowerCalculation();
     }
 
@@ -547,10 +592,138 @@ public class CharacterStats : MonoBehaviour
 
         //}
 
+        damageStat.text = finalPower.ToString();
+
     }
 
     #endregion
 
+    #region Speed
+
+    public void AddSpeed(int flatSpeed, float multiplicativeSpeed)
+    {
+        addativeSpeed += flatSpeed;
+        percentSpeed += multiplicativeSpeed;
+        CalculateSpeed();
+    }
+
+    public void RemoveSpeed(int flatSpeed, float multiplicativeSpeed)
+    {
+        addativeSpeed -= flatSpeed;
+        percentSpeed -= multiplicativeSpeed;
+        CalculateSpeed();
+    }
+
+    public void CalculateSpeed()
+    {
+        finalSpeed = (baseSpeed + addativeSpeed * percentSpeed) / 4;
+        speedStat.text = finalSpeed.ToString();
+        playerMotor.SetCharacterSpeed();
+    }
+
     #endregion
 
+    #region Crit Chance
+    public void AddCritChance(int moreCrit)
+    {
+        criticalChance += moreCrit;
+        critChanceStat.text = criticalChance.ToString() + "%";
+    }
+
+    public void RemoveCritChance(int lessCrit)
+    {
+        criticalChance -= lessCrit;
+        critChanceStat.text = criticalChance.ToString() + "%";
+    }
+
+    #endregion
+
+    #region projectiles
+
+    public void AddProjectiles(int moreProjectiles)
+    {
+        projectiles += moreProjectiles;
+        projectileStat.text = projectiles.ToString();
+    }
+
+    public void RemoveProjectiles(int lessProjectiles)
+    {
+        projectiles -= lessProjectiles;
+        projectileStat.text = projectiles.ToString();
+    }
+
+    #endregion
+
+    #region range
+
+    public void AddRange(float moreRange)
+    {
+        range += moreRange;
+        rangeStat.text = range.ToString();
+    }
+
+    public void RemoveRange(float lessRange)
+    {
+        range -= lessRange;
+        rangeStat.text = range.ToString();
+    }
+
+
+    #endregion
+
+    #region Pierce
+
+    public void AddPierce(int morePierce)
+    {
+        pierce += morePierce;
+        pierceStat.text = pierce.ToString();
+    }
+
+    public void RemovePierce(int lessPierce)
+    {
+        pierce -= lessPierce;
+        pierceStat.text = pierce.ToString();
+    }
+
+    #endregion
+
+    #region Chain
+
+    public void AddChain(int moreChain)
+    {
+        chain += moreChain;
+        chainStat.text = chain.ToString();
+    }
+
+    public void RemoveChain(int lessChain)
+    {
+        chain += lessChain;
+        chainStat.text = chain.ToString();
+    }
+
+    #endregion
+
+    #region Leech
+
+    public void AddLeech(float plusLeech, float multiplicativeLeech)
+    {
+        addativeLeech += plusLeech;
+        percentLeech += multiplicativeLeech;
+        CalculateLeech();
+    }
+
+    public void RemoveLeech(float minusLeech, float multiplicativeLeech)
+    {
+        addativeLeech += minusLeech;
+        percentLeech += multiplicativeLeech;
+        CalculateLeech();
+    }
+
+    public void CalculateLeech()
+    {
+        leechAmount = (addativeLeech * percentLeech);
+        leechStat.text = leechAmount.ToString() + "%";
+    }
+
+    #endregion
 }

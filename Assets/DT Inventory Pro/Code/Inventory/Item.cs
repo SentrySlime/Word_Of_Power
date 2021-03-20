@@ -36,5 +36,17 @@ namespace DTInventory
         public OnUseEvent onUseEvent;
         [SerializeField]
         public OnPickupEvent onPickupEvent;
+
+        [SerializeField]
+        public GearCardInfo gearCardInfo;
+        public GearStats gearStats;
+
+        private void Start()
+        {
+            gearStats = GetComponent<GearStats>();
+            gearCardInfo = gearStats.gearCardInfo;
+
+        }
+
     }
 }

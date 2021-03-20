@@ -130,9 +130,12 @@ public class ProjectileScript : MonoBehaviour
 
     public void DealDamage(GameObject target)
     {
-        if (chainTarget != null && !chainTarget.CompareTag("Object"))
+        if (chainTarget != null)
         {
-            chainTarget.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
+            if(!chainTarget.CompareTag("Object"))
+            {
+                chainTarget.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
+            }
         }
         
         EnergyOnHit();

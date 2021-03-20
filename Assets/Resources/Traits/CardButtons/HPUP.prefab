@@ -234,13 +234,14 @@ MonoBehaviour:
   defencePercent: 0
   flatPower: 0
   percentPower: 0
-  rayRange: 5
+  rayRange: 0
   cooldown: 0
   critChance: 0
   piercemax: 0
   chain: 0
   projectile: 0
-  leechAmount: 0
+  addativeLeech: 0
+  multiplicativeLeech: 0
 --- !u!114 &-323635204464725799
 MonoBehaviour:
   m_ObjectHideFlags: 0

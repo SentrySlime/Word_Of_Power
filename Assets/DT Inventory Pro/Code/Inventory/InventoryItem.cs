@@ -10,7 +10,7 @@ namespace DTInventory
     /// Class for representation inventory grid items
     /// Contains all functionality for drag and drop, click etc.
     /// </summary>
-    public class InventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class InventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
     {
         //A slot where item is
         [HideInInspector]
@@ -35,6 +35,12 @@ namespace DTInventory
         /// Reference to an inventory
         /// </summary>
         internal DTInventory inventory;
+
+
+        /// <summary>
+        /// Reference to the Character stats script
+        /// <summary>
+        public CharacterStats characterStats;
 
         /// <summary>
         /// Variable to store event data for some purposes
@@ -67,6 +73,22 @@ namespace DTInventory
         /// </summary>
         GridSlot hoveredSlot;
 
+
+        public GearCardInfo gear_Card;
+        public GearStats gearStats;
+
+        public Canvas inventoryCanvas;
+
+        GameObject tempCard;
+
+        private void Start()
+        {
+            characterStats = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>();
+            inventoryCanvas = GameObject.Find("Inventory Canvas").GetComponent<Canvas>();
+            gearStats = this.item.GetComponent<GearStats>();
+            gear_Card = item.gearCardInfo;
+        }
+
         private void OnEnable()
         {
             if (m_rect == null) m_rect = GetComponent<RectTransform>();
@@ -79,7 +101,7 @@ namespace DTInventory
         {
             if (drag)
             {
-                m_rect.pivot =  new Vector2(Mathf.Lerp(m_rect.pivot.x, 0.5f, Time.deltaTime * 999), Mathf.Lerp(m_rect.pivot.y, 0.5f, Time.deltaTime * 999));
+                m_rect.pivot = new Vector2(Mathf.Lerp(m_rect.pivot.x, 0.5f, Time.deltaTime * 999), Mathf.Lerp(m_rect.pivot.y, 0.5f, Time.deltaTime * 9999));
                 m_rect.position = Vector2.Lerp(m_rect.position, dragEventData.position, Time.deltaTime * 99999);
             }
             else
@@ -134,7 +156,14 @@ namespace DTInventory
             if (slot.equipmentPanel != null)
             {
                 if (slot.equipmentPanel.equipedItem != null)
+                {
+                    //  This is other part where we remove the stat changes whenever we remove  apiece of gear from an equipment slot
+                    //characterStats.DecreaseMaxLife(slot.equipmentPanel.equipedItem.GetComponent<GearStats>().lifeAddative, 0);
+                    //characterStats.AddLife(-slot.equipmentPanel.equipedItem.GetComponent<GearStats>().Life, 0);
+                    DecreaseStats();
                     slot.equipmentPanel.equipedItem = null;
+                    
+                }
             }
 
             //Marking slots as free
@@ -146,7 +175,7 @@ namespace DTInventory
             transform.SetAsLastSibling();
 
             //Make item image semi-transparent
-            image.color = new Color(1, 1, 1, 0.3f);
+            image.color = new Color(1, 1, 1, 0.1f);
         }
         
         // Here is the event callback of an item drag
@@ -267,6 +296,12 @@ namespace DTInventory
 
                     slot.equipmentPanel.equipedItem = item;
 
+                    //print("Equiped : " + slot.equipmentPanel.equipedItem);
+
+                    //Here lies code which increases stats when the gear gets equiped
+
+                    IncreaseStats();
+
                     inventory.MarkSlots(CalculateShiftedAxes().x, CalculateShiftedAxes().y, width, height, false);
                 }
                 else
@@ -296,6 +331,35 @@ namespace DTInventory
 
             return new Vector2Int(mod_x, mod_y);
         }
+
+
+        public void IncreaseStats()
+        {
+            gearStats.statList.IncreaseStats(characterStats);
+        }
         
+        public void DecreaseStats()
+        {
+            gearStats.statList.DecreaseStats(characterStats);
+        }
+
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            print("Over");
+            tempCard = Instantiate(gear_Card.gameObject, gameObject.transform.position /*+ (gameObject.transform.up * 2)*/, Quaternion.identity);
+            tempCard.transform.SetParent(inventoryCanvas.transform);
+            tempCard.transform.localScale = new Vector3(1, 1, 1);
+            tempCard.transform.localPosition += (tempCard.transform.up * -15) + (tempCard.transform.right * -100);
+            tempCard.SetActive(true);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            Destroy(tempCard);
+        }
+
     }
+
+
 }

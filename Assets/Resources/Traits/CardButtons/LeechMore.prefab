@@ -240,7 +240,8 @@ MonoBehaviour:
   piercemax: 0
   chain: 0
   projectile: 0
-  leechAmount: 0.01
+  addativeLeech: 1
+  multiplicativeLeech: 0
 --- !u!114 &-323635204464725799
 MonoBehaviour:
   m_ObjectHideFlags: 0

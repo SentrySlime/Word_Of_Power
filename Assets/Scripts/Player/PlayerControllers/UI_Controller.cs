@@ -16,7 +16,7 @@ public class UI_Controller : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.I))
+        if(Input.GetKeyDown(KeyCode.C))
         {
             if(characterMenu.activeSelf)
             {
@@ -31,11 +31,5 @@ public class UI_Controller : MonoBehaviour
                 }
             }
         }
-        
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-
-        }
-
     }
 }

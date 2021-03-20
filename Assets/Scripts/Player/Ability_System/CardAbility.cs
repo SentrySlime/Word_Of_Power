@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CardAbility : MonoBehaviour
 {
@@ -12,9 +13,9 @@ public class CardAbility : MonoBehaviour
     AbilitySelection abilitySelection;
     public Ability ability;
 
-    [HideInInspector] public Text abilityDescription;
-    [HideInInspector] public Image abilityImage;
-    [HideInInspector] public Text abilityName;
+    public TextMeshProUGUI abilityDescription;
+    public Image abilityImage;
+    public TextMeshProUGUI abilityName;
      public Text abilityCooldownText;
     Button cardButton;
 

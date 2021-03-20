@@ -35,7 +35,11 @@ public class AbilityStatChange : MonoBehaviour
     public int piercemax;
     public int chain;
     public int projectile;
-    public float leechAmount;
+
+    [Header("Leech Stat")]
+    public float addativeLeech;
+    public float multiplicativeLeech;
+
 
     CharacterStats characterStats;
 
@@ -53,12 +57,12 @@ public class AbilityStatChange : MonoBehaviour
         EBIncrease();
         IncreaseDefence();
         IncreasePower();
-        characterStats.range += rayRange;
-        characterStats.criticalChance += critChance;
-        characterStats.pierce += piercemax;
-        characterStats.chain += chain;
-        characterStats.projectiles += projectile;
-        characterStats.leechAmount += leechAmount;
+        characterStats.AddRange(rayRange);
+        characterStats.AddCritChance(critChance);
+        characterStats.AddPierce(piercemax);
+        characterStats.AddChain(chain);
+        characterStats.AddProjectiles(projectile);
+        characterStats.AddLeech(addativeLeech, multiplicativeLeech);
         Cooldown(cooldown);
     }
 

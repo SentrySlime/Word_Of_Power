@@ -452,6 +452,7 @@ namespace DTInventory
                         {
                             EquipItem(equipmentPanel, _InventoryItem);
                             MarkSlots(x, y, item.width, item.height, true);
+                            
                         }
                     }
                 }
@@ -532,6 +533,7 @@ namespace DTInventory
 
             MarkSlots(panel.mainSlot.x, panel.mainSlot.y, item.width, item.height, false);
             panel.equipedItem = item.item;
+
         }
 
         /// <summary>

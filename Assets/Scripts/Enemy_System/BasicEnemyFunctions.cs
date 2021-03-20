@@ -49,6 +49,7 @@ public class BasicEnemyFunctions : MonoBehaviour, IEnemy
             critMax = UnityEngine.Random.Range(1, 101);
             if (critChance >= critMax)
             {
+                print("Crit");
                 CriticalHitDamage2x(amount);
             }
             else

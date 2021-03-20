@@ -54,7 +54,7 @@ public class PlayerMotor : MonoBehaviour
 	public void SetCharacterSpeed()
 	{
 
-		agent.speed = characterStats.speed/2;
+		agent.speed = characterStats.finalSpeed;
 		speed = agent.speed;
 	}
 }
