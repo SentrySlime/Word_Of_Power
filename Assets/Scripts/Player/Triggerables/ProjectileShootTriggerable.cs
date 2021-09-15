@@ -35,11 +35,23 @@ public class ProjectileShootTriggerable : MonoBehaviour
 
     #endregion
 
+    Animator animator;
+    public float animationTimer;
+    public string attackAnimation;
 
     public void Launch()
     {
+        animator = GetComponentInChildren<Animator>();
+        animator.SetTrigger(attackAnimation);
+        StartCoroutine(AttackTimer());
+        //StartCoroutine(TimerTimer());
+        //TurnDegrees();
+    }
 
-        TurnDegrees();
+    private void Update()
+    {
+        
+        
     }
 
     public void TurnDegrees()
@@ -70,13 +82,38 @@ public class ProjectileShootTriggerable : MonoBehaviour
             bob.bleedDuration = bleedDuration;
 
             bob.energyOnHit = energyOnHit;
-
+            bob.moveSpeed = projectileForce;
             bob.GetComponent<Rigidbody>().AddForce(bulletSpawn.transform.forward * projectileForce, ForceMode.Force);
         }
 
         bulletSpawn.transform.localRotation= Quaternion.Euler(0, 0, 0);
 
 
+    }
+
+    IEnumerator AttackTimer()
+    {
+        yield return new WaitForSeconds(animationTimer);
+        
+        TurnDegrees();
+    }
+
+    public void StopCoRoutines()
+    {
+        StopAllCoroutines();
+    }
+
+    IEnumerator TimerTimer()
+    {
+        yield return new WaitForSeconds(0.35f);
+        if (animator != null)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("arthur_walk_01"))
+            {
+                print("Stopping all couroutines");
+                StopAllCoroutines();
+            }
+        }
     }
 
 }

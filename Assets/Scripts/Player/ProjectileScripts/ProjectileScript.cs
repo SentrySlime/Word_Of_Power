@@ -6,14 +6,14 @@ using System.Linq;
 
 public class ProjectileScript : MonoBehaviour
 {
-    float moveSpeed = 5000f;
+    public float moveSpeed = 0;
     private Vector2 movedirection;
 
     [HideInInspector]
     public Rigidbody rb;
-    [HideInInspector]
+    
     public Transform chainTarget;
-    [HideInInspector]
+    
     public Collider nearest;
 
     [HideInInspector]
@@ -25,13 +25,16 @@ public class ProjectileScript : MonoBehaviour
     public CharacterStats characterStats;
 
     public LayerMask layerMask;
-    
+
+    SoundManager soundManager;
+
     [Header("Primary stats")]
     public float damage;
     public int criticalChance = 1;
     [HideInInspector]
     public int pierce = 0;
-    public int pierceMax = 0;
+    [SerializeField]
+    public int pierceMax = 1;
     [Header("Chaining Bullshit")]
     public int chain = 0;
     public int chainNumbers = 0;
@@ -44,33 +47,64 @@ public class ProjectileScript : MonoBehaviour
 
     private void Start()
     {
+
         rb = gameObject.GetComponent<Rigidbody>();
         characterStats = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>();
+        soundManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<SoundManager>();
         pierce = pierceMax;
         chain = chainNumbers;
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
 
         //other.GetComponent<EnemyHealth>().TakeDamage(100);
-        chainTarget = other.transform;
+        
+        if(other.CompareTag("Enemy"))
+        {
+            chainTarget = other.transform;
 
-        if (pierce >= 1)
-        {
-            DealDamage(other.gameObject);
-            pierce--;
+            int tempRand = UnityEngine.Random.Range(1, 5);
+            if(tempRand == 1)
+            {
+                soundManager.ImpactSound1();
+            }
+            else if (tempRand == 2)
+            {
+                soundManager.ImpactSound2();
+            }
+            else if (tempRand == 3)
+            {
+                soundManager.ImpactSound3();
+            }
+            else if (tempRand == 4)
+            {
+                soundManager.ImpactSound4();
+            }
+            else if (tempRand == 5)
+            {
+                soundManager.ImpactSound5();
+            }
+
+
+            if (pierce >= 1)
+            {
+                DealDamage(other.gameObject);
+                pierce--;
+            }
+            else if (chain >= 1)
+            {
+                ChainMethod();
+
+            }
+            else
+            {
+                DealDamage(other.gameObject);
+                Destroy();
+            }
         }
-        else if (chain >= 1)
-        {
-            ChainMethod();
-            
-        }
-        else
-        {
-            DealDamage(other.gameObject);
-            Destroy();
-        }
+        
 
 
 
@@ -87,7 +121,7 @@ public class ProjectileScript : MonoBehaviour
                 alreadyChained.Add(chainTarget.gameObject);
             }
 
-            Collider[] hitColliders = Physics.OverlapSphere(chainTarget.position, 80f, layerMask);
+            Collider[] hitColliders = Physics.OverlapSphere(chainTarget.position, 200f, layerMask);
             tempColliders.AddRange(hitColliders);
             for (int i = 0; i < tempColliders.Count; i++)
             {
@@ -111,6 +145,7 @@ public class ProjectileScript : MonoBehaviour
             }
             else
             {
+                
                 nextenemyDirection = Vector3.zero;
                 nextenemyDirection = (nearest.transform.position - transform.position).normalized;
                 rb.velocity = Vector3.zero;
@@ -121,9 +156,9 @@ public class ProjectileScript : MonoBehaviour
             }
             tempColliders.Clear();
         }
-        else if(chainTarget.CompareTag("Object"))
+        else if (chainTarget.CompareTag("Object"))
         {
-            Destroy();
+            //Destroy();
         }
     }
 
@@ -132,17 +167,19 @@ public class ProjectileScript : MonoBehaviour
     {
         if (chainTarget != null)
         {
-            if(!chainTarget.CompareTag("Object"))
+            if(target.CompareTag("Enemy"))
             {
-                chainTarget.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
+                target.GetComponent<BasicEnemyFunctions>().TakeDamage(damage, criticalChance);
+
+                if (bleedPercentage > 0)
+                {
+                    target.GetComponent<EnemyBleed>().SetBleed(bleedDuration, bleedPercentage);
+                }
             }
         }
         
         EnergyOnHit();
-        if(bleedPercentage > 0)
-        {
-            target.GetComponent<EnemyBleed>().SetBleed(bleedDuration, bleedPercentage);
-        }
+        
     }
 
     public void EnergyOnHit()
@@ -165,5 +202,7 @@ public class ProjectileScript : MonoBehaviour
     {
         CancelInvoke();
     }
+
+
 
 }

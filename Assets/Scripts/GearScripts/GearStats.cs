@@ -36,8 +36,21 @@ public class GearStats : MonoBehaviour //IPointerEnterHandler, IPointerExitHandl
     private void Awake()
     {
         //Put in code here which picks a card depending on the rarity of the Gear
-        gearCardInfo = Resources.Load<GearCardInfo>("Gear/Gear_Cards/Gear_Card");
+        if (rarity == Rarity.White)
+        {
+            gearCardInfo = Resources.Load<GearCardInfo>("Gear/Gear_Cards/Gear_Card_White");
+        }
+        else if(rarity == Rarity.Blue)
+        {
+            gearCardInfo = Resources.Load<GearCardInfo>("Gear/Gear_Cards/Gear_Card_Blue");
+        }
+        else if(rarity == Rarity.Legendary)
+        {
+            gearCardInfo = Resources.Load<GearCardInfo>("Gear/Gear_Cards/Gear_Card_Legendary");
+        }
 
+
+            
 
         inventoryCanvas = GameObject.Find("Inventory Canvas").GetComponent<Canvas>();
         thisItem = GetComponent<DTInventory.Item>();
@@ -54,9 +67,13 @@ public class GearStats : MonoBehaviour //IPointerEnterHandler, IPointerExitHandl
     
     public void SetCardIngo()
     {
-        gearCardInfo.cardIcon.sprite = thisItem.icon;
-        gearCardInfo.cardIcon.SetNativeSize();
-        gearCardInfo.cardName.text = thisItem.title;
+        if(gearCardInfo != null)
+        {
+            gearCardInfo.cardIcon.sprite = thisItem.icon;
+            gearCardInfo.cardIcon.SetNativeSize();
+            gearCardInfo.cardName.text = thisItem.title;
+
+        }
         statList.PrintStats(gearCardInfo, theNumber);
     }
 
@@ -93,10 +110,13 @@ public class StatsList
     [Header("Speed")]
     public int increasedSpeed;
     public float moreSpeed;
-
+    [Header("Leech")]
+    public int increasedLeech;
+    public float moreLeech;
 
     public int critChance;
     public float speed;
+    public float cooldown;
 
     public void PrintStats(GearCardInfo tempGearCard, int number)
     {
@@ -113,37 +133,45 @@ public class StatsList
                     if (property.FieldType == typeof(System.Single))
                     {
                         float multiply = System.Convert.ToSingle(property.GetValue(this)) * 100;
-                        tempGearCard.cardStat1.text = property.Name.ToString() + " " +  multiply + " %";        //If it's a float number add the % att the end
-
+                        tempGearCard.cardStat1.text = property.Name.ToString() + " +" +  multiply + "%";        //If it's a float number add the % att the end
+                        tempGearCard.cardStat2.gameObject.SetActive(false);
+                        tempGearCard.cardStat3.gameObject.SetActive(false);
                     }
                     else
-                        tempGearCard.cardStat1.text = property.Name.ToString() + " " + property.GetValue(this).ToString();               //otherwise just print the name + the value
+                    {
+                        tempGearCard.cardStat1.text = property.Name.ToString() + " +" + property.GetValue(this).ToString();               //otherwise just print the name + the value
+                    }
                     
                 }
                 else if(number == 2)
                 {
                     number++;
+                    tempGearCard.cardStat2.gameObject.SetActive(true);
                     if (property.FieldType == typeof(System.Single))
                     {
                         float multiply = System.Convert.ToSingle(property.GetValue(this)) * 100;
-                        tempGearCard.cardStat2.text = property.Name.ToString() + " " + multiply + " %";        //If it's a float number add the % att the end
-
+                        tempGearCard.cardStat2.text = property.Name.ToString() + " +" + multiply + "%";        //If it's a float number add the % att the end
+                        
                     }
                     else
-                        tempGearCard.cardStat2.text = property.Name.ToString() + " " + property.GetValue(this).ToString();               //otherwise just print the name + the value
+                    {
+                        tempGearCard.cardStat2.text = property.Name.ToString() + " +" + property.GetValue(this).ToString();               //otherwise just print the name + the value
+                    }
 
                 }
                 else if (number == 3)
                 {
                     number++;
+                    tempGearCard.cardStat3.gameObject.SetActive(true);
                     if (property.FieldType == typeof(System.Single))
                     {
                         float multiply = System.Convert.ToSingle(property.GetValue(this)) * 100;
-                        tempGearCard.cardStat3.text = property.Name.ToString() + " " + multiply + " %";        //If it's a float number add the % att the end
-
+                        tempGearCard.cardStat3.text = property.Name.ToString() + " +" + multiply + "%";        //If it's a float number add the % att the end
                     }
                     else
-                        tempGearCard.cardStat3.text = property.Name.ToString() + " " + property.GetValue(this).ToString();               //otherwise just print the name + the value
+                    {
+                        tempGearCard.cardStat3.text = property.Name.ToString() + " +" + property.GetValue(this).ToString();               //otherwise just print the name + the value
+                    }
                 }
             }
         }
@@ -158,6 +186,9 @@ public class StatsList
         characterStats.AddPower(increasedDamage, moreDamage);
         characterStats.AddDefence(increasedDefence, moreDefence);
         characterStats.AddSpeed(increasedSpeed, moreSpeed);
+        characterStats.AddCritChance(critChance);
+        characterStats.AddCooldown(cooldown);
+        characterStats.AddLeech(increasedLeech, moreLeech);
     }
 
     public void DecreaseStats(CharacterStats characterStats)
@@ -168,6 +199,9 @@ public class StatsList
         characterStats.RemoveEnergyBarrier(increasedEB, moreEB);
         characterStats.RemoveDefence(increasedDefence, moreDefence);
         characterStats.RemoveSpeed(increasedSpeed, moreSpeed);
+        characterStats.RemoveCritChance(critChance);
+        characterStats.RemoveCooldown(cooldown);
+        characterStats.RemoveLeech(increasedLeech, moreLeech);
     }
 
     public virtual void LegendaryEffect()

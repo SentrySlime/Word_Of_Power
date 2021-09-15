@@ -25,8 +25,15 @@ public class CardAbility : MonoBehaviour
     {
         characterStats = GameObject.Find("Player").GetComponent<CharacterStats>();
         abilitySelection = GameObject.Find("AbilitySelection").GetComponent<AbilitySelection>();
-        manageRandomAbility = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomAbility>();
-        manageRandomTrait = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomTrait>();
+        if(manageRandomAbility == null)
+        {
+            manageRandomAbility = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomAbility>();
+        }
+        if(manageRandomTrait == null)
+        {
+            manageRandomTrait = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomTrait>();
+            print(gameObject.name);
+        }
         cardButton = GetComponent<Button>();
         cardButton.onClick.AddListener(AddToOwnedAbilities);
     }

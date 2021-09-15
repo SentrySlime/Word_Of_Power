@@ -16,6 +16,7 @@ public abstract class Ability : ScriptableObject
     public float aBaseCooldown = 1f;
     public float aDamageRequirement = 0;
     public float aEnergyCost = 0;
+    public float attackTimer = 1;
 
     public abstract void Initialize(GameObject obj);
     public abstract void TriggerAbility();

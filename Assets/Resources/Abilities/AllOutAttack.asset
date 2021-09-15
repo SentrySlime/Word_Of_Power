@@ -14,17 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aName: All Out Attack
   aDescription: Send out projectiles all around you
-  aSprite: {fileID: 21300000, guid: 1f300391aa6e8704faf2c60e3c686df1, type: 3}
-  aSound: {fileID: 0}
-  aBaseCooldown: 1
+  damageNumbers: 
+  aSprite: {fileID: 21300000, guid: 03e6f50b7a998ed46a4c3f9f8cb0855e, type: 3}
+  aSound: {fileID: 8300000, guid: ffe162aeb399a5f47ab434aa86e9ae99, type: 3}
+  aBaseCooldown: 0.5
   aDamageRequirement: 0
   aEnergyCost: 0
-  projectile: {fileID: 6934493033994207555, guid: a4f2276d89f90414eaee3da25fcdd2ce,
+  attackTimer: 1
+  projectile: {fileID: 6934493033994207555, guid: 264062ad4eabb304d8200d1a83e8f58c,
     type: 3}
   damage: 150
   critChance: 1
   piercing: 0
-  chainMax: 0
+  chainMax: 1
   Projectiles: 12
   bleedPercentage: 0
   bleedDuration: 0
@@ -33,3 +35,5 @@ MonoBehaviour:
   projectileForce: 2500
   endAngle: 210
   startAngle: -180
+  attackTimer: 1
+  attackAnimation: AttackThreeTrigger

@@ -88,19 +88,22 @@ public class RaycastShootTriggerable : MonoBehaviour
 
     BleedTriggerable bleedTriggerable;
     CharacterStats characterStats;
+    public Animator animator;
 
     public GameObject projectileStart;
     public Vector3 currentHitPosition;
     Transform chainTarget;
     Collider nearest;
-
     int bob = 0;
 
+    public string attackAnimation;
+    public float animationTimer;
     #endregion
 
 
     public void Initialize()
     {
+        animator = GetComponentInChildren<Animator>();
         //lineRenderer = GetComponent<LineRenderer>();
         bleedTriggerable = GameObject.FindGameObjectWithTag("Player").GetComponent<BleedTriggerable>();
         characterStats = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>();
@@ -110,11 +113,28 @@ public class RaycastShootTriggerable : MonoBehaviour
         {
             chainMax = 1;
         }
+        
     }
 
+    private void Update()
+    {
+        if (animator != null)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("arthur_walk_01"))
+            {
+                StopAllCoroutines();
+            }
+        }
+    }
+
+    public void Launch()
+    {
+        StartCoroutine(AttackTimer());
+    }
 
     public void Fire()
     {
+        animator.SetTrigger(attackAnimation);
         currentHitDistance = rayRange;
         fullAngle = endAngle - startingAngle;
         fullAngle /= (1 + Projectiles);
@@ -286,4 +306,16 @@ public class RaycastShootTriggerable : MonoBehaviour
     {
         characterStats.EnergyOnHit(energyOnHit);
     }
+
+    IEnumerator AttackTimer()
+    {
+        yield return new WaitForSeconds(animationTimer);
+        Fire();
+    }
+
+    public void StopCoRoutines()
+    {
+        StopAllCoroutines();
+    }
+
 }

@@ -15,11 +15,14 @@ public class PlayerController : MonoBehaviour
     public bool isStill = false;
     public float rotationalSpeed;
 
+    
+
 
     void Start()
     {
         cam = Camera.main;
         motor = GetComponent<PlayerMotor>();
+        
     }
 
     void Update()
@@ -35,7 +38,9 @@ public class PlayerController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, walkable))
             {
+                
                 motor.MoveToPoint(hit.point);
+                
             }
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, interactable))

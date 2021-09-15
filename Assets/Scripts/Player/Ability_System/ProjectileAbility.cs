@@ -31,14 +31,24 @@ public class ProjectileAbility : Ability
     public float endAngle = 45;
     public float startAngle = -45;
 
+    [Header("Animation")]
+    public float attackTimer;
+    public string attackAnimation;
+
+    
+
     private void Awake()
     {
+
     }
 
     public override void Initialize(GameObject obj)
     {
         characterStats = GameObject.Find("Player").GetComponent<CharacterStats>();
+
         launcher = obj.GetComponent<ProjectileShootTriggerable>();
+        launcher.animationTimer = attackTimer - (attackTimer * characterStats.attackTimer);
+        launcher.attackAnimation = attackAnimation;
         launcher.projectile = projectile;
         launcher.piercing = piercing + characterStats.pierce;
         launcher.chain = chainMax + characterStats.chain;

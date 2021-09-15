@@ -8,7 +8,6 @@ namespace DTInventory
         /// <summary>
         /// Is this slot free
         /// </summary>
-        [HideInInspector]
         public bool free;
 
         //Slot coordinates in inventory grid 

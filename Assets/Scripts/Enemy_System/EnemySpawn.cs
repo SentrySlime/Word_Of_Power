@@ -10,10 +10,10 @@ public class EnemySpawn : MonoBehaviour
     void Start()
     {
 
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            transform.GetChild(i).gameObject.SetActive(true);
-        }
+        //for (int i = 0; i < transform.childCount; i++)
+        //{
+        //    transform.GetChild(i).gameObject.SetActive(true);
+        //}
 
         
     }

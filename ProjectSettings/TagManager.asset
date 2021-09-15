@@ -12,6 +12,7 @@ TagManager:
   - Energy_Barrier_Bar
   - Object
   - AbilityCooldown
+  - GameManager
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,7 @@ TagManager:
   - Enemy
   - Object
   - Gear
-  - 
+  - Room
   - 
   - 
   - 

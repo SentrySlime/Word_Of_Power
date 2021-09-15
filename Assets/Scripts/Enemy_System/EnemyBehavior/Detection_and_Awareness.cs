@@ -7,60 +7,76 @@ public class Detection_and_Awareness : MonoBehaviour
 
     public float detectionSize = 5;
     public bool aware = false;
-    public Collider detectionArea;
     public LayerMask layermask;
 
-    Collider[] closeEnemies;
+    public Collider[] closeEnemies;
 
     public Material material;
     public Color baseColor;
 
     void Start()
     {
-        baseColor = material.color;
+        ChangeColor();
     }
 
     
     void Update()
     {
-        if(aware == true)
-        {
-            material.color = Color.red;
-        }
-        else
-        {
-            material.color = baseColor;
-        }
+        
+
+
     }
 
 
     public void DetectionRelay()
     {
         closeEnemies = Physics.OverlapSphere(transform.position, detectionSize, layermask);
-        for (int i = 0; i < closeEnemies.Length; i++)
+        if(closeEnemies.Length != 0)
         {
+            for (int i = 0; i < closeEnemies.Length; i++)
+            {
 
-            closeEnemies[i].GetComponent<Detection_and_Awareness>().aware = true;
-            closeEnemies[i].GetComponent<Detection_and_Awareness>().DetectionRelay();
+                Detection_and_Awareness tempDetect = closeEnemies[i].GetComponent<Detection_and_Awareness>();
+                if (tempDetect != null)
+                    tempDetect.aware = true;
+                    
+                //closeEnemies[i].GetComponentInChildren<Detection_and_Awareness>().aware = true;
+            }
         }
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
-            aware = true; 
+            aware = true;
+            ChangeColor();
+            DetectionRelay();
         }
+        
+
     }
 
-    private void OnTriggerExit(Collider other)
+
+
+    public void ChangeColor()
     {
-        if (other.CompareTag("Player"))
+        if (aware == true)
         {
-            aware = false;
+            material.color = Color.red;
+        }
+        if (aware == false)
+        {
+            material.color = Color.white;
         }
     }
 
+    private void OnDrawGizmosSelected()
+    {
 
+        //Gizmos.DrawSphere(transform.position, detectionSize);
+
+    }
 
 }

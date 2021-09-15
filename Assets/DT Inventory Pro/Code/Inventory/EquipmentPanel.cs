@@ -10,6 +10,7 @@ namespace DTInventory {
         /// An item that panel stores
         /// </summary>
         public Item equipedItem;
+        public GameObject icon;
         
         /// <summary>
         /// We call update only if item in not the same as before. Made for optimization
@@ -41,6 +42,16 @@ namespace DTInventory {
             {
                     lastItem = null;
             }
+
+            if(equipedItem != null)
+            {
+                icon.SetActive(false);
+            }
+            else if(equipedItem == null)
+            {
+                icon.SetActive(true);
+            }
+
         }
     }
 }

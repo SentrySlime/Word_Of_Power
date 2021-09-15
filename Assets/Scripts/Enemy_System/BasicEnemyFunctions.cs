@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Random = UnityEngine.Random;
 
 public class BasicEnemyFunctions : MonoBehaviour, IEnemy
 {
 
-
-    [SerializeField] private float moveSpeed = 2f;
     public float currentHealth;
     public float maxHealth;
     public int expReward = 10;
@@ -19,19 +18,23 @@ public class BasicEnemyFunctions : MonoBehaviour, IEnemy
     int critMax = 1;
     int critMax2 = 101;
 
+    Detection_and_Awareness detectionAwareness;
+    public OnDeathEffect onDeathScript;
+    public GenerateLoot generateLoot;
 
     void Start()
     {
         currentHealth = maxHealth;
         characterStats = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>();
+        generateLoot = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GenerateLoot>();
         abilityCooldownArray = GameObject.FindGameObjectsWithTag("AbilityCooldown");
+        detectionAwareness = GetComponentInChildren<Detection_and_Awareness>();
+        onDeathScript = GetComponent<OnDeathEffect>();
     }
 
     void Update()
     {
-        transform.position += transform.forward * moveSpeed * Time.deltaTime;
-        transform.Rotate(0f, -.5f, 0f);
-
+        
     }
 
     public event Action<float> OnHealthChanged = delegate { };
@@ -43,7 +46,8 @@ public class BasicEnemyFunctions : MonoBehaviour, IEnemy
 
     public void TakeDamage(float amount, int critChance) 
     {
-
+        if(detectionAwareness != null)
+            detectionAwareness.aware = true;
         if(critChance <= 100)
         {
             critMax = UnityEngine.Random.Range(1, 101);
@@ -103,18 +107,25 @@ public class BasicEnemyFunctions : MonoBehaviour, IEnemy
         }
     }
 
-    //public void DealDamage()
-    //{
-    //    characterStats.DefenceCalculation(damage);
-    //}
-
     public void Die()
     {
-
+        generateLoot.DropLoot(transform);
         characterStats.IncreaseExp(expReward);
         if(gameObject != null)
         {
+            onDeathScript.SpawnBones();
             Destroy(gameObject);
         }
     }
+
+    public void OnInstantiate()
+    {
+        currentHealth = maxHealth;
+        characterStats = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>();
+        generateLoot = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GenerateLoot>();
+        abilityCooldownArray = GameObject.FindGameObjectsWithTag("AbilityCooldown");
+        detectionAwareness = GetComponentInChildren<Detection_and_Awareness>();
+    }
+    
+
 }

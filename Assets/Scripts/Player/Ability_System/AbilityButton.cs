@@ -36,11 +36,15 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        tempAbilityCard = Instantiate(abilityCard, gameObject.transform.position, Quaternion.identity);
-        tempAbilityCard.transform.SetParent(abilitySelectionLocation.transform);
-        tempAbilityCard.transform.localScale = new Vector3(1, 1, 1);
-        tempAbilityCard.transform.localPosition += (tempAbilityCard.transform.up * 80) + (tempAbilityCard.transform.right * 50);
-        tempAbilityCard.SetActive(true);
+        if(tempAbilityCard == null)
+        {
+
+            tempAbilityCard = Instantiate(abilityCard, gameObject.transform.position, Quaternion.identity);
+            tempAbilityCard.transform.SetParent(abilitySelectionLocation.transform);
+            tempAbilityCard.transform.localScale = new Vector3(1, 1, 1);
+            tempAbilityCard.transform.localPosition += (tempAbilityCard.transform.up * 80) + (tempAbilityCard.transform.right * 50);
+            tempAbilityCard.SetActive(true);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)

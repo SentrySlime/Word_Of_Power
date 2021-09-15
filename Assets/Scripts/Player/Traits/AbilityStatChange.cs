@@ -42,11 +42,12 @@ public class AbilityStatChange : MonoBehaviour
 
 
     CharacterStats characterStats;
+    public Animator animator;
 
     private void Awake()
     {
         characterStats = GameObject.Find("Player").GetComponent<CharacterStats>();
-
+        animator = GameObject.Find("Player").GetComponentInChildren<Animator>();
     }
 
 
@@ -63,6 +64,7 @@ public class AbilityStatChange : MonoBehaviour
         characterStats.AddChain(chain);
         characterStats.AddProjectiles(projectile);
         characterStats.AddLeech(addativeLeech, multiplicativeLeech);
+        //characterStats.AddCooldown(cooldown);
         Cooldown(cooldown);
     }
 
@@ -106,6 +108,14 @@ public class AbilityStatChange : MonoBehaviour
     }
     public void Cooldown(float cooldown)
     {
-        characterStats.cooldownModifier += cooldown;
+        print("Cooldown");
+        //animator.speed += cooldown;
+
+        float tempSpeed = animator.GetFloat("AttackSpeed");
+        animator.SetFloat("AttackSpeed", tempSpeed + cooldown);
+        characterStats.attackTimer += (cooldown / 2);
+
+        characterStats.AddCooldown(cooldown);
+        //characterStats.cooldownModifier += cooldown;
     }
 }

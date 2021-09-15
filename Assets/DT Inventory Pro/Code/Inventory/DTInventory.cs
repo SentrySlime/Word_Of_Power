@@ -136,6 +136,8 @@ namespace DTInventory
         /// </summary>
         [HideInInspector] InventoryManager inventoryManager;
 
+        SoundManager soundManager;
+
         /// <summary>
         /// Internal method being used by InventoryWizard. Do not use it
         /// </summary>
@@ -212,6 +214,7 @@ namespace DTInventory
 
         void Awake()
         {
+            soundManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<SoundManager>();
             //We need to keep canvas enabled on start. It will turn off after initialization with InventoryManager
             GetComponentInParent<Canvas>().enabled = true;
 
@@ -352,10 +355,11 @@ namespace DTInventory
         /// </summary>
         /// <param name="item">Item to add</param>
         /// <returns></returns>
-        public bool AddItem(Item item)
+        public bool AddItem(Item item) ////////////////////////////////////////////////////////////////////////////
         {
             if (CheckFreeSpaceForAllSlots(item.width, item.height))
             {
+                soundManager.PlayLootPickUp();
                 var _slot = CheckFreeSpaceForAllSlots(item.width, item.height);
                 var _InventoryItem = Instantiate(cell).gameObject.AddComponent<InventoryItem>();
                 var _InventoryItemImage = _InventoryItem.GetComponent<Image>();
@@ -687,7 +691,10 @@ namespace DTInventory
             foreach (var slot in slots)
             {
                 if (CheckFreeSpaceAtSlot(slot.x, slot.y, width, height) && slot.equipmentPanel == null)
+                {
+                    if(slot.x < 500)
                     return CheckFreeSpaceAtSlot(slot.x, slot.y, width, height);
+                }
             }
 
             return null;

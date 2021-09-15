@@ -27,17 +27,18 @@ public class HealthBar : MonoBehaviour
 
     private void Update()
     {
-        
 
-        if(basicEnemyFunctions.currentHealth < basicEnemyFunctions.maxHealth)
-        {
-            meshRenderer.enabled = true;
-            AlignCamera();
-            UpdateParams();
-        } else
-        {
-            meshRenderer.enabled = false;
-        }
+        meshRenderer.enabled = true;
+        AlignCamera();
+        UpdateParams();
+
+        //if (basicEnemyFunctions.currentHealth < basicEnemyFunctions.maxHealth)
+        //{
+            
+        //} else
+        //{
+        //    meshRenderer.enabled = false;
+        //}
 
 
     }

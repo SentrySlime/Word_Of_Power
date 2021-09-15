@@ -28,9 +28,13 @@ public class AbilityCooldown : MonoBehaviour
     float damageRequirement;
     public float currentDamage;
     float energyCost;
+    public Animator animator;
+    public float attackTimer;
+    public AudioSource audioSource;
 
     private void Awake()
     {
+        animator = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Animator>();
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         characterStats = GameObject.Find("Player").GetComponent<CharacterStats>();
         playerMotor = GameObject.Find("Player").GetComponent<PlayerMotor>();
@@ -55,6 +59,7 @@ public class AbilityCooldown : MonoBehaviour
         darkMask.sprite = ability.aSprite;
         coolDownDuration = ability.aBaseCooldown;
         damageRequirement = ability.aDamageRequirement;
+        attackTimer = ability.attackTimer;
         energyCost = ability.aEnergyCost;
         ability.Initialize(weaponHolder);
         //characterStats.CooldownModifier(coolDownDuration);
@@ -71,6 +76,7 @@ public class AbilityCooldown : MonoBehaviour
 
             if (currentDamage >= damageRequirement)
             {
+         
                 if (EventSystem.current.IsPointerOverGameObject())
                     return;
 
@@ -79,15 +85,18 @@ public class AbilityCooldown : MonoBehaviour
                 if (abilitySelection.abilityCooldown == null)
                 {
 
+         
+
                 }
                 else if (abilitySelection.abilityCooldown != this)
                 {
                     return;
                 }
 
-                if (Input.GetButton(abilityButtonAxisName) && characterStats.currentEnergy >= energyCost)
+                if (Input.GetButtonDown(abilityButtonAxisName) && characterStats.currentEnergy >= energyCost)
                 {
-                    if (ability == null)
+                    print("What's happening");
+                    if (ability == null || animator.GetCurrentAnimatorStateInfo(0).IsName("arthur_active_01") || animator.GetCurrentAnimatorStateInfo(0).IsName("arthur_attack_01") || animator.GetCurrentAnimatorStateInfo(0).IsName("arthur_passive_01"))
                         return;
 
                     currentDamage = 0;
@@ -97,9 +106,10 @@ public class AbilityCooldown : MonoBehaviour
                     playerMotor.ResetPath();
                     playerController.Turning();
                     SubtractEnergy();
+                    StartCoroutine(AttackSoundTimer());
                     ButtonTriggered();
                 }
-                else /*if(Input.GetButtonUp(abilityButtonAxisName))*/
+                else/* if (Input.GetButtonUp(abilityButtonAxisName))*/
                 {
                     abilitySelection.CooldownToNull();
                 }
@@ -168,7 +178,8 @@ public class AbilityCooldown : MonoBehaviour
         }
 
         abilitySource.clip = ability.aSound;
-        abilitySource.Play();
+        StartCoroutine(AttackSoundTimer());
+        //abilitySource.Play();
         ability.TriggerAbility();
     }
 
@@ -191,6 +202,12 @@ public class AbilityCooldown : MonoBehaviour
             abilitySelection.abilitySelectionPanel.gameObject.SetActive(true);
         }
 
+    }
+
+    IEnumerator AttackSoundTimer()
+    {
+        yield return new WaitForSeconds(attackTimer - (attackTimer * characterStats.attackTimer));
+        abilitySource.PlayOneShot(audioSource.clip);
     }
 
 }

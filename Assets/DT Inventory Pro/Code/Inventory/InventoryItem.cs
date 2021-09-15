@@ -76,6 +76,7 @@ namespace DTInventory
 
         public GearCardInfo gear_Card;
         public GearStats gearStats;
+        SoundManager soundManager;
 
         public Canvas inventoryCanvas;
 
@@ -84,6 +85,7 @@ namespace DTInventory
         private void Start()
         {
             characterStats = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterStats>();
+            soundManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<SoundManager>();
             inventoryCanvas = GameObject.Find("Inventory Canvas").GetComponent<Canvas>();
             gearStats = this.item.GetComponent<GearStats>();
             gear_Card = item.gearCardInfo;
@@ -126,6 +128,7 @@ namespace DTInventory
             //Right click to drop
             if (eventData.clickCount >= 1 && eventData.button == PointerEventData.InputButton.Right)
             {
+                Destroy(tempCard);
                 inventory.DropItem(this);
                 return;
             }
@@ -136,6 +139,8 @@ namespace DTInventory
                 if (inventory.CheckFreeSpaceForAllSlots(item.width, item.height))
                     inventory.SubstractStack(this);
             }
+
+
         }
 
         //Here we processing the moment when we start dragging an item
@@ -296,11 +301,9 @@ namespace DTInventory
 
                     slot.equipmentPanel.equipedItem = item;
 
-                    //print("Equiped : " + slot.equipmentPanel.equipedItem);
-
-                    //Here lies code which increases stats when the gear gets equiped
-
                     IncreaseStats();
+                    soundManager.PlayEquipLoot();
+                    ///PLay the equipsound here /////////////////////////////////////////////////////////////////////
 
                     inventory.MarkSlots(CalculateShiftedAxes().x, CalculateShiftedAxes().y, width, height, false);
                 }
@@ -347,10 +350,11 @@ namespace DTInventory
         public void OnPointerEnter(PointerEventData eventData)
         {
             print("Over");
+            gearStats.SetCardIngo();
             tempCard = Instantiate(gear_Card.gameObject, gameObject.transform.position /*+ (gameObject.transform.up * 2)*/, Quaternion.identity);
             tempCard.transform.SetParent(inventoryCanvas.transform);
             tempCard.transform.localScale = new Vector3(1, 1, 1);
-            tempCard.transform.localPosition += (tempCard.transform.up * -15) + (tempCard.transform.right * -100);
+            tempCard.transform.localPosition += (tempCard.transform.up * -30) + (tempCard.transform.right * -100);
             tempCard.SetActive(true);
         }
 

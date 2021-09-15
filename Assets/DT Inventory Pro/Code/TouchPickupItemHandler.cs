@@ -9,9 +9,11 @@ namespace DTInventory
     {
         PickupItem pickupItem;
         DTInventory inventory;
+        SoundManager SoundManager;
 
         private void OnEnable()
         {
+            
             pickupItem = FindObjectOfType<PickupItem>();
             inventory = FindObjectOfType<DTInventory>();
         }
@@ -23,6 +25,7 @@ namespace DTInventory
 
             if (eventData.hovered[0].gameObject.GetComponent<Item>() != null)
             {
+                
                 inventory.AddItem(eventData.hovered[0].gameObject.GetComponent<Item>());
             }
         }

@@ -15,24 +15,65 @@ public class PlayerMotor : MonoBehaviour
 
 	public float speed;
 
+	public AudioSource walkSource;
+	AnimationController animationController;
+	ProjectileShootTriggerable projectileTrigger;
+
+	public List<AudioClip> footStepList = new List<AudioClip>();
 
 	void Start()
 	{
 		agent = GetComponent<NavMeshAgent>();
-		characterStats = GetComponent<CharacterStats>(); 
-
-		SetCharacterSpeed();
+		characterStats = GetComponent<CharacterStats>();
+		animationController = GetComponent<AnimationController>();
+		projectileTrigger = GetComponent<ProjectileShootTriggerable>();
+		StartCoroutine(SpeedNumerator());
+		//SetCharacterSpeed();
 	}
 
 	public void MoveToPoint(Vector3 point)
 	{
-		agent.SetDestination(point);
+		if (animationController.animator.GetCurrentAnimatorStateInfo(0).IsName("arthur_attack_01"))
+		{
+			ResetPath();
+		}
+		else if (animationController.animator.GetCurrentAnimatorStateInfo(0).IsName("arthur_active_01"))
+		{
+			ResetPath();
+		}
+		else if (animationController.animator.GetCurrentAnimatorStateInfo(0).IsName("arthur_passive_01"))
+		{
+			ResetPath();
+		}
+		else
+		{
+			agent.SetDestination(point);
+		}
+
+		
 	}
 
 	void Update()
 	{
-		if (target != null)
+		if(agent.hasPath)
 		{
+			animationController.WalkAnimation();
+			int randomStep = Random.Range(0, footStepList.Count);
+			if (!walkSource.isPlaying)
+			{
+				projectileTrigger.StopAllCoroutines();
+				walkSource.clip = footStepList[randomStep];
+				walkSource.Play();
+			}
+		}
+		else
+		{
+			animationController.IdleAnimation();
+			walkSource.Stop();
+		}
+
+		if (target != null)
+		{		
 			MoveToPoint(target.position);
 			FaceTarget();
 		}
@@ -49,6 +90,7 @@ public class PlayerMotor : MonoBehaviour
 	public void ResetPath()
 	{
 		agent.ResetPath();
+		walkSource.Stop();
 	}
 
 	public void SetCharacterSpeed()
@@ -57,4 +99,12 @@ public class PlayerMotor : MonoBehaviour
 		agent.speed = characterStats.finalSpeed;
 		speed = agent.speed;
 	}
+
+	public IEnumerator SpeedNumerator()
+	{
+		yield return new WaitForSeconds(.2f);
+
+		SetCharacterSpeed();
+	}
+
 }

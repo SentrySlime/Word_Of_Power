@@ -72,7 +72,7 @@ public class CharacterStats : MonoBehaviour
     #endregion
 
     #region statText
-
+    [Header("TextMeshSlots")]
     public TextMeshProUGUI lifeStat;
     public TextMeshProUGUI eBStat;
     public TextMeshProUGUI energyStat;
@@ -85,6 +85,13 @@ public class CharacterStats : MonoBehaviour
     public TextMeshProUGUI pierceStat;
     public TextMeshProUGUI chainStat;
     public TextMeshProUGUI leechStat;
+    public TextMeshProUGUI cooldownStat;
+
+    #endregion
+
+    #region Audio
+    [Header("Audio")]
+    public AudioSource levelUpSource;
 
     #endregion
 
@@ -118,7 +125,9 @@ public class CharacterStats : MonoBehaviour
     //Other script references
     ManageRandomAbility manageRandomAbility;
     ManageRandomTrait manageRandomTrait;
-    PlayerMotor playerMotor;
+    public PlayerMotor playerMotor;
+    EffectManager effectManager;
+    SoundManager soundManager;
 
     #region Calculation Variables
 
@@ -135,6 +144,8 @@ public class CharacterStats : MonoBehaviour
 
     public float totArmorReduction;
     public float lifeTaken;
+    public float attackTimer;
+
     private void Awake()
     {
         manageRandomAbility = GameObject.Find("RandomizeAbilities").GetComponent<ManageRandomAbility>();
@@ -145,6 +156,9 @@ public class CharacterStats : MonoBehaviour
     //Start
     void Start()
     {
+
+        effectManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<EffectManager>();
+        soundManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<SoundManager>();
 
         #region statBars
         //Sets life, energy and exp bar
@@ -213,11 +227,17 @@ public class CharacterStats : MonoBehaviour
         energy_Barrier_Bar.maxValue = maxEnergyBarrier;
         currentEnergyBarrier = maxEnergyBarrier;
 
+
+        //LevelUp();
+
     }
 
     //Update
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F))
+            LevelUp();
+
         life_Bar.value = currentLife;
         energy_Barrier_Bar.value = currentEnergyBarrier;
         energy_Bar.value = currentEnergy;
@@ -299,7 +319,8 @@ public class CharacterStats : MonoBehaviour
     public void StatButton(Button statButton)
     {
 
-
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        soundManager.PlayeButtonSound();
 
         if(skillPoints >= 1)
         {
@@ -330,7 +351,6 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
-
     #region Attributes 
     public void IncreasePower(float increaseInPower)
     {
@@ -358,7 +378,7 @@ public class CharacterStats : MonoBehaviour
         spirit += increaseInSpirit;                                 //Sets vitality to it's new value
         spiritSlot.text = spirit.ToString();                        //Sets the value text to the updated value
         CalculateMaxEnergy();                             //Increase energy with the updatved spirit value
-        CalculateMaxEB();
+        //CalculateMaxEB();
     }
 
     public void IncreaseSpeed(float increaseInSpeed)
@@ -392,7 +412,9 @@ public class CharacterStats : MonoBehaviour
                                                 //So you will feel like you are making progress right of the bat
     public void LevelUp()
     {
-
+        if(!levelUpSource.isPlaying)
+        levelUpSource.Play();
+        effectManager.LevelUpEffect();
         remainderExp = currentExp - expToNextLevel; //Calculates the overkill exp
         currentExp = 0;                             //sets current exp to next levels 0 exp
         IncreaseExp(remainderExp);                  //Increases the next levels current exp with the remaining exp from the last level
@@ -451,7 +473,8 @@ public class CharacterStats : MonoBehaviour
         maxLife = ((vitality * 5) + addativeLife) * percentBasedLife;
         currentLife = Mathf.Clamp(currentLife, 0, maxLife);
         SetMaxLife();
-        lifeStat.text = maxLife.ToString();
+        int tempLife = System.Convert.ToInt32(maxLife);
+        lifeStat.text = tempLife.ToString();
     }
 
     public void SetMaxLife()
@@ -486,7 +509,8 @@ public class CharacterStats : MonoBehaviour
         maxEnergy = ((spirit *5)+ addaTiveEnergy) * percentBasedEnergy;
         currentEnergy = Mathf.Clamp(currentEnergy, 0, maxLife);
         SetMaxEnergy();
-        energyStat.text = maxEnergy.ToString();
+        int tempEnergy = System.Convert.ToInt32(maxEnergy);
+        energyStat.text = tempEnergy.ToString();
     }
 
 
@@ -523,7 +547,8 @@ public class CharacterStats : MonoBehaviour
         maxEnergyBarrier = ((spirit * 5) + addativeEnergyBarrier) * percentBasedEnergyBarrier;
         currentEnergyBarrier = Mathf.Clamp(currentEnergyBarrier, 0, maxLife);
         SetMaxEnergyBarrier();
-        eBStat.text = maxEnergyBarrier.ToString();
+        int tempEB = System.Convert.ToInt32(maxEnergyBarrier);
+        eBStat.text = tempEB.ToString();
     }
 
     public void SetMaxEnergyBarrier()
@@ -535,9 +560,6 @@ public class CharacterStats : MonoBehaviour
     {
         currentEnergyBarrier = maxEnergyBarrier;
     }
-
-
-
     #endregion
 
     #region Defence
@@ -559,7 +581,8 @@ public class CharacterStats : MonoBehaviour
     {
         finalArmour = ((baseDefence * 40) + additiveArmour) * percentArmour;
         PowerCalculation();
-        armourStat.text = finalArmour.ToString();
+        int tempArmour = System.Convert.ToInt32(finalArmour);
+        armourStat.text = tempArmour.ToString();
     }
 
     #endregion
@@ -591,8 +614,8 @@ public class CharacterStats : MonoBehaviour
 
 
         //}
-
-        damageStat.text = finalPower.ToString();
+        int tempPower = System.Convert.ToInt32(finalPower);
+        damageStat.text = tempPower.ToString();
 
     }
 
@@ -617,8 +640,11 @@ public class CharacterStats : MonoBehaviour
     public void CalculateSpeed()
     {
         finalSpeed = (baseSpeed + addativeSpeed * percentSpeed) / 4;
-        speedStat.text = finalSpeed.ToString();
-        playerMotor.SetCharacterSpeed();
+        int tempSpeed = System.Convert.ToInt32(finalSpeed);
+        speedStat.text = tempSpeed.ToString();
+
+        StartCoroutine(playerMotor.SpeedNumerator());
+        //playerMotor.SetCharacterSpeed();
     }
 
     #endregion
@@ -722,8 +748,28 @@ public class CharacterStats : MonoBehaviour
     public void CalculateLeech()
     {
         leechAmount = (addativeLeech * percentLeech);
-        leechStat.text = leechAmount.ToString() + "%";
+        int tempLeech = System.Convert.ToInt32(leechAmount);
+        leechStat.text = tempLeech.ToString() + "%";
     }
 
     #endregion
+
+    #region Cooldown
+
+    public void AddCooldown(float modifier)
+    {
+        //cooldownModifier += modifier;
+        float tempCD = modifier * 100;
+        cooldownStat.text = "-" + tempCD.ToString() + "%";
+    }
+
+    public void RemoveCooldown(float modifier)
+    {
+        //cooldownModifier -= modifier;
+        float tempCD = modifier * 100;
+        cooldownStat.text = "-" + tempCD.ToString() + "%";
+    }
+
+    #endregion
+
 }

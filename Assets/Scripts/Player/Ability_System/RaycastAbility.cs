@@ -25,6 +25,8 @@ public class RaycastAbility : Ability
     public int projectiles = 1;
     #endregion
 
+    
+
     #region Extra stats
     [Header("Extra stats")]
     public float bleedPercent = 0;
@@ -41,6 +43,9 @@ public class RaycastAbility : Ability
     #endregion
 
 
+    public string attackAnimation;
+    public float attackTimer;
+
     private void Awake()
     {
 
@@ -53,13 +58,14 @@ public class RaycastAbility : Ability
         rcShoot = obj.GetComponent<RaycastShootTriggerable>();
         rcShoot.Initialize();
 
+        rcShoot.animationTimer = attackTimer - (attackTimer * characterStats.attackTimer);
+        rcShoot.attackAnimation = attackAnimation;
         rcShoot.damage = damage + characterStats.finalPower;
         rcShoot.criticalChance = critChance + characterStats.criticalChance;
         rcShoot.rayRange = rayRange + characterStats.range;
         rcShoot.pierceMax = piercemax + characterStats.pierce;
         rcShoot.chainNumbers = chain + characterStats.chain;
         rcShoot.Projectiles = projectiles + characterStats.projectiles;
-
         rcShoot.bleedPercentage = bleedPercent + characterStats.bleedPercentage;
         rcShoot.bleedDuration = bleedDuration + characterStats.bleedDuration;
         characterStats.tempAbilityLeech = leechAmount;
